@@ -16,8 +16,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:supportsRtl="true">
         <activity
             android:name=".view.home.LaunchActivity"
             android:screenOrientation="portrait"
@@ -32,5 +31,11 @@
             android:theme="@style/AppTheme"/>
         <activity android:name=".view.personal.MineActivity"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".view.contacts.ContactsActivity"
+                  android:theme="@style/AppTheme"/>
+        <activity android:name=".view.live.LiveActivity"
+                  android:theme="@style/AppTheme"/>
+        <activity android:name=".view.notice.NoticeListActivity"
+                  android:theme="@style/AppTheme"/>
     </application>
 </manifest>

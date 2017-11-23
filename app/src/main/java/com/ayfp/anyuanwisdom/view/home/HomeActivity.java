@@ -5,6 +5,9 @@ import android.content.Intent;
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
+import com.ayfp.anyuanwisdom.view.contacts.ContactsActivity;
+import com.ayfp.anyuanwisdom.view.live.LiveActivity;
+import com.ayfp.anyuanwisdom.view.notice.NoticeListActivity;
 import com.ayfp.anyuanwisdom.view.personal.MineActivity;
 
 import butterknife.OnClick;
@@ -38,6 +41,18 @@ public class HomeActivity extends BaseActivity {
 
     @OnClick(R.id.iv_mine) void mine(){
         Intent intent = new Intent(this, MineActivity.class);
+        startActivity(intent);
+    }
+    @OnClick(R.id.layout_contacts) void contacts(){
+        Intent intent = new Intent(this, ContactsActivity.class);
+        startActivity(intent);
+    }
+    @OnClick(R.id.layout_live) void live(){
+        Intent intent = new Intent(this, LiveActivity.class);
+        startActivity(intent);
+    }
+    @OnClick(R.id.layout_notice) void notice(){
+        Intent intent = new Intent(this, NoticeListActivity.class);
         startActivity(intent);
     }
 }
