@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="325dp"
+    android:layout_height="187dp"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/bg_home_notice">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="13sp"
+            android:textColor="@color/text_color_222222"
+            android:layout_marginLeft="19dp"
+            android:text="关于开展环境卫生集体整治活动通知"
+            android:drawableLeft="@drawable/icon_dot_red"
+            android:drawablePadding="6dp"/>
+        <com.ayfp.anyuanwisdom.weidgts.CustomTextView
+            android:layout_width="33dp"
+            android:layout_height="16dp"
+            android:textSize="11sp"
+            android:textColor="@color/text_color_fa2334"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="19dp"
+            android:text="@string/string_not_red"
+            android:gravity="center"
+            app:textRadius="45dp"
+            app:textStrokeColor="@color/text_color_fa2334"
+            app:textStrokeWidth="0.5dp"/>
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="5"
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:layout_marginTop="20dp"/>
+</LinearLayout>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">安远智慧扶贫</string>
+    <string name="string_main_title">安远智慧扶贫信息监管系统</string>
+    <string name="string_not_red">未读</string>
 </resources>

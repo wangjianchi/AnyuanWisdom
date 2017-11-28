@@ -1,6 +1,7 @@
 package com.ayfp.anyuanwisdom.view.home;
 
 import android.content.Intent;
+import android.view.WindowManager;
 
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
@@ -26,6 +27,8 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected int attachLayoutRes() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         return R.layout.activity_home;
     }
 
@@ -39,19 +42,19 @@ public class HomeActivity extends BaseActivity {
         return null;
     }
 
-    @OnClick(R.id.iv_mine) void mine(){
+    @OnClick(R.id.iv_personal) void mine(){
         Intent intent = new Intent(this, MineActivity.class);
         startActivity(intent);
     }
-    @OnClick(R.id.layout_contacts) void contacts(){
+    @OnClick(R.id.iv_contacts) void contacts(){
         Intent intent = new Intent(this, ContactsActivity.class);
         startActivity(intent);
     }
-    @OnClick(R.id.layout_live) void live(){
+    @OnClick(R.id.iv_live) void live(){
         Intent intent = new Intent(this, LiveActivity.class);
         startActivity(intent);
     }
-    @OnClick(R.id.layout_notice) void notice(){
+    @OnClick(R.id.iv_notice) void notice(){
         Intent intent = new Intent(this, NoticeListActivity.class);
         startActivity(intent);
     }
