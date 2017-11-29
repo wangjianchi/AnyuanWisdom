@@ -1,7 +1,6 @@
 package com.ayfp.anyuanwisdom.view.home;
 
 import android.content.Intent;
-import android.view.WindowManager;
 
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
@@ -27,8 +26,6 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected int attachLayoutRes() {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         return R.layout.activity_home;
     }
 

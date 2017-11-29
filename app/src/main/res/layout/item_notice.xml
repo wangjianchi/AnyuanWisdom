@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+    android:background="@color/white">
+ <TextView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textSize="15sp"
+     android:layout_marginLeft="20dp"
+     android:layout_marginRight="20dp"
+     android:textColor="@color/text_color_222222"
+     android:drawablePadding="7dp"
+     android:text="关于开展环境卫生及政治活动通知"
+     android:layout_marginTop="15dp"
+     android:drawableLeft="@drawable/icon_dot_red"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/text_color_666666"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:text="为了推动全县创卫生工作干净整洁的市容市貌环境，音节周文化艺术节顺利举行，县委、县政府决定从现在开始全县范围内开展环境卫生政治活动先有关事项通知,县委决定开展环境整治活动，先通知如下"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_color_222222"
+        android:textSize="12sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:text="扶贫办  2017-05-21 09:32:12"/>
+    <include layout="@layout/view_line"/>
+</LinearLayout>
