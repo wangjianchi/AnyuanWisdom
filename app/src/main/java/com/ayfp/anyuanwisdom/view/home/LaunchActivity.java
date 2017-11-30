@@ -28,6 +28,6 @@ public class LaunchActivity extends AppCompatActivity{
                 startActivity(new Intent(LaunchActivity.this,HomeActivity.class));
                 finish();
             }
-        },2000);
+        },1000);
     }
 }

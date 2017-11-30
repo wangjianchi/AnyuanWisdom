@@ -1,15 +1,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.ayfp.anyuanwisdom">
-    <!-- 访问网络状态 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <!-- 外置存储存取权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <!-- 多媒体相关 -->
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- 网络相关 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!-- 读写文件 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 定位相关 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
+    <!-- 多媒体 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <!-- 手机状态 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
@@ -27,15 +49,25 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.home.HomeActivity"
+        <activity
+            android:name=".view.home.HomeActivity"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".view.personal.MineActivity"
+        <activity
+            android:name=".view.personal.MineActivity"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".view.contacts.ContactsActivity"
-                  android:theme="@style/AppTheme"/>
-        <activity android:name=".view.live.LiveActivity"
-                  android:theme="@style/AppTheme"/>
-        <activity android:name=".view.notice.NoticeListActivity"
-                  android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".view.contacts.ContactsActivity"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".view.live.LiveActivity"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".view.notice.NoticeListActivity"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".view.notice.NoticeDetailActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".view.report.ReportActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 </manifest>
