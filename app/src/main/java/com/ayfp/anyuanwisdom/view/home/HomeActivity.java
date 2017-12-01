@@ -3,6 +3,7 @@ package com.ayfp.anyuanwisdom.view.home;
 import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Toast;
 
 import com.ayfp.anyuanwisdom.R;
@@ -18,6 +19,7 @@ import com.netease.nim.uikit.support.permission.annotation.OnMPermissionDenied;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionGranted;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionNeverAskAgain;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -27,6 +29,10 @@ import butterknife.OnClick;
  */
 
 public class HomeActivity extends BaseActivity {
+    @BindView(R.id.layout_notice_left)
+    View mNoticeLeft;
+    @BindView(R.id.layout_notice_right)
+    View mNoticeRight;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     @Override
     public void loadComplete() {

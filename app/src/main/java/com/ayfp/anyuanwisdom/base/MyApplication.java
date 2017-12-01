@@ -8,6 +8,7 @@ import com.ayfp.anyuanwisdom.config.preferences.Preferences;
 import com.ayfp.anyuanwisdom.nim.NimCache;
 import com.ayfp.anyuanwisdom.nim.NimDemoLocationProvider;
 import com.ayfp.anyuanwisdom.nim.NimSDKOptionConfig;
+import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.LoginInfo;
@@ -29,6 +30,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+
+        RetrofitService.init();
         NimCache.setContext(this);
         // 初始化云信SDK
         NIMClient.init(this, getLoginInfo(), NimSDKOptionConfig.getSDKOptions(this));

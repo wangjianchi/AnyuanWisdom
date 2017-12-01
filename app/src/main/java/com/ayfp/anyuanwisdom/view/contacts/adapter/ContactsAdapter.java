@@ -1,6 +1,5 @@
 package com.ayfp.anyuanwisdom.view.contacts.adapter;
 
-import android.util.Log;
 import android.view.View;
 
 import com.ayfp.anyuanwisdom.R;
@@ -23,6 +22,7 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
     public static final int TYPE_LEVEL_0 = 0;
     public static final int TYPE_LEVEL_1 = 1;
     public static final int TYPE_PERSON = 2;
+
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -40,37 +40,31 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
     protected void convert(final BaseViewHolder helper, MultiItemEntity item) {
         switch (helper.getItemViewType()) {
             case TYPE_LEVEL_0:
-                final Level0Item lv0 = (Level0Item)item;
+                final Level0Item lv0 = (Level0Item) item;
                 helper.setText(R.id.title, lv0.title)
                         .setText(R.id.sub_title, lv0.subTitle)
-                        .setImageResource(R.id.iv, lv0.isExpanded() ? R.mipmap.back_white : R.mipmap.back_white);
+                        .setImageResource(R.id.iv_head, lv0.isExpanded() ? R.mipmap.back_white : R.mipmap.icon_right_go);
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int pos = helper.getAdapterPosition();
-                        Log.d(TAG, "Level 0 item pos: " + pos);
                         if (lv0.isExpanded()) {
                             collapse(pos);
                         } else {
-//                            if (pos % 3 == 0) {
-//                                expandAll(pos, false);
-//                            } else {
                             expand(pos);
-//                            }
                         }
                     }
                 });
                 break;
             case TYPE_LEVEL_1:
-                final Level1Item lv1 = (Level1Item)item;
+                final Level1Item lv1 = (Level1Item) item;
                 helper.setText(R.id.title, lv1.title)
                         .setText(R.id.sub_title, lv1.subTitle)
-                        .setImageResource(R.id.iv, lv1.isExpanded() ? R.mipmap.back_white : R.mipmap.back_white);
+                        .setImageResource(R.id.iv_head, lv1.isExpanded() ? R.mipmap.back_white : R.mipmap.icon_right_go);
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int pos = helper.getAdapterPosition();
-                        Log.d(TAG, "Level 1 item pos: " + pos);
                         if (lv1.isExpanded()) {
                             collapse(pos, false);
                         } else {
@@ -80,8 +74,8 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 });
                 break;
             case TYPE_PERSON:
-                final Person person = (Person)item;
-                helper.setText(R.id.tv, person.name + " parent pos: " + getParentPosition(person));
+                final Person person = (Person) item;
+                helper.setText(R.id.tv_name, person.name);
                 break;
             default:
                 break;

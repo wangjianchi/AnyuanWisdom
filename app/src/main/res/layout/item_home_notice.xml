@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="325dp"
+    android:layout_width="300dp"
     android:layout_height="187dp"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -37,7 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="5"
-        android:layout_marginLeft="19dp"
-        android:layout_marginRight="19dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/text_color_666666"
+        android:ellipsize="end"
+        android:text="为了推动全县创卫生工作干净整洁的市容市貌环境，音节周文化艺术节顺利举行，县委、县政府决定从现在开始全县范围内开展环境卫生政治活动先有关事项通知,县委决定开展环境整治活动，先通知如下"/>
+
 </LinearLayout>

@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.ayfp.anyuanwisdom.R;
+import com.ayfp.anyuanwisdom.config.preferences.Preferences;
+import com.ayfp.anyuanwisdom.view.login.LoginActivity;
 
 /**
  * @author:: wangjianchi
@@ -25,9 +27,13 @@ public class LaunchActivity extends AppCompatActivity{
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(LaunchActivity.this,HomeActivity.class));
+                if (Preferences.checkUserLogin()){
+                    startActivity(new Intent(LaunchActivity.this,HomeActivity.class));
+                }else {
+                    startActivity(new Intent(LaunchActivity.this,LoginActivity.class));
+                }
                 finish();
             }
-        },1000);
+        },500);
     }
 }

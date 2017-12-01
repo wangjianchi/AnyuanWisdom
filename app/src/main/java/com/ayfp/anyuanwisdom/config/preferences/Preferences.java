@@ -2,8 +2,9 @@ package com.ayfp.anyuanwisdom.config.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
-import com.ayfp.anyuanwisdom.nim.NimCache;
+import com.ayfp.anyuanwisdom.base.MyApplication;
 
 /**
  * Created by hzxuwen on 2015/4/13.
@@ -11,6 +12,7 @@ import com.ayfp.anyuanwisdom.nim.NimCache;
 public class Preferences {
     private static final String KEY_USER_ACCOUNT = "account";
     private static final String KEY_USER_TOKEN = "token";
+    private static final String KEY_USER_ID= "user_id";
 
     public static void saveUserAccount(String account) {
         saveString(KEY_USER_ACCOUNT, account);
@@ -28,6 +30,21 @@ public class Preferences {
         return getString(KEY_USER_TOKEN);
     }
 
+    public static void saveUserId(String userId){
+        saveString(KEY_USER_ID,userId);
+    }
+    public static String getUserId(){
+        return getString(KEY_USER_ID);
+    }
+
+    public static boolean checkUserLogin(){
+        if (TextUtils.isEmpty(getUserId())){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
     private static void saveString(String key, String value) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putString(key, value);
@@ -39,6 +56,6 @@ public class Preferences {
     }
 
     static SharedPreferences getSharedPreferences() {
-        return NimCache.getContext().getSharedPreferences("Demo", Context.MODE_PRIVATE);
+        return MyApplication.getContext().getSharedPreferences("ayfp", Context.MODE_PRIVATE);
     }
 }

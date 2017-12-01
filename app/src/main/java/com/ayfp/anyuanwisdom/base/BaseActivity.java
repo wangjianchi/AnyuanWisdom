@@ -7,6 +7,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.ayfp.anyuanwisdom.weidgts.CustomProgressDialog;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -21,6 +22,8 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity<T extends IBasePresenter> extends RxAppCompatActivity implements IBaseView {
     protected String TAG;
     protected T mPresenter;
+    private CustomProgressDialog mProgressBar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,4 +65,17 @@ public abstract class BaseActivity<T extends IBasePresenter> extends RxAppCompat
      * @return
      */
     protected abstract T createPresenter();
+
+    protected void showProgress(){
+        if (mProgressBar == null){
+            mProgressBar = new CustomProgressDialog(this);
+            mProgressBar.show();
+        }
+        mProgressBar.show();
+    }
+    protected void dismissProgress(){
+        if (mProgressBar != null){
+            mProgressBar.dismiss();
+        }
+    }
 }

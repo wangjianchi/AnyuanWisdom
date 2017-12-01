@@ -6,5 +6,7 @@
 .DS_Store
 /build
 /.idea
+/app/release
+/uikit/build
 /captures
 .externalNativeBuild

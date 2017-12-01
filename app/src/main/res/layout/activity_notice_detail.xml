@@ -4,4 +4,49 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
    <include layout="@layout/view_title"/>
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:background="@color/white">
+         <WebView
+             android:layout_width="match_parent"
+             android:layout_height="400dp"/>
+         <include layout="@layout/view_line"/>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="15dp"
+             android:layout_marginLeft="20dp"
+             android:textSize="11sp"
+             android:textColor="@color/text_color_222222"
+             android:text="已读"/>
+         <android.support.v7.widget.RecyclerView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginBottom="9dp"/>
+         <include layout="@layout/view_line"/>
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:background="@color/background">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="11sp"
+                android:textColor="@color/text_color_222222"
+                android:text="未读"/>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"/>
+         </LinearLayout>
+      </LinearLayout>
+   </ScrollView>
 </LinearLayout>
