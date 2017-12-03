@@ -13,6 +13,7 @@ public class Preferences {
     private static final String KEY_USER_ACCOUNT = "account";
     private static final String KEY_USER_TOKEN = "token";
     private static final String KEY_USER_ID= "user_id";
+    private static final String KEY_USER_NAME = "user_name";
 
     public static void saveUserAccount(String account) {
         saveString(KEY_USER_ACCOUNT, account);
@@ -33,8 +34,17 @@ public class Preferences {
     public static void saveUserId(String userId){
         saveString(KEY_USER_ID,userId);
     }
+
     public static String getUserId(){
         return getString(KEY_USER_ID);
+    }
+
+    public static void saveUserName(String userName){
+        saveString(KEY_USER_NAME,userName);
+    }
+
+    public static String getUserName(){
+        return getString(KEY_USER_NAME);
     }
 
     public static boolean checkUserLogin(){

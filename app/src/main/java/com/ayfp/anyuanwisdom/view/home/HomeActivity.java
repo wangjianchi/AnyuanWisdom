@@ -9,9 +9,15 @@ import android.widget.Toast;
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
-import com.ayfp.anyuanwisdom.view.contacts.ContactsActivity;
+import com.ayfp.anyuanwisdom.base.IBaseView;
+import com.ayfp.anyuanwisdom.config.preferences.Preferences;
+import com.ayfp.anyuanwisdom.retrofit.AppResultData;
+import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
+import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
+import com.ayfp.anyuanwisdom.view.contacts.view.ContactsActivity;
 import com.ayfp.anyuanwisdom.view.live.LiveActivity;
 import com.ayfp.anyuanwisdom.view.notice.NoticeListActivity;
+import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
 import com.ayfp.anyuanwisdom.view.personal.MineActivity;
 import com.ayfp.anyuanwisdom.view.report.ReportActivity;
 import com.netease.nim.uikit.support.permission.MPermission;
@@ -19,8 +25,12 @@ import com.netease.nim.uikit.support.permission.annotation.OnMPermissionDenied;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionGranted;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionNeverAskAgain;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author:: wangjianchi
@@ -28,7 +38,7 @@ import butterknife.OnClick;
  * @description:
  */
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeView {
     @BindView(R.id.layout_notice_left)
     View mNoticeLeft;
     @BindView(R.id.layout_notice_right)
@@ -47,7 +57,13 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void initViews() {
         requestBasicPermission();
+        mPresenter.getData();
     }
+
+
+
+
+
     /**
      * 基本权限管理
      */
@@ -86,8 +102,8 @@ public class HomeActivity extends BaseActivity {
 
 
     @Override
-    protected IBasePresenter createPresenter() {
-        return null;
+    protected HomePresenter createPresenter() {
+        return new HomePresenter(this);
     }
 
     @OnClick(R.id.iv_personal) void mine(){

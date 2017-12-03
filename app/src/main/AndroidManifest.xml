@@ -57,7 +57,7 @@
             android:name=".view.personal.MineActivity"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name=".view.contacts.ContactsActivity"
+            android:name=".view.contacts.view.ContactsActivity"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".view.live.LiveActivity"

@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity{
     }
 
     @OnClick(R.id.tv_login) void login(){
-        String account = mEditAccount.getText().toString();
+        final String account = mEditAccount.getText().toString();
         String password = mEditPassword.getText().toString();
         if (TextUtils.isEmpty(account)){
             ToastUtils.showToast("请输入账号");
@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity{
             return;
         }
         showProgress();
-        RetrofitService.getmApi().login(RetrofitService.TOKEN,account,password)
+        RetrofitService.getApi().login(RetrofitService.TOKEN,account,password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.<AppResultData<UserBean>>bindToLife())
@@ -75,6 +75,7 @@ public class LoginActivity extends BaseActivity{
                         if (data.getStatus() == RetrofitService.SUCCESS){
                           if (data.getResult()!= null){
                               Preferences.saveUserId(data.getResult().getUser_id());
+                              Preferences.saveUserName(account);
                               Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                               startActivity(intent);
                               finish();

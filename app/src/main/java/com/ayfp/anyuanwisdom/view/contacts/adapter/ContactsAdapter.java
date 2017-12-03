@@ -41,9 +41,9 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
         switch (helper.getItemViewType()) {
             case TYPE_LEVEL_0:
                 final Level0Item lv0 = (Level0Item) item;
-                helper.setText(R.id.title, lv0.title)
-                        .setText(R.id.sub_title, lv0.subTitle)
-                        .setImageResource(R.id.iv_head, lv0.isExpanded() ? R.mipmap.back_white : R.mipmap.icon_right_go);
+                helper.setText(R.id.tv_title_name, lv0.title)
+                        .setText(R.id.tv_number, lv0.subTitle)
+                        .setImageResource(R.id.iv_head, lv0.isExpanded() ? R.mipmap.icon_contacts_down : R.mipmap.icon_contacts_right);
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -58,9 +58,9 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 break;
             case TYPE_LEVEL_1:
                 final Level1Item lv1 = (Level1Item) item;
-                helper.setText(R.id.title, lv1.title)
-                        .setText(R.id.sub_title, lv1.subTitle)
-                        .setImageResource(R.id.iv_head, lv1.isExpanded() ? R.mipmap.back_white : R.mipmap.icon_right_go);
+                helper.setText(R.id.tv_title_name, lv1.title)
+                        .setText(R.id.tv_number, lv1.subTitle)
+                        .setImageResource(R.id.iv_head, lv1.isExpanded() ? R.mipmap.icon_contacts_down : R.mipmap.icon_contacts_right);
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

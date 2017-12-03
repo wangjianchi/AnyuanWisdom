@@ -9,6 +9,10 @@ import android.widget.TextView;
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
+import com.ayfp.anyuanwisdom.config.preferences.Preferences;
+import com.ayfp.anyuanwisdom.retrofit.AppResultData;
+import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
+import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.ayfp.anyuanwisdom.view.notice.adapter.NoticeAdapter;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
 import com.ayfp.anyuanwisdom.weidgts.CustomLoadMoreView;
@@ -19,6 +23,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author:: wangjianchi
@@ -33,6 +39,7 @@ public class NoticeListActivity extends BaseActivity {
     TextView mTextTitle;
     private List<NoticeListBean> mData = new ArrayList<>();
     private NoticeAdapter mNoticeAdapter;
+    private int start = 0;
     @Override
     public void loadComplete() {
 
@@ -46,9 +53,6 @@ public class NoticeListActivity extends BaseActivity {
     @Override
     protected void initViews() {
         mTextTitle.setText("公告");
-        for (int i = 0; i < 20 ; i ++){
-            mData.add(new NoticeListBean());
-        }
         mNoticeAdapter = new NoticeAdapter(mData);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mNoticeAdapter);
@@ -56,16 +60,43 @@ public class NoticeListActivity extends BaseActivity {
         mNoticeAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                mNoticeAdapter.loadMoreEnd();
+                start = mData.size();
+                getNoticeList();
             }
         },mRecyclerView);
         mNoticeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(NoticeListActivity.this,NoticeDetailActivity.class);
+                intent.putExtra("id",mData.get(position).getId());
                 startActivity(intent);
             }
         });
+        showProgress();
+        getNoticeList();
+    }
+
+
+    private void getNoticeList(){
+        RetrofitService.getApi().getAfficheByLimit(RetrofitService.TOKEN, Preferences.getUserName(),start,RetrofitService.PAGE_SIZE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(this.<AppResultData<List<NoticeListBean>>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<List<NoticeListBean>>>() {
+
+                    @Override
+                    public void loadSuccess(AppResultData<List<NoticeListBean>> listAppResultData) {
+                        dismissProgress();
+                        if (listAppResultData.getStatus() == RetrofitService.SUCCESS){
+                            if (listAppResultData.getResult() != null && listAppResultData.getResult().size() > 0){
+                                mData.addAll(listAppResultData.getResult());
+                                mNoticeAdapter.notifyDataSetChanged();
+                            }else {
+                                mNoticeAdapter.loadMoreEnd();
+                            }
+                        }
+                    }
+                });
     }
 
     @Override

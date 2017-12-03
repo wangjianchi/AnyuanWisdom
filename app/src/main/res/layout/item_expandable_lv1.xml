@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-    android:paddingLeft="10dp">
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@android:color/white"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/iv_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:src="@mipmap/icon_right_go"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40dp"
+        android:src="@mipmap/icon_contacts_right" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/tv_title_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@color/text_color_222222"
-        android:textSize="14sp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/iv_head"
-        android:layout_centerVertical="true"
-        />
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/text_color_222222"
+        android:textSize="13sp" />
 
     <TextView
-        android:id="@+id/sub_title"
+        android:id="@+id/tv_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_color_666666"
-        android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"
-        android:textSize="12sp"
-        android:visibility="gone"
         android:layout_centerVertical="true"
-        />
-    <View android:layout_width="match_parent"
-          android:layout_height="0.5dp"
-          android:background="@color/color_line"
-          android:layout_alignParentBottom="true"/>
+        android:layout_marginRight="20dp"
+        android:textColor="@color/text_color_222222"
+        android:textSize="11sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_line" />
 </RelativeLayout>
