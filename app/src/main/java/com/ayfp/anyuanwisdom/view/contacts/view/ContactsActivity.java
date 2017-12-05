@@ -24,6 +24,7 @@ public class ContactsActivity extends BaseActivity {
     @BindView(R.id.tv_contacts)
     TextView textContacts;
     private ContactsFragment contactsFragment;
+    private RecentContactsFragment mRecentContactsFragment;
 
     @Override
     public void loadComplete() {

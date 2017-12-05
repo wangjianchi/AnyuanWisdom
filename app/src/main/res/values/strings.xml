@@ -16,4 +16,14 @@
     <string name="tools_selected">选择工具</string>
     <string name="friends_map_navigation_web">在网页中打开</string>
     <string name="location_open_map_error">打开地图出错</string>
+
+
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">释放更新</string>
+    <string name="xlistview_header_hint_loading">加载中...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="xlistview_footer_load_more">加载中...</string>
+    <string name="xlistview_footer_load_disconnect">加载失败，点击加载更多</string>
 </resources>
