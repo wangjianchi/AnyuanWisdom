@@ -20,5 +20,8 @@
     <color name="green">#008000</color>
     <color name="title_grey">#CED9E7</color>
     <color name="text_yellow_color">#FFC024</color>
+    <color name="color_red">#e60012</color>
+    <color name="color_orange">#fb8f03</color>
+    <color name="color_green">#45a610</color>
 
 </resources>

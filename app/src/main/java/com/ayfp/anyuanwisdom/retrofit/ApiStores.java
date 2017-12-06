@@ -57,4 +57,14 @@ public interface ApiStores {
     @FormUrlEncoded
     @POST("api.php?app=eventReportInterface&act=getEventDegree")
     Observable<AppResultData<List<EventDegree>>> getEventDegree(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("api.php?app=eventReportInterface&act=eventReport")
+    Observable<AppResultData<Object>> eventReport(@Field("token") String token,
+                                                             @Field("user_name") String user_name,
+                                                             @Field("report_title") String report_title,
+                                                             @Field("cate_id") int cate_id,
+                                                             @Field("degree_id") int degred_id,
+                                                             @Field("event_content") String event_content,
+                                                             @Field("event_images") String event_images);
 }

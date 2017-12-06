@@ -1,6 +1,9 @@
 package com.ayfp.anyuanwisdom.view.report.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.view.report.bean.ReportImageBean;
@@ -22,6 +25,11 @@ public class ReportImageAdapter extends BaseQuickAdapter<ReportImageBean,BaseVie
 
     @Override
     protected void convert(BaseViewHolder helper, ReportImageBean item) {
+        if (item.getType() != 1){
+            ImageView imageView = helper.getView(R.id.iv_report_image);
+            Bitmap bm = BitmapFactory.decodeFile(item.getImageFile());
+            imageView.setImageBitmap(bm);
 
+        }
     }
 }

@@ -47,4 +47,5 @@ dependencies {
     implementation project(':uikit')
     implementation files('jniLibs/Livestreaming-2.3.1.jar')
     implementation files('jniLibs/VideoEffect-2.3.0.jar')
+    compile 'top.zibin:Luban:1.1.3'
 }

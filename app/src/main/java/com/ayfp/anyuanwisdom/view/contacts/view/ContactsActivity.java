@@ -25,6 +25,7 @@ public class ContactsActivity extends BaseActivity {
     TextView textContacts;
     private ContactsFragment contactsFragment;
     private RecentContactsFragment mRecentContactsFragment;
+    private FragmentTransaction transaction;
 
     @Override
     public void loadComplete() {
@@ -38,11 +39,7 @@ public class ContactsActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        contactsFragment = new ContactsFragment();
-        transaction.add(R.id.layout_container,contactsFragment);
-        transaction.commit();
+        recentContacts();
     }
 
     @Override
@@ -51,10 +48,32 @@ public class ContactsActivity extends BaseActivity {
     }
 
     @OnClick(R.id.tv_recent_contacts) void recentContacts(){
-
+        FragmentManager manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        if (contactsFragment != null){
+            transaction.hide(contactsFragment);
+        }
+        if (mRecentContactsFragment == null){
+            mRecentContactsFragment = new RecentContactsFragment();
+            transaction.add(R.id.layout_container,mRecentContactsFragment);
+        }else {
+            transaction.show(mRecentContactsFragment);
+        }
+        transaction.commit();
     }
     @OnClick(R.id.tv_contacts) void contacts(){
-
+        FragmentManager manager = getSupportFragmentManager();
+        transaction = manager.beginTransaction();
+        if (mRecentContactsFragment != null){
+            transaction.hide(mRecentContactsFragment);
+        }
+        if (contactsFragment == null){
+            contactsFragment = new ContactsFragment();
+            transaction.add(R.id.layout_container,contactsFragment);
+        }else {
+            transaction.show(contactsFragment);
+        }
+        transaction.commit();
     }
 
 
