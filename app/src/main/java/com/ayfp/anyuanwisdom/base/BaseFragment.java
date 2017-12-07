@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.ayfp.anyuanwisdom.weidgts.CustomProgressDialog;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
@@ -27,7 +28,7 @@ public abstract class BaseFragment<P extends IBasePresenter> extends RxFragment 
     protected View mRootView;
     protected boolean isVisible = true;
     private boolean isPrepared; //懒加载是否就绪
-
+    private CustomProgressDialog mProgressBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,4 +109,17 @@ public abstract class BaseFragment<P extends IBasePresenter> extends RxFragment 
      * @return
      */
     protected abstract P createPresenter();
+
+    protected void showProgress(){
+        if (mProgressBar == null){
+            mProgressBar = new CustomProgressDialog(getContext());
+            mProgressBar.show();
+        }
+        mProgressBar.show();
+    }
+    protected void dismissProgress(){
+        if (mProgressBar != null){
+            mProgressBar.dismiss();
+        }
+    }
 }

@@ -135,12 +135,13 @@ public class LiveStreamingActivity extends AppCompatActivity  implements View.On
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.screenBrightness = 0.7f;
         getWindow().setAttributes(params);
+        mliveStreamingURL = getIntent().getStringExtra("url");
 
 
         //从直播设置页面获取推流URL和分辨率信息
      //   ConfigActivity.PublishParam publishParam = (ConfigActivity.PublishParam) getIntent().getSerializableExtra("data");
 
-        mliveStreamingURL = "rtmp://pc2da5506.live.126.net/live/33026a5efe324ddeadf0af219d772bf5?wsSecret=883cc3f11710328aca790b94f7869f11&wsTime=1512441825";
+//        mliveStreamingURL = "rtmp://pc2da5506.live.126.net/live/33026a5efe324ddeadf0af219d772bf5?wsSecret=883cc3f11710328aca790b94f7869f11&wsTime=1512441825";
   //      mUseFilter = publishParam.useFilter;
 //        mNeedWater = publishParam.watermark;
 //        mNeedGraffiti = publishParam.graffitiOn;

@@ -1,4 +1,6 @@
 13990181916
 
+a6e6261bcf543443a96ea2019ce371a5
+
 1.getAfficheByLimit  页面没有分页
 2.getAfficheByLimit  参数不对 token=b93c9171a764df76&user_name=13990181915 {"status":22002,"statusMsg":"length need gt 0"}

@@ -5,8 +5,15 @@ import android.content.Intent;
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
+import com.ayfp.anyuanwisdom.config.preferences.Preferences;
+import com.ayfp.anyuanwisdom.retrofit.AppResultData;
+import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
+import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
+import com.ayfp.anyuanwisdom.view.live.bean.LivePushUrlBean;
 
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author:: wangjianchi
@@ -15,6 +22,7 @@ import butterknife.OnClick;
  */
 
 public class CallLiveActivity extends BaseActivity {
+    private String url="";
     @Override
     public void loadComplete() {
 
@@ -27,6 +35,20 @@ public class CallLiveActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        RetrofitService.getApi().getLivePushUrl(RetrofitService.TOKEN, Preferences.getUserName())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(this.<AppResultData<LivePushUrlBean>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<LivePushUrlBean>>() {
+
+                    @Override
+                    public void loadSuccess(AppResultData<LivePushUrlBean> data) {
+                        if (data.getStatus() == RetrofitService.SUCCESS){
+                            url = data.getResult().getPush_url();
+                        }
+                    }
+                });
+
 
     }
 
@@ -35,6 +57,8 @@ public class CallLiveActivity extends BaseActivity {
         return null;
     }
     @OnClick(R.id.tv_accept_call) void call(){
-        startActivity(new Intent(this,LiveStreamingActivity.class));
+        Intent intent = new Intent(this,LiveStreamingActivity.class);
+        intent.putExtra("url",url);
+        startActivity(intent);
     }
 }

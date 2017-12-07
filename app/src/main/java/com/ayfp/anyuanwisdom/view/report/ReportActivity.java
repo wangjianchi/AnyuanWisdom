@@ -133,9 +133,6 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
                     mPresenter.setEventDegree(eventDegree);
                 }
             });
-            if (i == 0){
-                radioButton.setChecked(true);
-            }
             mRadioGroup.addView(radioButton);
         }
     }
