@@ -14,6 +14,11 @@ import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
 import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.ayfp.anyuanwisdom.utils.ToastUtils;
 import com.ayfp.anyuanwisdom.view.home.HomeActivity;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.ResponseCode;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,7 +57,7 @@ public class LoginActivity extends BaseActivity{
     }
 
     @OnClick(R.id.tv_login) void login(){
-        final String account = mEditAccount.getText().toString();
+        String account = mEditAccount.getText().toString();
         String password = mEditPassword.getText().toString();
         if (TextUtils.isEmpty(account)){
             ToastUtils.showToast("请输入账号");
@@ -71,18 +76,32 @@ public class LoginActivity extends BaseActivity{
 
                     @Override
                     public void loadSuccess(AppResultData<UserBean> data) {
-                        dismissProgress();
                         if (data.getStatus() == RetrofitService.SUCCESS){
                           if (data.getResult()!= null){
                               Preferences.saveUserId(data.getResult().getUser_id());
-                              Preferences.saveUserName(account);
-                              Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                              startActivity(intent);
-                              finish();
+                              Preferences.saveUserName(data.getResult().getUser_name());
+                              Preferences.saveUserAccount(data.getResult().getAccount());
+                              Preferences.saveUserToken(data.getResult().getToken());
+                              LoginInfo info = new LoginInfo(data.getResult().getAccount(),data.getResult().getToken());
+                              NIMClient.getService(AuthService.class).login(info).setCallback(new RequestCallbackWrapper() {
+                                  @Override
+                                  public void onResult(int i, Object o, Throwable throwable) {
+                                      dismissProgress();
+                                      if (i == ResponseCode.RES_SUCCESS){
+                                          Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                          startActivity(intent);
+                                          finish();
+                                      }else {
+                                          ToastUtils.showToast("聊天服务器登录失败，请稍后重试");
+                                      }
+                                  }
+                              });
                           }else {
+                              dismissProgress();
                               ToastUtils.showToast("账号或密码错误");
                           }
                         }else {
+                            dismissProgress();
                             ToastUtils.showToast("账号或密码错误");
                         }
                     }

@@ -1,135 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:orientation="vertical">
+
     <include layout="@layout/view_title"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="主题："
-            android:textSize="13sp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
+            android:text="主题："
             android:textColor="@color/text_color_222222"
-            android:layout_gravity="center_vertical"/>
+            android:textSize="13sp"/>
+
         <EditText
+            android:id="@+id/et_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:textSize="13sp"
+            android:background="@null"
+            android:hint="@string/string_report_hint"
             android:textColor="@color/text_color_222222"
             android:textColorHint="@color/text_color_999999"
-            android:background="@null"
-            android:layout_gravity="center_vertical"
-            android:hint="@string/string_report_hint"/>
+            android:textSize="13sp"/>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/color_fbfbfb"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white">
+
         <TextView
+            android:id="@+id/tv_category_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="事件分类：教育"
-            android:textSize="13sp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
+            android:text="事件分类：教育"
             android:textColor="@color/text_color_222222"
-            android:layout_centerVertical="true"/>
+            android:textSize="13sp"/>
+
         <TextView
+            android:id="@+id/btn_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="@color/text_color_999999"
-            android:text="请选择"
-            android:drawableRight="@mipmap/icon_right_go"
-            android:drawablePadding="3dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:drawablePadding="3dp"
+            android:drawableRight="@mipmap/icon_right_go"
+            android:text="请选择"
+            android:textColor="@color/text_color_999999"
+            android:textSize="13sp"/>
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/color_fbfbfb"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
             android:text="事件分类程度："
-            android:textSize="13sp"
-            android:layout_marginLeft="20dp"
             android:textColor="@color/text_color_222222"
-            android:layout_gravity="center_vertical"/>
-        <TextView
+            android:textSize="13sp"/>
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="严重"-->
+        <!--android:textColor="#e60012"-->
+        <!--android:textSize="13sp"-->
+        <!--android:layout_marginLeft="40dp"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:drawableLeft="@mipmap/icon_report_unselect"-->
+        <!--android:drawablePadding="7dp"/>-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="较重"-->
+        <!--android:textColor="#fb8f03"-->
+        <!--android:textSize="13sp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:drawableLeft="@mipmap/icon_report_unselect"-->
+        <!--android:drawablePadding="7dp"/>-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="一般"-->
+        <!--android:textColor="#45a610"-->
+        <!--android:textSize="13sp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:drawableLeft="@mipmap/icon_report_unselect"-->
+        <!--android:drawablePadding="7dp"/>-->
+        <RadioGroup
+            android:id="@+id/rg_event_degree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="严重"
-            android:textColor="#e60012"
-            android:textSize="13sp"
-            android:layout_marginLeft="40dp"
             android:layout_gravity="center_vertical"
-            android:drawableLeft="@mipmap/icon_report_unselect"
-            android:drawablePadding="7dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="较重"
-            android:textColor="#fb8f03"
-            android:textSize="13sp"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center_vertical"
-            android:drawableLeft="@mipmap/icon_report_unselect"
-            android:drawablePadding="7dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="一般"
-            android:textColor="#45a610"
-            android:textSize="13sp"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity="center_vertical"
-            android:drawableLeft="@mipmap/icon_report_unselect"
-            android:drawablePadding="7dp"/>
+            android:orientation="horizontal">
+
+            <!--<RadioButton-->
+                <!--android:id="@+id/rb_event01"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="40dp"-->
+                <!--android:button="@drawable/select_radio_event"-->
+                <!--android:paddingLeft="7dp"-->
+                <!--android:text="严重"-->
+                <!--android:textColor="@color/color_red"-->
+                <!--android:textSize="13sp"/>-->
+
+            <!--<RadioButton-->
+                <!--android:id="@+id/rb_event02"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:button="@drawable/select_radio_event"-->
+                <!--android:paddingLeft="7dp"-->
+                <!--android:text="较重"-->
+                <!--android:textColor="@color/color_orange"-->
+                <!--android:textSize="13sp"/>-->
+
+            <!--<RadioButton-->
+                <!--android:id="@+id/rb_event03"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:button="@drawable/select_radio_event"-->
+                <!--android:paddingLeft="7dp"-->
+                <!--android:text="一般"-->
+                <!--android:textColor="@color/color_green"-->
+                <!--android:textSize="13sp"/>-->
+        </RadioGroup>
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="事件内容："
-            android:textSize="13sp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
+            android:text="事件内容："
             android:textColor="@color/text_color_222222"
-            android:layout_gravity="center_vertical"/>
+            android:textSize="13sp"/>
+
         <EditText
+            android:id="@+id/et_event_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="@color/text_color_222222"
-            android:hint="请输入所需上报事件内容"
-            android:textColorHint="@color/text_color_999999"
-            android:background="@null"
-            android:layout_marginTop="50dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="50dp"
+            android:background="@null"
+            android:hint="请输入所需上报事件内容"
+            android:textColor="@color/text_color_222222"
+            android:textColorHint="@color/text_color_999999"
+            android:textSize="13sp"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_report_pic"
             android:layout_width="match_parent"

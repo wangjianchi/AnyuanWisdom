@@ -1,8 +1,10 @@
 package com.ayfp.anyuanwisdom.view.contacts.adapter;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import com.ayfp.anyuanwisdom.R;
+import com.ayfp.anyuanwisdom.utils.GlideUtils;
 import com.ayfp.anyuanwisdom.view.contacts.bean.Level0Item;
 import com.ayfp.anyuanwisdom.view.contacts.bean.Level1Item;
 import com.ayfp.anyuanwisdom.view.contacts.bean.Person;
@@ -75,7 +77,9 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 break;
             case TYPE_PERSON:
                 final Person person = (Person) item;
-                helper.setText(R.id.tv_name, person.name);
+                helper.setText(R.id.tv_name, person.getReal_name())
+                .setText(R.id.tv_position,person.getJob_position());
+                GlideUtils.loadImageView(person.getPortrait(),(ImageView) helper.getView(R.id.iv_head));
                 break;
             default:
                 break;

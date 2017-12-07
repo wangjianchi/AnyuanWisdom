@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_call_live"
+        android:layout_marginTop="170dp"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="#22ac38"
+        android:layout_gravity="center_horizontal"
+        android:text="总部呼叫直播......"/>
+    <TextView
+        android:id="@+id/tv_accept_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/btn_call_live"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:text="接听"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:gravity="center"/>
+</LinearLayout>

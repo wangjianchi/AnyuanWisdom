@@ -9,4 +9,5 @@ import com.ayfp.anyuanwisdom.base.IBaseView;
  */
 
 public interface IContactsView extends IBaseView {
+    void   getContacts();
 }

@@ -48,7 +48,7 @@ public class Preferences {
     }
 
     public static boolean checkUserLogin(){
-        if (TextUtils.isEmpty(getUserId())){
+        if (TextUtils.isEmpty(getUserName())){
             return false;
         }else {
             return true;

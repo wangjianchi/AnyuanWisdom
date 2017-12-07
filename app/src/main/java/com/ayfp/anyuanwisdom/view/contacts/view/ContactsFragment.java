@@ -2,7 +2,6 @@ package com.ayfp.anyuanwisdom.view.contacts.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseFragment;
@@ -22,7 +21,7 @@ public class ContactsFragment extends BaseFragment<ContactsPresenter> implements
     private ContactsAdapter mContactsAdapter;
     @Override
     public void loadComplete() {
-
+        dismissProgress();
     }
 
     @Override
@@ -32,13 +31,20 @@ public class ContactsFragment extends BaseFragment<ContactsPresenter> implements
 
     @Override
     protected void initViews() {
+        showProgress();
+        mPresenter.getData();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mContactsAdapter = new ContactsAdapter(mPresenter.generateData());
+        mContactsAdapter = new ContactsAdapter(mPresenter.getList());
         mRecyclerView.setAdapter(mContactsAdapter);
     }
 
     @Override
     protected ContactsPresenter createPresenter() {
         return new ContactsPresenter(this);
+    }
+
+    @Override
+    public void getContacts() {
+        mContactsAdapter.notifyDataSetChanged();
     }
 }

@@ -9,11 +9,10 @@
         android:layout_marginTop="@dimen/status_bar_height">
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:layout_marginLeft="10dp"
             android:src="@mipmap/icon_back" />
         <TextView
             android:id="@+id/tv_title"
