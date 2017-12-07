@@ -1,4 +1,3 @@
 13990181916
 
-1.getAfficheByLimit  页面没有分页
-2.getAfficheByLimit  参数不对 token=b93c9171a764df76&user_name=13990181915 {"status":22002,"statusMsg":"length need gt 0"}
+1.获取公告未读或已读的全部用户信息 接口名字不对
