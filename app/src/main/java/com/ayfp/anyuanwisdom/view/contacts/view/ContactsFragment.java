@@ -2,12 +2,15 @@ package com.ayfp.anyuanwisdom.view.contacts.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseFragment;
 import com.ayfp.anyuanwisdom.view.contacts.adapter.ContactsAdapter;
 import com.ayfp.anyuanwisdom.view.contacts.iview.IContactsView;
 import com.ayfp.anyuanwisdom.view.contacts.presenter.ContactsPresenter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import butterknife.BindView;
 

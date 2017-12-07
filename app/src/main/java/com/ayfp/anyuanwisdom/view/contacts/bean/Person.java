@@ -21,6 +21,13 @@ public class Person implements MultiItemEntity {
     private String real_name;
     private String job_position;
     private String portrait;
+    /**
+     * account : accid2
+     * on_line : 1
+     */
+
+    private String account;
+    private int on_line;
 
 
     @Override
@@ -58,5 +65,21 @@ public class Person implements MultiItemEntity {
 
     public void setPortrait(String portrait) {
         this.portrait = portrait;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public int getOn_line() {
+        return on_line;
+    }
+
+    public void setOn_line(int on_line) {
+        this.on_line = on_line;
     }
 }

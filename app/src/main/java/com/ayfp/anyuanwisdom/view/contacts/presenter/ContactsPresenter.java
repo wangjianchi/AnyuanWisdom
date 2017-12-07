@@ -50,9 +50,9 @@ public class ContactsPresenter implements IBasePresenter {
                         mView.loadComplete();
                         if (listAppResultData.getStatus() == RetrofitService.SUCCESS && listAppResultData.getResult().size() > 0){
                             for (ContactsList contactsList: listAppResultData.getResult()){
-                                Level0Item lv0 = new Level0Item(contactsList.getName(), "14/56");
+                                Level0Item lv0 = new Level0Item(contactsList.getName(), contactsList.getLine_count());
                                 for (ContactsList.ListBeanX listBeanX : contactsList.getList()){
-                                    Level1Item lv1 = new Level1Item(listBeanX.getName(),"12/43");
+                                    Level1Item lv1 = new Level1Item(listBeanX.getName(),contactsList.getLine_count());
                                     for (Person person : listBeanX.getList()){
                                         lv1.addSubItem(person);
                                     }

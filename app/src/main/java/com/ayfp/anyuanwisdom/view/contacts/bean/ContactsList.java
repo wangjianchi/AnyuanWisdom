@@ -16,7 +16,16 @@ public class ContactsList {
      */
 
     private String name;
+    private String line_count;
     private List<ListBeanX> list;
+
+    public String getLine_count() {
+        return line_count;
+    }
+
+    public void setLine_count(String line_count) {
+        this.line_count = line_count;
+    }
 
     public String getName() {
         return name;
@@ -41,7 +50,16 @@ public class ContactsList {
          */
 
         private String name;
+        private String line_count;
         private List<Person> list;
+
+        public String getLine_count() {
+            return line_count;
+        }
+
+        public void setLine_count(String line_count) {
+            this.line_count = line_count;
+        }
 
         public String getName() {
             return name;
