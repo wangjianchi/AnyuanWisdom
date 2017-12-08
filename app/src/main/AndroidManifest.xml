@@ -83,7 +83,9 @@
         <meta-data
             android:name="com.netease.nim.appKey"
             android:value="a6e6261bcf543443a96ea2019ce371a5" />
-
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="a72fd5dcc2c19b9bbcf4e9dca3e26f9b" />
         <!-- 云信后台服务，请使用独立进程。 -->
         <service
             android:name="com.netease.nimlib.service.NimService"
@@ -172,5 +174,59 @@
         <activity
             android:name=".view.personal.EditPasswordActivity"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".view.contacts.view.ChatActivity"
+                  android:theme="@style/AppTheme"
+                  android:configChanges="keyboardHidden|orientation"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <!-- 音视频 -->
+        <activity
+            android:name=".nim.avchat.activity.AVChatActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <!-- NRTC Settings -->
+        <activity
+            android:name=".nim.avchat.activity.AVChatSettingsActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 文件管理器 -->
+        <activity
+            android:name=".nim.file.browser.FileBrowserActivity"
+            android:configChanges="orientation"
+            android:label="文件浏览器"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <!-- map -->
+        <activity
+            android:name=".nim.location.activity.LocationAmapActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/location_map"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".nim.location.activity.NavigationAmapActivity"
+                  android:configChanges="keyboardHidden|orientation"
+                  android:label="@string/location_navigate"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 下载文件 -->
+        <activity
+            android:name=".nim.session.activity.FileDownloadActivity"
+            android:configChanges="keyboardHidden"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".nim.session.activity.MessageHistoryActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
     </application>
 </manifest>

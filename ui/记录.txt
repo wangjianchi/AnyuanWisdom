@@ -1,6 +1,29 @@
-13990181916
+﻿13990181916
 
 a6e6261bcf543443a96ea2019ce371a5
 
-1.getAfficheByLimit  ҳ��û�з�ҳ
-2.getAfficheByLimit  �������� token=b93c9171a764df76&user_name=13990181915 {"status":22002,"statusMsg":"length need gt 0"}
+别名: ayfp
+创建日期: 2017-12-1
+条目类型: PrivateKeyEntry
+证书链长度: 1
+证书[1]:
+所有者: CN=AYFP, OU=AYFP, O=AYFP, L=chengdu, ST=sichuan, C=86
+发布者: CN=AYFP, OU=AYFP, O=AYFP, L=chengdu, ST=sichuan, C=86
+序列号: 117d5611
+有效期开始日期: Fri Dec 01 10:35:59 CST 2017, 截止日期: Tue Nov 25 10:35:59 CST 2042
+证书指纹:
+         MD5: 80:F2:72:51:D8:9B:E5:7A:5A:38:09:22:5D:7E:B2:7D
+         SHA1: 31:1C:49:B8:A3:B5:5A:DB:39:50:20:E2:3E:69:7D:B4:13:B6:85:CF
+         SHA256: 48:75:9F:FE:93:3B:EA:67:DB:B7:40:D5:BF:46:E0:29:EF:03:45:E9:90:5C:14:22:A4:E7:FF:70:69:9A:A2:1E
+         签名算法名称: SHA256withRSA
+         版本: 3
+
+扩展:
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: AD 42 25 1A C7 B8 5C BE   AC 7F 86 7D 98 8E 84 CA  .B%...\.........
+0010: 31 EE 57 87                                        1.W.
+]
+]

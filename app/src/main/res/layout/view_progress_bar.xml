@@ -6,8 +6,8 @@
     android:background="@color/transparent">
     <ProgressBar
         android:id="@+id/pb_load"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:indeterminateTint="@color/color_2292fc"
         android:background="@color/transparent"/>

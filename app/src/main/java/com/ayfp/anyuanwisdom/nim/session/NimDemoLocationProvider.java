@@ -1,4 +1,4 @@
-package com.ayfp.anyuanwisdom.nim;
+package com.ayfp.anyuanwisdom.nim.session;
 
 import android.content.Context;
 import android.content.Intent;

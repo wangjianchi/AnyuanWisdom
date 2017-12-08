@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import com.ayfp.anyuanwisdom.config.preferences.Preferences;
 import com.ayfp.anyuanwisdom.nim.NimCache;
-import com.ayfp.anyuanwisdom.nim.NimDemoLocationProvider;
+import com.ayfp.anyuanwisdom.nim.session.NimDemoLocationProvider;
 import com.ayfp.anyuanwisdom.nim.NimSDKOptionConfig;
 import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.netease.nim.uikit.api.NimUIKit;

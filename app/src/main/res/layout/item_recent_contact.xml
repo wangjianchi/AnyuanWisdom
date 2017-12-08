@@ -1,56 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="65dp"
-              android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
     <FrameLayout
         android:id="@+id/layout_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="7dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="11dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp"
-        android:layout_alignParentLeft="true">
+        android:layout_marginTop="7dp">
+
         <com.netease.nim.uikit.common.ui.imageview.HeadImageView
             android:id="@+id/img_head"
             android:layout_width="@dimen/avatar_size_default"
             android:layout_height="@dimen/avatar_size_default"
             android:layout_gravity="center_vertical"/>
+
         <View
+            android:id="@+id/view_unred"
             android:layout_width="7dp"
             android:layout_height="7dp"
             android:layout_gravity="right|top"
-            android:layout_marginTop="3dp"
             android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/icon_dot_red"/>
     </FrameLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_toLeftOf="@id/layout_head"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/layout_head"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="@color/text_color_222222"/>
+            android:text=""
+            android:textColor="@color/text_color_222222"
+            android:textSize="13sp"/>
+
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/text_color_666666"/>
+            android:textColor="@color/text_color_666666"
+            android:textSize="12sp"/>
     </LinearLayout>
+
     <TextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:textColor="@color/text_color_666666"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:layout_centerVertical="true"/>
+        android:textColor="@color/text_color_666666"
+        android:textSize="13sp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_line"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

@@ -9,12 +9,10 @@ import com.ayfp.anyuanwisdom.utils.GlideUtils;
 import com.ayfp.anyuanwisdom.view.contacts.bean.Level0Item;
 import com.ayfp.anyuanwisdom.view.contacts.bean.Level1Item;
 import com.ayfp.anyuanwisdom.view.contacts.bean.Person;
+import com.ayfp.anyuanwisdom.view.contacts.view.ChatActivity;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.netease.nim.uikit.api.NimUIKit;
-import com.netease.nim.uikit.impl.customization.DefaultP2PSessionCustomization;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import java.util.List;
 
@@ -87,7 +85,8 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        NimUIKit.startChatting(MyApplication.getContext(),person.getAccount(), SessionTypeEnum.P2P,new DefaultP2PSessionCustomization(),null);
+                       // NimUIKit.startChatting(MyApplication.getContext(),person.getAccount(), SessionTypeEnum.P2P,new DefaultP2PSessionCustomization(),null);
+                        ChatActivity.start(MyApplication.getContext(),person.getAccount(),person.getReal_name());
                     }
                 });
                 break;

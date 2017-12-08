@@ -4,10 +4,33 @@ import android.text.TextUtils;
 
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nim.uikit.business.team.helper.TeamHelper;
+import com.netease.nim.uikit.impl.cache.NimUserInfoCache;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.netease.nimlib.sdk.uinfo.model.UserInfo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserInfoHelper {
+    private static Map<String,NimUserInfo> userInfo = new HashMap<>();
+    public interface UserInfoCallback{
+        void getUserInfo(NimUserInfo userInfo);
+    }
+
+    public static void getUserInfo(String id,final  UserInfoCallback callback){
+        if (userInfo.containsKey(id)){
+            callback.getUserInfo(userInfo.get(id));
+        }else {
+            NimUserInfoCache.getInstance().getUserInfoFromRemote(id, new RequestCallbackWrapper<NimUserInfo>() {
+                @Override
+                public void onResult(int i, NimUserInfo userInfo, Throwable throwable) {
+                    callback.getUserInfo(userInfo);
+                }
+            });
+        }
+    }
 
     // 获取用户显示在标题栏和最近联系人中的名字
     public static String getUserTitleName(String id, SessionTypeEnum sessionType) {

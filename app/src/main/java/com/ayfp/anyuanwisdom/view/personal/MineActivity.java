@@ -113,7 +113,7 @@ public class MineActivity extends BaseActivity {
     }
 
     private void updateUserMsg(UserBean userBean){
-        GlideUtils.loadImageView(userBean.getPortrait(),mImageHead);
+        GlideUtils.loadImageViewErr(userBean.getPortrait(),mImageHead,R.mipmap.image_head);
         mTextName.setText(userBean.getReal_name());
         mTextOrganization.setText(userBean.getOrganization());
     }

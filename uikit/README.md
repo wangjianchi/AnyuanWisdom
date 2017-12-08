@@ -108,7 +108,7 @@ loginRequest = NimUIKit.login(new LoginInfo(account, token), new RequestCallback
 
         onLoginDone();
 
-        DemoCache.setAccount(account);
+        NimCache.setAccount(account);
         saveLoginInfo(account, token);
 
         // 初始化消息提醒配置
