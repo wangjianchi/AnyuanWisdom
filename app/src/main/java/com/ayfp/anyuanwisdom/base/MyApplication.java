@@ -6,13 +6,14 @@ import android.text.TextUtils;
 
 import com.ayfp.anyuanwisdom.config.preferences.Preferences;
 import com.ayfp.anyuanwisdom.nim.NimCache;
-import com.ayfp.anyuanwisdom.nim.session.NimDemoLocationProvider;
 import com.ayfp.anyuanwisdom.nim.NimSDKOptionConfig;
+import com.ayfp.anyuanwisdom.nim.session.NimDemoLocationProvider;
 import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.util.NIMUtil;
+import com.tencent.bugly.Bugly;
 
 
 /**
@@ -30,6 +31,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+
+        Bugly.init(getApplicationContext(), "1defb5ee1e", true);
 
         RetrofitService.init();
         NimCache.setContext(this);

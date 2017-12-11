@@ -66,6 +66,12 @@ public class MineActivity extends BaseActivity {
         initSettingData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUserMsg(AppCache.getInstance().getUserBean());
+    }
+
     private void initSettingData(){
         final List<PersonSettingBean> list = new ArrayList<>();
         for (int i = 0;i < mSettingNames.length;i++){
@@ -84,6 +90,9 @@ public class MineActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (list.get(position).getName().equals("修改密码")){
                     Intent intent = new Intent(MineActivity.this,EditPasswordActivity.class);
+                    startActivity(intent);
+                }else if (list.get(position).getName().equals("个人资料")){
+                    Intent intent = new Intent(MineActivity.this,EditPersonalActivity.class);
                     startActivity(intent);
                 }
             }
@@ -113,9 +122,11 @@ public class MineActivity extends BaseActivity {
     }
 
     private void updateUserMsg(UserBean userBean){
-        GlideUtils.loadImageViewErr(userBean.getPortrait(),mImageHead,R.mipmap.image_head);
-        mTextName.setText(userBean.getReal_name());
-        mTextOrganization.setText(userBean.getOrganization());
+        if (userBean != null){
+            GlideUtils.loadImageViewErr(userBean.getPortrait(),mImageHead,R.mipmap.image_head);
+            mTextName.setText(userBean.getReal_name());
+            mTextOrganization.setText(userBean.getOrganization());
+        }
     }
 
     @Override

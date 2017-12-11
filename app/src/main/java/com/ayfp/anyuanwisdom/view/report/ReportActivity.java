@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -24,7 +26,12 @@ import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.MyApplication;
 import com.ayfp.anyuanwisdom.bean.EventCategory;
 import com.ayfp.anyuanwisdom.bean.EventDegree;
+import com.ayfp.anyuanwisdom.config.preferences.Preferences;
+import com.ayfp.anyuanwisdom.retrofit.AppResultData;
+import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
+import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.ayfp.anyuanwisdom.utils.CommonUtils;
+import com.ayfp.anyuanwisdom.utils.FileUtils;
 import com.ayfp.anyuanwisdom.utils.KeyboardUtils;
 import com.ayfp.anyuanwisdom.utils.PermissionCheckUtils;
 import com.ayfp.anyuanwisdom.utils.ToastUtils;
@@ -44,6 +51,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -92,7 +101,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
         mTextRight.setText("提交");
         mTextRight.setVisibility(View.VISIBLE);
         mPresenter.getData();
-        mTextCategoryName.setText("事件分类:"+mPresenter.getEventCategory().getCate_name());
+        mTextCategoryName.setText("事件分类："+mPresenter.getEventCategory().getCate_name());
         mData.add(new ReportImageBean());
         mReportImageAdapter = new ReportImageAdapter(mData);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
@@ -191,7 +200,8 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             if (data != null){
                 Uri uri = data.getData();
                 if (uri != null){
-                    compreeImage(uri.toString());
+                    String path = FileUtils.convertUri(this,uri);
+                    compreeImage(path);
                 }
             }
         }
@@ -213,7 +223,6 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
                        Log.i("ReportActivity", "onSuccess: ");
                        ReportImageBean imageBean = new ReportImageBean();
                        imageBean.setType(2);
-
                        imageBean.setImageFile(file.getAbsolutePath());
                        mData.add(0,imageBean);
                        mReportImageAdapter.notifyDataSetChanged();
@@ -232,7 +241,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
         EventCategoryPopupWindow popupWindow = new EventCategoryPopupWindow(this, new EventCategoryPopupWindow.OnEventCategorySelect() {
             @Override
             public void categorySelect(EventCategory eventCategory) {
-                mTextCategoryName.setText("事件分类:"+eventCategory.getCate_name());
+                mTextCategoryName.setText("事件分类："+eventCategory.getCate_name());
                 mPresenter.setEventCategory(eventCategory);
             }
         });
@@ -256,6 +265,36 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             return;
         }
         String content = mEditContent.getText().toString();
+        if (TextUtils.isEmpty(content)){
+            ToastUtils.showToast("请输入内容");
+            return;
+        }
+        showProgress();
+        StringBuffer eventImages = new StringBuffer();
+        for (int i = 0 ; i < mData.size() -1; i++){
+            Bitmap bitmap = BitmapFactory.decodeFile(mData.get(i).getImageFile());
+            String image = FileUtils.Bitmap2StrByBase64(bitmap);
+            if (eventImages.length() > 0){
+                eventImages.append(";"+image);
+            }else {
+                eventImages.append(image);
+            }
+        }
+        RetrofitService.getApi().eventReport(RetrofitService.TOKEN, Preferences.getUserName(),title,
+                CommonUtils.StringToInt(mPresenter.getEventCategory().getId()),CommonUtils.StringToInt(mPresenter.getEventDegree().getId()),
+                content,eventImages.toString()).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(this.<AppResultData<Object>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<Object>>() {
+                    @Override
+                    public void loadSuccess(AppResultData<Object> objectAppResultData) {
+                        dismissProgress();
+                        if (objectAppResultData.getStatus() == RetrofitService.SUCCESS){
+                            ToastUtils.showToast("事件上报成功");
+                            finish();
+                        }
+                    }
+                });
 
     }
 }

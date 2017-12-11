@@ -85,4 +85,16 @@ public interface ApiStores {
     @POST("api.php?app=userInterface&act=getUserMsg")
     Observable<AppResultData<UserBean>> getUserMsg(@Field("token") String token,
                                                               @Field("user_name") String user_name);
+
+    @FormUrlEncoded
+    @POST("api.php?app=userInterface&act=editUserPortrait")
+    Observable<AppResultData<UserBean>> editUserPortrait(@Field("token") String token,
+                                                   @Field("user_name") String user_name,
+                                                   @Field("portrait") String portrait);
+
+    @FormUrlEncoded
+    @POST("api.php?app=userInterface&act=editUserTel")
+    Observable<AppResultData<Object>> editUserTel(@Field("token") String token,
+                                                         @Field("user_name") String user_name,
+                                                         @Field("tel") String tel);
 }

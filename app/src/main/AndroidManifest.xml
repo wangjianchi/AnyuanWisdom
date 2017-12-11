@@ -36,8 +36,8 @@
     <!-- 允许挂载和反挂载文件系统 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <!-- 如果需要实时音视频通话模块，下面的权限也是必须的。否则，可以不加 -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
     <!-- 配置一个程序用于调试 -->
@@ -48,7 +48,9 @@
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
     <!-- 声明程序使用OpenGL ES 2.0 -->
-    <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
 
     <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.netease.nim.demo 替换为自己的包名 -->
     <!-- 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
@@ -75,17 +77,18 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                android:resource="@xml/provider_paths"/>
         </provider>
+
 
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
                    如果 SDKOptions 中提供了，取 SDKOptions 中的值。 -->
         <meta-data
             android:name="com.netease.nim.appKey"
-            android:value="a6e6261bcf543443a96ea2019ce371a5" />
+            android:value="a6e6261bcf543443a96ea2019ce371a5"/>
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="a72fd5dcc2c19b9bbcf4e9dca3e26f9b" />
+            android:value="a72fd5dcc2c19b9bbcf4e9dca3e26f9b"/>
         <!-- 云信后台服务，请使用独立进程。 -->
         <service
             android:name="com.netease.nimlib.service.NimService"
@@ -104,9 +107,10 @@
             android:process=":core"/>
 
         <!-- 云信监视系统启动和网络变化的广播接收器，保持和 NimService 同一进程 -->
-        <receiver android:name="com.netease.nimlib.service.NimReceiver"
-                  android:process=":core"
-                  android:exported="false">
+        <receiver
+            android:name="com.netease.nimlib.service.NimReceiver"
+            android:exported="false"
+            android:process=":core">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
@@ -125,7 +129,8 @@
             android:name="com.netease.nimlib.ipc.NIMContentProvider"
             android:authorities="com.ayfp.anyuanwisdom.ipc.provider"
             android:exported="false"
-            android:process=":core" />
+            android:process=":core"/>
+
         <activity
             android:name=".view.home.LaunchActivity"
             android:screenOrientation="portrait"
@@ -174,23 +179,27 @@
         <activity
             android:name=".view.personal.EditPasswordActivity"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".view.contacts.view.ChatActivity"
-                  android:theme="@style/AppTheme"
-                  android:configChanges="keyboardHidden|orientation"
-                  android:screenOrientation="portrait"
-                  android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+            android:name=".view.personal.EditPhoneActivity"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".view.contacts.view.ChatActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <!-- 音视频 -->
         <activity
             android:name=".nim.avchat.activity.AVChatActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreenTheme"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"/>
 
         <!-- NRTC Settings -->
         <activity
             android:name=".nim.avchat.activity.AVChatSettingsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <!-- 文件管理器 -->
         <activity
@@ -199,7 +208,7 @@
             android:label="文件浏览器"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
 
         <!-- map -->
         <activity
@@ -207,26 +216,30 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/location_map"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".nim.location.activity.NavigationAmapActivity"
-                  android:configChanges="keyboardHidden|orientation"
-                  android:label="@string/location_navigate"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".nim.location.activity.NavigationAmapActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/location_navigate"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <!-- 下载文件 -->
         <activity
             android:name=".nim.session.activity.FileDownloadActivity"
             android:configChanges="keyboardHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".nim.session.activity.MessageHistoryActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent"/>
     </application>
 </manifest>
