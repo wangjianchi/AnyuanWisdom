@@ -30,6 +30,7 @@ public class ReportPresenter implements IBasePresenter {
     private List<EventDegree> degreeList = new ArrayList<>();
     private EventCategory mEventCategory;
     private EventDegree mEventDegree;
+    private int townId, villageId;
     public ReportPresenter(IReportView view){
         this.mView = view;
     }
@@ -40,7 +41,6 @@ public class ReportPresenter implements IBasePresenter {
             categoryList = AppCache.getInstance().getCategoryList();
             degreeList = AppCache.getInstance().getDegreeList();
             mEventCategory = categoryList.get(0);
-            mEventDegree = degreeList.get(0);
         }catch (Exception e){
 
         }
@@ -48,7 +48,7 @@ public class ReportPresenter implements IBasePresenter {
 
     public void commitEventReport(String title,String content,String images){
         RetrofitService.getApi().eventReport(RetrofitService.TOKEN, Preferences.getUserName(),
-                title, CommonUtils.StringToInt(mEventCategory.getId()),CommonUtils.StringToInt(mEventDegree.getId()),content,images)
+                title, CommonUtils.StringToInt(mEventCategory.getId()),CommonUtils.StringToInt(mEventDegree.getId()),content,images,townId,villageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(mView.<AppResultData<Object>>bindToLife())
@@ -56,7 +56,9 @@ public class ReportPresenter implements IBasePresenter {
                     @Override
                     public void loadSuccess(AppResultData<Object> objectAppResultData) {
                         mView.loadComplete();
-                        if (objectAppResultData.getStatus() != RetrofitService.SUCCESS){
+                        if (objectAppResultData.getStatus() == RetrofitService.SUCCESS){
+                            mView.reportSuccess();
+                        }else {
                             ToastUtils.showToast(objectAppResultData.getStatusMsg());
                         }
                     }
@@ -87,6 +89,22 @@ public class ReportPresenter implements IBasePresenter {
 
     public void setEventDegree(EventDegree eventDegree) {
         mEventDegree = eventDegree;
+    }
+
+    public int getTownId() {
+        return townId;
+    }
+
+    public void setTownId(int townId) {
+        this.townId = townId;
+    }
+
+    public int getVillageId() {
+        return villageId;
+    }
+
+    public void setVillageId(int villageId) {
+        this.villageId = villageId;
     }
 
     @Override

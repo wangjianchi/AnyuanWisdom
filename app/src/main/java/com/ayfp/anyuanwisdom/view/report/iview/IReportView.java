@@ -9,4 +9,6 @@ import com.ayfp.anyuanwisdom.base.IBaseView;
  */
 
 public interface IReportView extends IBaseView {
+
+    void reportSuccess();
 }

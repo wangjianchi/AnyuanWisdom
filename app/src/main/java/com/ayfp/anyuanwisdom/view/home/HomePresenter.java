@@ -3,6 +3,7 @@ package com.ayfp.anyuanwisdom.view.home;
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
 import com.ayfp.anyuanwisdom.bean.EventCategory;
 import com.ayfp.anyuanwisdom.bean.EventDegree;
+import com.ayfp.anyuanwisdom.bean.Town;
 import com.ayfp.anyuanwisdom.config.cache.AppCache;
 import com.ayfp.anyuanwisdom.config.preferences.Preferences;
 import com.ayfp.anyuanwisdom.retrofit.AppResultData;
@@ -29,6 +30,7 @@ public class HomePresenter implements IBasePresenter {
         getIndexNotice();
         getEventCategory();
         getEventDegree();
+        getTown();
     }
 
     private void getIndexNotice(){
@@ -78,6 +80,22 @@ public class HomePresenter implements IBasePresenter {
                 });
     }
 
+    private void getTown(){
+        RetrofitService.getApi().getTownOptions(RetrofitService.TOKEN)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(mView.<AppResultData<List<Town>>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<List<Town>>>() {
+                    @Override
+                    public void loadSuccess(AppResultData<List<Town>> data) {
+                        if (data.getStatus() == RetrofitService.SUCCESS){
+                            if (data.getResult() != null && data.getResult().size() > 0){
+                                AppCache.getInstance().setTowns(data.getResult());
+                            }
+                        }
+                    }
+                });
+    }
     @Override
     public void networkConnected() {
 

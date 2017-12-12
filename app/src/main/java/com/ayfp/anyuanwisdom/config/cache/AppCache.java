@@ -2,6 +2,7 @@ package com.ayfp.anyuanwisdom.config.cache;
 
 import com.ayfp.anyuanwisdom.bean.EventCategory;
 import com.ayfp.anyuanwisdom.bean.EventDegree;
+import com.ayfp.anyuanwisdom.bean.Town;
 import com.ayfp.anyuanwisdom.bean.UserBean;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class AppCache {
     }
     private List<EventCategory> categoryList = new ArrayList<>();
     private List<EventDegree> degreeList = new ArrayList<>();
+    private List<Town> mTowns = new ArrayList<>();
     private UserBean mUserBean;
 
     public UserBean getUserBean() {
@@ -45,5 +47,13 @@ public class AppCache {
 
     public void setDegreeList(List<EventDegree> degreeList) {
         this.degreeList = degreeList;
+    }
+
+    public List<Town> getTowns() {
+        return mTowns;
+    }
+
+    public void setTowns(List<Town> towns) {
+        mTowns = towns;
     }
 }

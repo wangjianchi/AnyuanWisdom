@@ -4,11 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent">
-    <ProgressBar
-        android:id="@+id/pb_load"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+    <FrameLayout
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_gravity="center"
-        android:indeterminateTint="@color/color_2292fc"
-        android:background="@color/transparent"/>
+        android:background="@drawable/bg_progress">
+        <ProgressBar
+            android:id="@+id/pb_load"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/color_2292fc"
+            android:background="@color/transparent"/>
+    </FrameLayout>
+
 </FrameLayout>

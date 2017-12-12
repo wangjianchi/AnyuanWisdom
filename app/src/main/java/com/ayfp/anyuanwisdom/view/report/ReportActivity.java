@@ -26,10 +26,6 @@ import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.MyApplication;
 import com.ayfp.anyuanwisdom.bean.EventCategory;
 import com.ayfp.anyuanwisdom.bean.EventDegree;
-import com.ayfp.anyuanwisdom.config.preferences.Preferences;
-import com.ayfp.anyuanwisdom.retrofit.AppResultData;
-import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
-import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.ayfp.anyuanwisdom.utils.CommonUtils;
 import com.ayfp.anyuanwisdom.utils.FileUtils;
 import com.ayfp.anyuanwisdom.utils.KeyboardUtils;
@@ -41,6 +37,7 @@ import com.ayfp.anyuanwisdom.view.report.bean.ReportImageBean;
 import com.ayfp.anyuanwisdom.view.report.iview.IReportView;
 import com.ayfp.anyuanwisdom.view.report.presenter.ReportPresenter;
 import com.ayfp.anyuanwisdom.view.report.view.EventCategoryPopupWindow;
+import com.ayfp.anyuanwisdom.view.report.view.EventTownPopupWindow;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.netease.nim.uikit.common.util.storage.StorageType;
 import com.netease.nim.uikit.common.util.storage.StorageUtil;
@@ -51,8 +48,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -87,7 +82,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
 
     @Override
     public void loadComplete() {
-
+        dismissProgress();
     }
 
     @Override
@@ -225,6 +220,9 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
                        imageBean.setType(2);
                        imageBean.setImageFile(file.getAbsolutePath());
                        mData.add(0,imageBean);
+                       if (mData.size() > 5){
+                           mData.remove(5);
+                       }
                        mReportImageAdapter.notifyDataSetChanged();
                    }
 
@@ -247,6 +245,18 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
         });
         popupWindow.showAtLocation(mRootView, Gravity.NO_GRAVITY, 0, 0);
     }
+    @OnClick(R.id.btn_location)
+    void location(){
+        KeyboardUtils.hideSoftInput(this);
+        EventTownPopupWindow popupWindow = new EventTownPopupWindow(this, new EventTownPopupWindow.OnTownAndVillageSelectListener() {
+            @Override
+            public void selectTownAndVillage(int townId, int villageId) {
+                mPresenter.setTownId(townId);
+                mPresenter.setVillageId(villageId);
+            }
+        });
+        popupWindow.showAtLocation(mRootView, Gravity.NO_GRAVITY, 0, 0);
+    }
 
     @Override
     protected ReportPresenter createPresenter() {
@@ -265,36 +275,37 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             return;
         }
         String content = mEditContent.getText().toString();
+        if (mPresenter.getEventDegree() == null){
+            ToastUtils.showToast("请选择事件程度");
+            return;
+        }
+        if (mPresenter.getTownId() == 0 || mPresenter.getVillageId() == 0){
+            ToastUtils.showToast("请选择上报地点");
+            return;
+        }
         if (TextUtils.isEmpty(content)){
             ToastUtils.showToast("请输入内容");
             return;
         }
         showProgress();
         StringBuffer eventImages = new StringBuffer();
-        for (int i = 0 ; i < mData.size() -1; i++){
-            Bitmap bitmap = BitmapFactory.decodeFile(mData.get(i).getImageFile());
-            String image = FileUtils.Bitmap2StrByBase64(bitmap);
-            if (eventImages.length() > 0){
-                eventImages.append(";"+image);
-            }else {
-                eventImages.append(image);
+        for (int i = 0 ; i < mData.size(); i++){
+            if (mData.get(i).getType() != 1){
+                Bitmap bitmap = BitmapFactory.decodeFile(mData.get(i).getImageFile());
+                String image = FileUtils.Bitmap2StrByBase64(bitmap);
+                if (eventImages.length() > 0){
+                    eventImages.append(";"+image);
+                }else {
+                    eventImages.append(image);
+                }
             }
         }
-        RetrofitService.getApi().eventReport(RetrofitService.TOKEN, Preferences.getUserName(),title,
-                CommonUtils.StringToInt(mPresenter.getEventCategory().getId()),CommonUtils.StringToInt(mPresenter.getEventDegree().getId()),
-                content,eventImages.toString()).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(this.<AppResultData<Object>>bindToLife())
-                .subscribe(new BaseObserver<AppResultData<Object>>() {
-                    @Override
-                    public void loadSuccess(AppResultData<Object> objectAppResultData) {
-                        dismissProgress();
-                        if (objectAppResultData.getStatus() == RetrofitService.SUCCESS){
-                            ToastUtils.showToast("事件上报成功");
-                            finish();
-                        }
-                    }
-                });
+        mPresenter.commitEventReport(title,content,eventImages.toString());
+    }
 
+    @Override
+    public void reportSuccess() {
+        ToastUtils.showToast("事件上报成功");
+        finish();
     }
 }

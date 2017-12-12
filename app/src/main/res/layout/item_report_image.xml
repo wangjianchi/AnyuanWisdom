@@ -5,6 +5,7 @@
     android:layout_width="76dp"
     android:layout_height="76dp"
     android:layout_marginRight="2.5dp"
+    android:layout_marginBottom="5dp"
     android:src="@mipmap/icon_upload_pic"
     android:scaleType="fitXY">
 

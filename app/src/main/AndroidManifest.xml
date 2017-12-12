@@ -161,7 +161,8 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".view.report.ReportActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.personal.EditPersonalActivity"
             android:theme="@style/AppTheme"/>
