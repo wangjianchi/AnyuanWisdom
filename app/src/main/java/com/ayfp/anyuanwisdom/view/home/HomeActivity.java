@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
+import com.ayfp.anyuanwisdom.config.AppConfig;
+import com.ayfp.anyuanwisdom.config.preferences.Preferences;
+import com.ayfp.anyuanwisdom.utils.ToastUtils;
 import com.ayfp.anyuanwisdom.utils.UIUtils;
 import com.ayfp.anyuanwisdom.view.contacts.view.ContactsActivity;
 import com.ayfp.anyuanwisdom.view.home.adapter.GalleryAdapter;
@@ -26,6 +29,13 @@ import com.netease.nim.uikit.support.permission.MPermission;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionDenied;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionGranted;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionNeverAskAgain;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.auth.AuthServiceObserver;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 
 import java.util.List;
 
@@ -56,12 +66,36 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
 
     @Override
     protected void initViews() {
+        AppConfig.mHomeActivity = this;
         requestBasicPermission();
         mPresenter.getData();
-
+        observeOnlineStatus(true);
     }
+    /**
+     * 监听在线状态
+     * @param register
+     */
+    public void observeOnlineStatus(boolean register){
+        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver,register);
+    }
+    Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
 
+        @Override
+        public void onEvent(StatusCode code) {
+            if (code == StatusCode.UNLOGIN ){
+                LoginInfo info = new LoginInfo(Preferences.getUserAccount(),Preferences.getUserToken());
+                NIMClient.getService(AuthService.class).login(info).setCallback(new RequestCallbackWrapper() {
+                    @Override
+                    public void onResult(int i, Object o, Throwable throwable) {
 
+                    }
+                });
+            }else  if (code == StatusCode.KICKOUT || code == StatusCode.KICK_BY_OTHER_CLIENT){
+                ToastUtils.showToast("您的帐号正在其他设备登录，请重新登录");
+                AppConfig.logOut(HomeActivity.this);
+            }
+        }
+    };
 
 
 
