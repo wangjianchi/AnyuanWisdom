@@ -3,11 +3,13 @@ package com.ayfp.anyuanwisdom.view.contacts.bean;
 import com.ayfp.anyuanwisdom.view.contacts.adapter.ContactsAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import java.io.Serializable;
+
 /**
  * Created by luoxw on 2016/8/10.
  */
 
-public class Person implements MultiItemEntity {
+public class Person implements MultiItemEntity ,Serializable{
 
 
     /**
@@ -28,6 +30,15 @@ public class Person implements MultiItemEntity {
 
     private String account;
     private int on_line;
+    /**
+     * organization : 安远县商务局
+     * department : 党支部
+     * phone_tel : 13990181917
+     */
+
+    private String organization;
+    private String department;
+    private String phone_tel;
 
 
     @Override
@@ -81,5 +92,29 @@ public class Person implements MultiItemEntity {
 
     public void setOn_line(int on_line) {
         this.on_line = on_line;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getPhone_tel() {
+        return phone_tel;
+    }
+
+    public void setPhone_tel(String phone_tel) {
+        this.phone_tel = phone_tel;
     }
 }

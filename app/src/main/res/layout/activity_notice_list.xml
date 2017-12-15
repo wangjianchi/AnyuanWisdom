@@ -5,8 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <include layout="@layout/view_title"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_notice"
+    <com.ayfp.anyuanwisdom.weidgts.SpringView
+        android:id="@+id/springView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_notice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.ayfp.anyuanwisdom.weidgts.SpringView>
+
 </LinearLayout>

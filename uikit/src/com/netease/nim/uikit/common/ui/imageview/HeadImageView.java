@@ -84,6 +84,24 @@ public class HeadImageView extends CircleImageView {
     /**
      * ImageLoader异步加载
      */
+    public void doLoadImage(final String url) {
+        /*
+         * 若使用网易云信云存储，这里可以设置下载图片的压缩尺寸，生成下载URL
+         * 如果图片来源是非网易云信云存储，请不要使用NosThumbImageUtil
+         */
+        final String thumbUrl = makeAvatarThumbNosUrl(url, DEFAULT_AVATAR_THUMB_SIZE);
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
+                .error( R.drawable.nim_avatar_group)
+                .override(DEFAULT_AVATAR_THUMB_SIZE, DEFAULT_AVATAR_THUMB_SIZE);
+        Glide.with(getContext().getApplicationContext()).asBitmap()
+                .load(url)
+                .apply(requestOptions)
+                .into(this);
+    }
+    /**
+     * ImageLoader异步加载
+     */
     private void doLoadImage(final String url, final int defaultResId, final int thumbSize) {
         /*
          * 若使用网易云信云存储，这里可以设置下载图片的压缩尺寸，生成下载URL

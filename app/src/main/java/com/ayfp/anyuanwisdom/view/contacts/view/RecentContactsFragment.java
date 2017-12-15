@@ -9,7 +9,6 @@ import com.alibaba.fastjson.JSON;
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseFragment;
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
-import com.ayfp.anyuanwisdom.base.MyApplication;
 import com.ayfp.anyuanwisdom.view.contacts.adapter.RecentContactsAdapter;
 import com.ayfp.anyuanwisdom.weidgts.SpringView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -59,7 +58,7 @@ public class RecentContactsFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ChatActivity.start(MyApplication.getContext(),mData.get(position).getContactId(),mData.get(position).getFromNick());
+                ChatActivity.start(getActivity(),mData.get(position).getContactId(),mData.get(position).getFromNick());
             }
         });
     }

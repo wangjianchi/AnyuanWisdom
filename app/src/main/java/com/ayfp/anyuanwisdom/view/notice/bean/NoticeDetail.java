@@ -20,7 +20,7 @@ public class NoticeDetail {
     private String read_all_count;
     private int unread_all_count;
     private List<ReadUsersBean> read_users;
-    private List<UnreadUsersBean> unread_users;
+    private List<ReadUsersBean> unread_users;
 
     public AfficheBean getAffiche() {
         return affiche;
@@ -54,11 +54,11 @@ public class NoticeDetail {
         this.read_users = read_users;
     }
 
-    public List<UnreadUsersBean> getUnread_users() {
+    public List<ReadUsersBean> getUnread_users() {
         return unread_users;
     }
 
-    public void setUnread_users(List<UnreadUsersBean> unread_users) {
+    public void setUnread_users(List<ReadUsersBean> unread_users) {
         this.unread_users = unread_users;
     }
 
@@ -126,6 +126,7 @@ public class NoticeDetail {
 
         private String real_name;
         private String portrait;
+        private int type;
 
         public String getReal_name() {
             return real_name;
@@ -142,31 +143,14 @@ public class NoticeDetail {
         public void setPortrait(String portrait) {
             this.portrait = portrait;
         }
-    }
 
-    public static class UnreadUsersBean {
-        /**
-         * real_name : 5xx
-         * portrait :
-         */
-
-        private String real_name;
-        private String portrait;
-
-        public String getReal_name() {
-            return real_name;
+        public int getType() {
+            return type;
         }
 
-        public void setReal_name(String real_name) {
-            this.real_name = real_name;
-        }
-
-        public String getPortrait() {
-            return portrait;
-        }
-
-        public void setPortrait(String portrait) {
-            this.portrait = portrait;
+        public void setType(int type) {
+            this.type = type;
         }
     }
+
 }

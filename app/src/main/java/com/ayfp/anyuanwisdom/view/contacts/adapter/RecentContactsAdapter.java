@@ -1,10 +1,8 @@
 package com.ayfp.anyuanwisdom.view.contacts.adapter;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.ImageView;
 
-import com.alibaba.fastjson.JSON;
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.utils.CommonUtils;
 import com.ayfp.anyuanwisdom.utils.GlideUtils;
@@ -35,9 +33,10 @@ public class RecentContactsAdapter extends BaseQuickAdapter<RecentContact, BaseV
         UserInfoHelper.getUserInfo(item.getContactId(), new UserInfoHelper.UserInfoCallback() {
             @Override
             public void getUserInfo(NimUserInfo userInfo) {
-                Log.i("RecentContactsAdapter", "getUserInfo: " + JSON.toJSONString(userInfo));
-                helper.setText(R.id.tv_username,userInfo.getName());
-                GlideUtils.loadImageViewErr(userInfo.getAvatar(),(ImageView) helper.getView(R.id.img_head),R.mipmap.image_head);
+                if (userInfo != null){
+                    helper.setText(R.id.tv_username,userInfo.getName());
+                    GlideUtils.loadImageViewErr(userInfo.getAvatar(),(ImageView) helper.getView(R.id.img_head),R.mipmap.image_head);
+                }
             }
         });
 

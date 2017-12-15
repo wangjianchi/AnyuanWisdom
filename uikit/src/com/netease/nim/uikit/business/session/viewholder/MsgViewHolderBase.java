@@ -196,7 +196,7 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
 
     protected final void refresh() {
         setHeadImageView();
-        setNameTextView();
+     //   setNameTextView();
         setTimeTextView();
         setStatus();
         setOnClickListener();
@@ -250,7 +250,7 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
     }
 
     private void setHeadImageView() {
-        HeadImageView show = isReceivedMessage() ? avatarLeft : avatarRight;
+        final HeadImageView show = isReceivedMessage() ? avatarLeft : avatarRight;
         HeadImageView hide = isReceivedMessage() ? avatarRight : avatarLeft;
         hide.setVisibility(View.GONE);
         if (!isShowHeadImage()) {
@@ -263,7 +263,13 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
             show.setVisibility(View.VISIBLE);
             show.loadBuddyAvatar(message);
         }
-
+//        UserInfoHelper.getUserInfo(message.getFromAccount(), new UserInfoHelper.UserInfoCallback() {
+//            @Override
+//            public void getUserInfo(NimUserInfo userInfo) {
+//                Log.i("MsgViewHolderBase", "getUserInfo: "+ JSON.toJSONString(userInfo));
+//                show.doLoadImage(userInfo.getAvatar());
+//            }
+//        });
     }
 
     private void setOnClickListener() {

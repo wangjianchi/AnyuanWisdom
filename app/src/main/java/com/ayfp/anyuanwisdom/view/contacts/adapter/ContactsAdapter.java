@@ -1,15 +1,17 @@
 package com.ayfp.anyuanwisdom.view.contacts.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.ayfp.anyuanwisdom.R;
-import com.ayfp.anyuanwisdom.base.MyApplication;
 import com.ayfp.anyuanwisdom.utils.GlideUtils;
 import com.ayfp.anyuanwisdom.view.contacts.bean.Level0Item;
 import com.ayfp.anyuanwisdom.view.contacts.bean.Level1Item;
 import com.ayfp.anyuanwisdom.view.contacts.bean.Person;
-import com.ayfp.anyuanwisdom.view.contacts.view.ChatActivity;
+import com.ayfp.anyuanwisdom.view.contacts.view.UserDetailActivity;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
@@ -26,6 +28,7 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
     public static final int TYPE_LEVEL_0 = 0;
     public static final int TYPE_LEVEL_1 = 1;
     public static final int TYPE_PERSON = 2;
+    private Context mContext;
 
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
@@ -33,11 +36,12 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public ContactsAdapter(List<MultiItemEntity> data) {
+    public ContactsAdapter(List<MultiItemEntity> data,Context context) {
         super(data);
         addItemType(TYPE_LEVEL_0, R.layout.item_expandable_lv0);
         addItemType(TYPE_LEVEL_1, R.layout.item_expandable_lv1);
         addItemType(TYPE_PERSON, R.layout.item_expandable_lv2);
+        this.mContext = context;
     }
 
     @Override
@@ -86,7 +90,12 @@ public class ContactsAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                     @Override
                     public void onClick(View view) {
                        // NimUIKit.startChatting(MyApplication.getContext(),person.getAccount(), SessionTypeEnum.P2P,new DefaultP2PSessionCustomization(),null);
-                        ChatActivity.start(MyApplication.getContext(),person.getAccount(),person.getReal_name());
+//                        ChatActivity.start(MyApplication.getContext(),person.getAccount(),person.getReal_name());
+                        Intent intent = new Intent(mContext, UserDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("userbean",person);
+                        intent.putExtras(bundle);
+                        mContext.startActivity(intent);
                     }
                 });
                 break;

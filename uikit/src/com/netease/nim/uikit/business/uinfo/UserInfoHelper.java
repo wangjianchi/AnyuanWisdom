@@ -26,7 +26,9 @@ public class UserInfoHelper {
             NimUserInfoCache.getInstance().getUserInfoFromRemote(id, new RequestCallbackWrapper<NimUserInfo>() {
                 @Override
                 public void onResult(int i, NimUserInfo userInfo, Throwable throwable) {
-                    callback.getUserInfo(userInfo);
+                    if (userInfo != null){
+                        callback.getUserInfo(userInfo);
+                    }
                 }
             });
         }

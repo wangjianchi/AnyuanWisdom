@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    android:background="@color/background">
+
+    <include layout="@layout/view_title"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@mipmap/bg_personal"
+        android:orientation="vertical">
+
+        <com.netease.nim.uikit.common.ui.imageview.CircleImageView
+            android:id="@+id/iv_head"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:src="@mipmap/image_head"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp"/>
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_organization"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/text_color_222222"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:background="@color/white"/>
+    <include layout="@layout/view_line"/>
+    <TextView
+        android:id="@+id/tv_department"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/text_color_222222"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:background="@color/white"/>
+    <include layout="@layout/view_line"/>
+    <TextView
+        android:id="@+id/tv_position"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/text_color_222222"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:background="@color/white"/>
+    <include layout="@layout/view_line"/>
+    <TextView
+        android:id="@+id/tv_tel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/text_color_222222"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:background="@color/white"/>
+    <include layout="@layout/view_line"/>
+    <ImageView
+        android:id="@+id/iv_commit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:src="@mipmap/btn_send_msg"/>
+</LinearLayout>

@@ -12,9 +12,29 @@
           android:layout_height="match_parent"
           android:orientation="vertical"
           android:background="@color/white">
+         <TextView
+             android:id="@+id/tv_notice_title"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="20dp"
+             android:layout_marginTop="15dp"
+             android:textSize="15sp"
+             android:textColor="@color/text_color_222222"/>
+         <TextView
+             android:id="@+id/tv_date_author"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="11sp"
+             android:textColor="@color/text_color_666666"
+             android:layout_marginLeft="20dp"
+             android:layout_marginTop="15dp"/>
          <WebView
+             android:id="@+id/wv_content"
              android:layout_width="match_parent"
-             android:layout_height="400dp"/>
+             android:layout_height="wrap_content"
+             android:layout_marginTop="20dp"
+             android:layout_marginLeft="20dp"
+             android:layout_marginRight="20dp"/>
          <include layout="@layout/view_line"/>
          <TextView
              android:layout_width="wrap_content"
@@ -25,9 +45,10 @@
              android:textColor="@color/text_color_222222"
              android:text="已读"/>
          <android.support.v7.widget.RecyclerView
+             android:id="@+id/rv_read"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:layout_marginBottom="9dp"/>
+             android:layout_marginLeft="15dp"/>
          <include layout="@layout/view_line"/>
          <LinearLayout
              android:layout_width="match_parent"
@@ -43,9 +64,10 @@
                 android:textColor="@color/text_color_222222"
                 android:text="未读"/>
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_unread"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="9dp"/>
+                android:layout_marginLeft="15dp"/>
          </LinearLayout>
       </LinearLayout>
    </ScrollView>

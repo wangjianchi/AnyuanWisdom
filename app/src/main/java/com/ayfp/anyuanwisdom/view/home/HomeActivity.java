@@ -3,19 +3,21 @@ package com.ayfp.anyuanwisdom.view.home;
 import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
-import com.ayfp.anyuanwisdom.base.IBasePresenter;
-import com.ayfp.anyuanwisdom.base.IBaseView;
-import com.ayfp.anyuanwisdom.config.preferences.Preferences;
-import com.ayfp.anyuanwisdom.retrofit.AppResultData;
-import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
-import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
+import com.ayfp.anyuanwisdom.utils.UIUtils;
 import com.ayfp.anyuanwisdom.view.contacts.view.ContactsActivity;
+import com.ayfp.anyuanwisdom.view.home.adapter.GalleryAdapter;
+import com.ayfp.anyuanwisdom.view.home.adapter.InfinitePagerAdapter;
+import com.ayfp.anyuanwisdom.view.home.adapter.InfiniteViewPager;
+import com.ayfp.anyuanwisdom.view.home.adapter.ScalePageTransformer;
 import com.ayfp.anyuanwisdom.view.live.LiveActivity;
+import com.ayfp.anyuanwisdom.view.notice.NoticeDetailActivity;
 import com.ayfp.anyuanwisdom.view.notice.NoticeListActivity;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
 import com.ayfp.anyuanwisdom.view.personal.MineActivity;
@@ -29,8 +31,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author:: wangjianchi
@@ -39,10 +39,10 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeView {
-    @BindView(R.id.layout_notice_left)
-    View mNoticeLeft;
-    @BindView(R.id.layout_notice_right)
-    View mNoticeRight;
+    @BindView(R.id.vp_notice)
+    InfiniteViewPager mViewPager;
+    @BindView(R.id.layout_container)
+    View mContainer;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     @Override
     public void loadComplete() {
@@ -58,6 +58,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
     protected void initViews() {
         requestBasicPermission();
         mPresenter.getData();
+
     }
 
 
@@ -125,5 +126,29 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
     @OnClick(R.id.iv_report) void report(){
         Intent intent = new Intent(this, ReportActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void getNoticeList(final List<NoticeListBean> listBean) {
+        mContainer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return mViewPager.dispatchTouchEvent(motionEvent);
+            }
+        });
+        GalleryAdapter galleryAdapter = new GalleryAdapter(listBean,this);
+        galleryAdapter.setListener(new GalleryAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(HomeActivity.this,NoticeDetailActivity.class);
+                intent.putExtra("id",listBean.get(position).getId());
+                startActivity(intent);
+            }
+        });
+        PagerAdapter adapter = new InfinitePagerAdapter(galleryAdapter);
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setPageMargin(UIUtils.dip2px(-15));
+        mViewPager.setPageTransformer(true,new ScalePageTransformer());
+        mViewPager.setAdapter(adapter);
     }
 }

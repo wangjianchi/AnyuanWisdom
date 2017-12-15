@@ -41,7 +41,9 @@ public class HomePresenter implements IBasePresenter {
                 .subscribe(new BaseObserver<AppResultData<List<NoticeListBean>>>() {
                     @Override
                     public void loadSuccess(AppResultData<List<NoticeListBean>> data) {
-
+                        if (data.getStatus() == RetrofitService.SUCCESS){
+                            mView.getNoticeList(data.getResult());
+                        }
                     }
                 });
     }

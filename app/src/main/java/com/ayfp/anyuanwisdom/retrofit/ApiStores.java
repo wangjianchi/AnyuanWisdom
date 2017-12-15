@@ -29,6 +29,13 @@ public interface ApiStores {
                                               @Field("user_name") String user_name,
                                               @Field("password") String password);
 
+    @FormUrlEncoded
+    @POST("api.php?app=userInterface&act=editPassword")
+    Observable<AppResultData<Object>> editPassword(@Field("token") String token,
+                                              @Field("user_name") String user_name,
+                                              @Field("old_password") String old_password,
+                                              @Field("new_password") String new_password);
+
 
     @FormUrlEncoded
     @POST("api.php?app=afficheInterface&act=getIndexAffiche")
@@ -49,8 +56,8 @@ public interface ApiStores {
                                                              @Field("affiche_id") int id);
 
     @FormUrlEncoded
-    @POST("api.php?app=afficheInterface&act=getIndexAffiche")
-    Observable<AppResultData<Object>> getIndexAffiche(@Field("token") String token,
+    @POST("api.php?app=afficheInterface&act=getAfficheUsers")
+    Observable<AppResultData<List<NoticeDetail.ReadUsersBean>>> getAfficheUsers(@Field("token") String token,
                                                       @Field("is_read") int is_read,
                                                       @Field("affiche_id") int id);
 

@@ -16,12 +16,14 @@ import com.netease.nim.uikit.api.model.user.UserInfoObserver;
 import com.netease.nim.uikit.business.session.activity.BaseMessageActivity;
 import com.netease.nim.uikit.business.session.constant.Extras;
 import com.netease.nim.uikit.business.session.fragment.MessageFragment;
+import com.netease.nim.uikit.business.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 
 import java.util.List;
 import java.util.Set;
@@ -53,7 +55,12 @@ public class ChatActivity extends BaseMessageActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        mTextTitle.setText(getIntent().getStringExtra("username"));
+        UserInfoHelper.getUserInfo(sessionId, new UserInfoHelper.UserInfoCallback() {
+            @Override
+            public void getUserInfo(NimUserInfo userInfo) {
+                mTextTitle.setText(userInfo.getName());
+            }
+        });
         displayOnlineState();
         registerObservers(true);
         registerOnlineStateChangeListener(true);

@@ -156,6 +156,8 @@
         <activity
             android:name=".view.notice.NoticeListActivity"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".view.notice.NoticeUserActivity"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".view.notice.NoticeDetailActivity"
             android:theme="@style/AppTheme"/>
@@ -170,6 +172,8 @@
             android:name=".view.login.LoginActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateVisible"/>
+        <activity android:name=".view.contacts.view.UserDetailActivity"
+            android:theme="@style/AppTheme"/>
 
         <activity
             android:name=".view.live.LiveStreamingActivity"

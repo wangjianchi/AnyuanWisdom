@@ -16,6 +16,7 @@ import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.ayfp.anyuanwisdom.view.notice.adapter.NoticeAdapter;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
 import com.ayfp.anyuanwisdom.weidgts.CustomLoadMoreView;
+import com.ayfp.anyuanwisdom.weidgts.SpringView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class NoticeListActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     @BindView(R.id.tv_title)
     TextView mTextTitle;
+    @BindView(R.id.springView)
+    SpringView mSpringView;
     private List<NoticeListBean> mData = new ArrayList<>();
     private NoticeAdapter mNoticeAdapter;
     private int start = 0;
@@ -53,6 +56,13 @@ public class NoticeListActivity extends BaseActivity {
     @Override
     protected void initViews() {
         mTextTitle.setText("公告");
+        mSpringView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                start = 0;
+                getNoticeList();
+            }
+        });
         mNoticeAdapter = new NoticeAdapter(mData);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mNoticeAdapter);
@@ -87,8 +97,12 @@ public class NoticeListActivity extends BaseActivity {
                     @Override
                     public void loadSuccess(AppResultData<List<NoticeListBean>> listAppResultData) {
                         dismissProgress();
+                        mSpringView.onFinishFreshAndLoad();
                         if (listAppResultData.getStatus() == RetrofitService.SUCCESS){
                             if (listAppResultData.getResult() != null && listAppResultData.getResult().size() > 0){
+                                if (start ==  0){
+                                    mData.clear();
+                                }
                                 mData.addAll(listAppResultData.getResult());
                                 mNoticeAdapter.notifyDataSetChanged();
                             }else {

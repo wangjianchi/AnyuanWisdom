@@ -87,25 +87,16 @@
                     android:background="@mipmap/bg_btn_home_notice"/>
             </FrameLayout>
             <FrameLayout
+                android:id="@+id/layout_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <include layout="@layout/item_home_notice"
-                         android:id="@+id/layout_notice_left"
-                         android:layout_width="310dp"
-                         android:layout_height="187dp"
-                         android:visibility="gone"
-                         android:layout_gravity="left|center_vertical"
-                    android:layout_marginLeft="10dp"/>
-                <include layout="@layout/item_home_notice"
-                         android:id="@+id/layout_notice_right"
-                         android:layout_width="310dp"
-                         android:layout_height="187dp"
-                         android:visibility="gone"
-                         android:layout_gravity="right|center_vertical"/>
-                <include layout="@layout/item_home_notice"
-                         android:layout_width="310dp"
-                         android:layout_height="180dp"
-                         android:layout_gravity="center"/>
+                android:layout_height="170dp"
+                android:clipChildren="false">
+                <com.ayfp.anyuanwisdom.view.home.adapter.InfiniteViewPager
+                    android:id="@+id/vp_notice"
+                    android:layout_width="260dp"
+                    android:layout_height="170dp"
+                    android:layout_gravity="center_horizontal"
+                    android:clipChildren="false"/>
             </FrameLayout>
 
 
