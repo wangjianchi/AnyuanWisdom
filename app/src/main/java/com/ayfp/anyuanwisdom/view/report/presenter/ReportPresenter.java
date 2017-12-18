@@ -46,9 +46,9 @@ public class ReportPresenter implements IBasePresenter {
         }
     }
 
-    public void commitEventReport(String title,String content,String images){
-        RetrofitService.getApi().eventReport(RetrofitService.TOKEN, Preferences.getUserName(),
-                title, CommonUtils.StringToInt(mEventCategory.getId()),CommonUtils.StringToInt(mEventDegree.getId()),content,images,townId,villageId)
+    public void commitEventReport(String title,String content,String images,String houseNubmer){
+        RetrofitService.getApi().eventReport(RetrofitService.TOKEN, Preferences.getUserName(), title, CommonUtils.StringToInt(mEventCategory.getId())
+                ,CommonUtils.StringToInt(mEventDegree.getId()),content,images,townId,villageId,houseNubmer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(mView.<AppResultData<Object>>bindToLife())

@@ -80,7 +80,7 @@ public class MineActivity extends BaseActivity {
             PersonSettingBean personSettingBean = new PersonSettingBean();
             personSettingBean.setName(mSettingNames[i]);
             personSettingBean.setDrawable(getResources().getDrawable(mResourceId[i]));
-            if (i == 2 || i == 5) {
+            if (i == 2 || i == 4) {
                 personSettingBean.setDiliver(true);
             }
             list.add(personSettingBean);

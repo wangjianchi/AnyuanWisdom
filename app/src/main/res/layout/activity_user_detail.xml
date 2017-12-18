@@ -60,14 +60,27 @@
         android:paddingLeft="20dp"
         android:background="@color/white"/>
     <include layout="@layout/view_line"/>
-    <TextView
-        android:id="@+id/tv_tel"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:textColor="@color/text_color_222222"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:background="@color/white"/>
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/tv_tel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_222222"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"/>
+        <ImageView
+            android:id="@+id/iv_tel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_phone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+
     <include layout="@layout/view_line"/>
     <ImageView
         android:id="@+id/iv_commit"

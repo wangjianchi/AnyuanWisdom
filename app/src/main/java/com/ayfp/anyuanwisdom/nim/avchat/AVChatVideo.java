@@ -100,7 +100,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
         recordWarning = recordView.findViewById(R.id.avchat_record_warning);
 
         bottomRoot = root.findViewById(R.id.avchat_video_bottom_control);
-        faceUnityRoot = root.findViewById(R.id.avchat_video_face_unity);
+//        faceUnityRoot = root.findViewById(R.id.avchat_video_face_unity);
 
         switchCameraToggle = new ToggleView(bottomRoot.findViewById(R.id.avchat_switch_camera), ToggleState.DISABLE, this);
         closeCameraToggle = new ToggleView(bottomRoot.findViewById(R.id.avchat_close_camera), ToggleState.DISABLE, this);
@@ -133,7 +133,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
                 setTopRoot(false);
                 setMiddleRoot(true);
                 setBottomRoot(true);
-                setFaceUnityRoot(true);
+       //         setFaceUnityRoot(true);
                 break;
             case INCOMING_VIDEO_CALLING:
                 showProfile();//对方的详细信息
@@ -143,7 +143,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
                 setTopRoot(false);
                 setMiddleRoot(true);
                 setBottomRoot(false);
-                setFaceUnityRoot(false);
+         //       setFaceUnityRoot(false);
                 break;
             case VIDEO:
                 isInSwitch = false;
@@ -152,7 +152,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
                 setTopRoot(true);
                 setMiddleRoot(false);
                 setBottomRoot(true);
-                setFaceUnityRoot(true);
+          //      setFaceUnityRoot(true);
                 showNoneCameraPermissionView(false);
                 break;
             case VIDEO_CONNECTING:
@@ -165,7 +165,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
                 setTopRoot(true);
                 setMiddleRoot(false);
                 setBottomRoot(true);
-                setFaceUnityRoot(true);
+             //   setFaceUnityRoot(true);
                 break;
             default:
                 break;
@@ -224,13 +224,13 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
         }
     }
 
-    private void setFaceUnityRoot(boolean visible) {
-        if (faceUnityRoot == null) {
-            return;
-        }
-
-        faceUnityRoot.setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
+//    private void setFaceUnityRoot(boolean visible) {
+//        if (faceUnityRoot == null) {
+//            return;
+//        }
+//
+//        faceUnityRoot.setVisibility(visible ? View.VISIBLE : View.GONE);
+//    }
 
     private void setTime(boolean visible) {
         time.setVisibility(visible ? View.VISIBLE : View.GONE);

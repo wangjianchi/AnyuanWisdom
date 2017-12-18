@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.fastjson.JSON;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.api.UIKitOptions;
 import com.netease.nim.uikit.api.model.main.CustomPushContentProvider;
@@ -231,6 +233,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         final IMMessage msg = message;
         appendPushConfig(message);
         // send message to server and save to db
+        Log.i("MessageFragment", "sendMessage: "+ JSON.toJSONString(message));
         NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
             @Override
             public void onSuccess(Void param) {

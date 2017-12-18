@@ -5,6 +5,7 @@ import com.ayfp.anyuanwisdom.bean.EventDegree;
 import com.ayfp.anyuanwisdom.bean.Town;
 import com.ayfp.anyuanwisdom.bean.UserBean;
 import com.ayfp.anyuanwisdom.view.contacts.bean.ContactsList;
+import com.ayfp.anyuanwisdom.view.contacts.bean.Person;
 import com.ayfp.anyuanwisdom.view.live.bean.LivePushUrlBean;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeDetail;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
@@ -89,12 +90,20 @@ public interface ApiStores {
                                                   @Field("event_content") String event_content,
                                                   @Field("event_images") String event_images,
                                                   @Field("town_id") int town_id,
-                                                  @Field("village_id") int village_id);
+                                                  @Field("village_id") int village_id,
+                                                  @Field("house_number") String house_number);
 
     @FormUrlEncoded
     @POST("api.php?app=addressBookInterface&act=getAddressBook")
     Observable<AppResultData<List<ContactsList>>> getAddressBook(@Field("token") String token,
                                                                  @Field("user_name") String user_name);
+
+
+    @FormUrlEncoded
+    @POST("api.php?app=addressBookInterface&act=searchUser")
+    Observable<AppResultData<List<Person>>> searchUser(@Field("token") String token,
+                                                       @Field("user_name") String user_name,
+                                                       @Field("search_word") String search_word);
 
     @FormUrlEncoded
     @POST("api.php?app=liveInterface&act=getLivePushUrl")

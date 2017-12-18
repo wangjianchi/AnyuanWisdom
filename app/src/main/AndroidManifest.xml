@@ -65,7 +65,7 @@
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
@@ -149,6 +149,8 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".view.contacts.view.ContactsActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".view.contacts.view.SearchContactsActivity"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".view.live.LiveActivity"

@@ -24,32 +24,45 @@
                 android:src="@mipmap/icon_back" />
 
             <LinearLayout
+                android:id="@+id/layout_contact_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@mipmap/bg_contact_btn_left">
 
-                <TextView
-                    android:id="@+id/tv_recent_contacts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/bg_contacts_left_white"
-                    android:gravity="center"
-                    android:text="消息"
-                    android:textColor="@color/text_color_666666"
-                    android:textSize="18sp" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/tv_recent_contacts"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="消息"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"/>
+                    <ImageView
+                        android:id="@+id/iv_unread"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_dot_red"
+                        android:layout_marginLeft="68dp"
+                        android:layout_marginTop="4dp"/>
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/tv_contacts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/bg_contacts_right_blue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="通讯录"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_weight="1"/>
             </LinearLayout>
         </RelativeLayout>
     </FrameLayout>

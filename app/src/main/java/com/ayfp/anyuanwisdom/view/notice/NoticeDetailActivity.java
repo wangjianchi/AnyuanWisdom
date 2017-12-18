@@ -79,7 +79,7 @@ public class NoticeDetailActivity extends BaseActivity {
                             mNoticeDetail = data.getResult();
                             loadAfficheView(mNoticeDetail.getAffiche());
                             initReadUser(mNoticeDetail.getRead_users(),mRecyclerViewRead,1);
-                            initReadUser(mNoticeDetail.getUnread_users(),mRecyclerViewUnread,0);
+//                            initReadUser(mNoticeDetail.getUnread_users(),mRecyclerViewUnread,0);
                         }
                     }
                 });
@@ -91,9 +91,13 @@ public class NoticeDetailActivity extends BaseActivity {
         mWebView.loadDataWithBaseURL(null,afficheBean.getHtml_content(),"text/html", "utf-8",null);
     }
     private void initReadUser(List<NoticeDetail.ReadUsersBean> readUsersBeans, RecyclerView recyclerView, final int is_read){
-        NoticeDetail.ReadUsersBean usersBean = new NoticeDetail.ReadUsersBean();
-        usersBean.setType(1);
-        readUsersBeans.add(usersBean);
+        if (readUsersBeans.size() > 10){
+            readUsersBeans = readUsersBeans.subList(0,10);
+            NoticeDetail.ReadUsersBean usersBean = new NoticeDetail.ReadUsersBean();
+            usersBean.setType(1);
+            readUsersBeans.add(usersBean);
+        }
+
         ReadUserAdpater adapter = new ReadUserAdpater(readUsersBeans);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);

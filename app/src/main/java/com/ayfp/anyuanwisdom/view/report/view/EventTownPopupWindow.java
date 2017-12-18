@@ -38,6 +38,7 @@ public class EventTownPopupWindow extends PopupWindow{
     private List<Town> mTowns = new ArrayList<>();
     private int mTownId;
     private int mVillageId;
+    private String mTownName;
     private TextView mTextTown,mTextVillage;
     private OnTownAndVillageSelectListener mListener;
     public EventTownPopupWindow(Context context,OnTownAndVillageSelectListener listener){
@@ -68,10 +69,11 @@ public class EventTownPopupWindow extends PopupWindow{
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (!mAdapter.isVillage()){
                     mTownId = mTowns.get(position).getId();
+                    mTownName = mTowns.get(position).getTown_name()+" ";
                     getVillageData(mTownId);
                 }else {
                     mVillageId = mTowns.get(position).getId();
-                    mListener.selectTownAndVillage(mTownId,mVillageId);
+                    mListener.selectTownAndVillage(mTownId,mVillageId,mTownName+mTowns.get(position).getVillage_name());
                     dismiss();
                 }
             }
@@ -103,6 +105,6 @@ public class EventTownPopupWindow extends PopupWindow{
     }
 
     public interface OnTownAndVillageSelectListener{
-        void selectTownAndVillage(int townId,int villageId);
+        void selectTownAndVillage(int townId,int villageId,String address);
     }
 }

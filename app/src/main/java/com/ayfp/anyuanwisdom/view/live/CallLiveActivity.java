@@ -60,5 +60,6 @@ public class CallLiveActivity extends BaseActivity {
         Intent intent = new Intent(this,LiveStreamingActivity.class);
         intent.putExtra("url",url);
         startActivity(intent);
+        finish();
     }
 }

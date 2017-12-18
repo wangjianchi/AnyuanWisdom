@@ -76,6 +76,10 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
     RadioGroup mRadioGroup;
     @BindView(R.id.et_event_content)
     EditText mEditContent;
+    @BindView(R.id.tv_address)
+    TextView mTextAddress;
+    @BindView(R.id.et_number)
+    EditText mEditNumber;
     private ReportImageAdapter mReportImageAdapter;
     private List<ReportImageBean> mData = new ArrayList<>();
     private String picPath = "";
@@ -250,9 +254,10 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
         KeyboardUtils.hideSoftInput(this);
         EventTownPopupWindow popupWindow = new EventTownPopupWindow(this, new EventTownPopupWindow.OnTownAndVillageSelectListener() {
             @Override
-            public void selectTownAndVillage(int townId, int villageId) {
+            public void selectTownAndVillage(int townId, int villageId,String address) {
                 mPresenter.setTownId(townId);
                 mPresenter.setVillageId(villageId);
+                mTextAddress.setText("上报地点："+address);
             }
         });
         popupWindow.showAtLocation(mRootView, Gravity.NO_GRAVITY, 0, 0);
@@ -287,6 +292,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             ToastUtils.showToast("请输入内容");
             return;
         }
+        String houseNumber = mEditNumber.getText().toString();
         showProgress();
         StringBuffer eventImages = new StringBuffer();
         for (int i = 0 ; i < mData.size(); i++){
@@ -300,7 +306,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
                 }
             }
         }
-        mPresenter.commitEventReport(title,content,eventImages.toString());
+        mPresenter.commitEventReport(title,content,eventImages.toString(),houseNumber);
     }
 
     @Override

@@ -10,7 +10,7 @@
         <item name="windowNoTitle">true</item>
     </style>
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@mipmap/bg_login</item>
+        <item name="android:windowBackground">@mipmap/bg_launch</item>
     </style>
     <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:backgroundDimEnabled">false</item>

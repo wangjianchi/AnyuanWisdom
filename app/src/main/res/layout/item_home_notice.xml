@@ -19,6 +19,8 @@
             android:textColor="@color/text_color_222222"
             android:layout_marginLeft="19dp"
             android:text=""
+            android:layout_marginRight="10dp"
+            android:ellipsize="end"
             android:drawableLeft="@drawable/icon_dot_red"
             android:drawablePadding="6dp"/>
         <com.ayfp.anyuanwisdom.weidgts.CustomTextView

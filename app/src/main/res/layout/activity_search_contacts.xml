@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <include layout="@layout/view_title"/>
     <RelativeLayout
-        android:id="@+id/layout_search"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:orientation="horizontal"
@@ -14,24 +13,28 @@
         android:background="@drawable/bg_contacts_search"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="搜一搜"
-            android:textSize="13sp"
-            android:textColor="@color/text_color_666666"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_search"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:layout_alignParentRight="true"/>
+            android:layout_marginLeft="15dp"/>
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="搜一搜"
+            android:textSize="13sp"
+            android:textColorHint="@color/text_color_666666"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:background="@null"/>
+
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
 </LinearLayout>

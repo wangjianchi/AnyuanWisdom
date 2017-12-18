@@ -1,6 +1,5 @@
 package com.ayfp.anyuanwisdom.view.live;
 
-import android.content.Intent;
 import android.widget.TextView;
 
 import com.ayfp.anyuanwisdom.R;
@@ -32,7 +31,7 @@ public class LiveActivity extends BaseActivity {
     @Override
     protected void initViews() {
         mTextTitle.setText("直播");
-        startActivity(new Intent(this,CallLiveActivity.class));
+      //  startActivity(new Intent(this,CallLiveActivity.class));
     }
 
     @Override

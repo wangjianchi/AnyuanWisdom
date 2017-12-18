@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.config.AppConfig;
@@ -19,6 +21,7 @@ import com.ayfp.anyuanwisdom.view.home.adapter.GalleryAdapter;
 import com.ayfp.anyuanwisdom.view.home.adapter.InfinitePagerAdapter;
 import com.ayfp.anyuanwisdom.view.home.adapter.InfiniteViewPager;
 import com.ayfp.anyuanwisdom.view.home.adapter.ScalePageTransformer;
+import com.ayfp.anyuanwisdom.view.live.CallLiveActivity;
 import com.ayfp.anyuanwisdom.view.live.LiveActivity;
 import com.ayfp.anyuanwisdom.view.notice.NoticeDetailActivity;
 import com.ayfp.anyuanwisdom.view.notice.NoticeListActivity;
@@ -36,6 +39,8 @@ import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.model.CustomNotification;
 
 import java.util.List;
 
@@ -70,6 +75,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
         requestBasicPermission();
         mPresenter.getData();
         observeOnlineStatus(true);
+        observeCustomNotification(true);
     }
     /**
      * 监听在线状态
@@ -98,6 +104,30 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
     };
 
 
+    /**
+     * 推送
+     *
+     * @param register
+     */
+
+    private boolean register = false;
+
+    public void observeCustomNotification(boolean register) {
+        if (this.register != register) {
+            NIMClient.getService(MsgServiceObserve.class).observeCustomNotification(pushObserver, register);
+            this.register = register;
+        }
+    }
+
+    Observer pushObserver = new Observer<CustomNotification>() {
+        @Override
+        public void onEvent(CustomNotification customNotification) {
+            Log.i("Notification", "customNotification: " + JSON.toJSONString(customNotification));
+            if (customNotification.getContent().contains("live call")){
+                startActivity(new Intent(HomeActivity.this,CallLiveActivity.class));
+            }
+        }
+    };
 
     /**
      * 基本权限管理
@@ -146,6 +176,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
         startActivity(intent);
     }
     @OnClick(R.id.iv_contacts) void contacts(){
+        StatusCode code = NIMClient.getStatus();
+        Log.i("HomeActivity", "contacts: "+code);
         Intent intent = new Intent(this, ContactsActivity.class);
         startActivity(intent);
     }

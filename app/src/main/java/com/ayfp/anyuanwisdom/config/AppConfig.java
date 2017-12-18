@@ -20,6 +20,8 @@ public class AppConfig {
         Preferences.saveUserAccount(null);
         Preferences.saveUserName(null);
         Preferences.saveUserId(null);
+        mHomeActivity.observeOnlineStatus(false);
+        mHomeActivity.observeCustomNotification(false);
         Intent intent = new Intent(context,LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

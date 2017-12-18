@@ -1,11 +1,15 @@
 package com.ayfp.anyuanwisdom.view.contacts.view;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.widget.TextView;
 
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
 import com.ayfp.anyuanwisdom.utils.GlideUtils;
+import com.ayfp.anyuanwisdom.utils.ToastUtils;
 import com.ayfp.anyuanwisdom.view.contacts.bean.Person;
 import com.netease.nim.uikit.common.ui.imageview.CircleImageView;
 
@@ -65,5 +69,15 @@ public class UserDetailActivity extends BaseActivity {
     }
     @OnClick(R.id.iv_commit) void commit(){
         ChatActivity.start(this,mPerson.getAccount(),mPerson.getReal_name());
+    }
+    @OnClick(R.id.iv_tel) void  openTel(){
+        try {
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mPerson.getPhone_tel()));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }catch (ActivityNotFoundException e){
+            e.printStackTrace();
+            ToastUtils.showToast("没有找到电话应用");
+        }
     }
 }

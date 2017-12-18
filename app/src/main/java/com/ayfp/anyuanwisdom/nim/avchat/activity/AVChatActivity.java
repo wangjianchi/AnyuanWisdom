@@ -20,8 +20,6 @@ import com.ayfp.anyuanwisdom.nim.avchat.AVChatTimeoutObserver;
 import com.ayfp.anyuanwisdom.nim.avchat.AVChatUI;
 import com.ayfp.anyuanwisdom.nim.avchat.constant.CallStateEnum;
 import com.ayfp.anyuanwisdom.nim.avchat.receiver.PhoneCallStateObserver;
-import com.faceunity.FaceU;
-import com.faceunity.utils.VersionUtil;
 import com.netease.nim.uikit.common.activity.UI;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.common.util.sys.NetworkUtil;
@@ -92,7 +90,7 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
     private boolean hasOnPause = false; // 是否暂停音视频
 
     // face unity
-    private FaceU faceU;
+//    private FaceU faceU;
 
     // notification
     private AVChatNotification notifier;
@@ -140,7 +138,7 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
         setContentView(root);
 
         // face unity
-        initFaceU();
+//        initFaceU();
 
         mIsInComingCall = getIntent().getBooleanExtra(KEY_IN_CALLING, false);
         avChatUI = new AVChatUI(this, root, this);
@@ -203,7 +201,7 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
         AVChatProfile.getInstance().setAVChatting(false);
         registerNetCallObserver(false);
         cancelCallingNotifier();
-        destroyFaceU();
+//        destroyFaceU();
         needFinish = true;
     }
 
@@ -652,9 +650,9 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
 
     @Override
     public boolean onVideoFrameFilter(AVChatVideoFrame frame, boolean maybeDualInput) {
-        if (faceU != null) {
-            faceU.effect(frame.data, frame.width, frame.height, FaceU.VIDEO_FRAME_FORMAT.I420);
-        }
+//        if (faceU != null) {
+//            faceU.effect(frame.data, frame.width, frame.height, FaceU.VIDEO_FRAME_FORMAT.I420);
+//        }
 
         return true;
     }
@@ -701,52 +699,57 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
         }
     };
 
+    @Override
+    public void onTouch() {
+
+    }
+
 
     /**
      * ******************************** face unity 接入 ********************************
      */
-
-    private void initFaceU() {
-        showOrHideFaceULayout(false); // hide default
-
-        if (VersionUtil.isCompatible(Build.VERSION_CODES.JELLY_BEAN_MR2) && FaceU.hasAuthorized()) {
-            // async load FaceU
-            FaceU.createAndAttach(AVChatActivity.this, findView(R.id.avchat_video_face_unity), new FaceU.Response<FaceU>() {
-                @Override
-                public void onResult(FaceU faceU) {
-                    AVChatActivity.this.faceU = faceU;
-                    showOrHideFaceULayout(true); // show
-                }
-            });
-        }
-    }
-
-    private void destroyFaceU() {
-        if (faceU == null) {
-            return;
-        }
-
-        try {
-            faceU.destroy();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void showOrHideFaceULayout(boolean show) {
-        ViewGroup vp = findView(R.id.avchat_video_face_unity);
-        for (int i = 0; i < vp.getChildCount(); i++) {
-            vp.getChildAt(i).setVisibility(show ? View.VISIBLE : View.GONE);
-        }
-    }
-
-    @Override
-    public void onTouch() {
-        if (faceU == null) {
-            return;
-        }
-
-        faceU.showOrHideLayout();
-    }
+//
+//    private void initFaceU() {
+//        showOrHideFaceULayout(false); // hide default
+//
+//        if (VersionUtil.isCompatible(Build.VERSION_CODES.JELLY_BEAN_MR2) && FaceU.hasAuthorized()) {
+//            // async load FaceU
+//            FaceU.createAndAttach(AVChatActivity.this, findView(R.id.avchat_video_face_unity), new FaceU.Response<FaceU>() {
+//                @Override
+//                public void onResult(FaceU faceU) {
+//                    AVChatActivity.this.faceU = faceU;
+//                    showOrHideFaceULayout(true); // show
+//                }
+//            });
+//        }
+//    }
+//
+//    private void destroyFaceU() {
+//        if (faceU == null) {
+//            return;
+//        }
+//
+//        try {
+//            faceU.destroy();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private void showOrHideFaceULayout(boolean show) {
+//        ViewGroup vp = findView(R.id.avchat_video_face_unity);
+//        for (int i = 0; i < vp.getChildCount(); i++) {
+//            vp.getChildAt(i).setVisibility(show ? View.VISIBLE : View.GONE);
+//        }
+//    }
+//
+//    @Override
+//    public void onTouch() {
+//        if (faceU == null) {
+//            return;
+//        }
+//
+//        faceU.showOrHideLayout();
+//    }
 }
 

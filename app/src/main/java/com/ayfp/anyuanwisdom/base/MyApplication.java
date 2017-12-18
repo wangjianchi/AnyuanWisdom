@@ -3,11 +3,13 @@ package com.ayfp.anyuanwisdom.base;
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.ayfp.anyuanwisdom.config.preferences.Preferences;
 import com.ayfp.anyuanwisdom.nim.NimCache;
 import com.ayfp.anyuanwisdom.nim.NimSDKOptionConfig;
 import com.ayfp.anyuanwisdom.nim.session.NimDemoLocationProvider;
+import com.ayfp.anyuanwisdom.nim.session.SessionHelper;
 import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.netease.nim.uikit.api.NimUIKit;
 import com.netease.nimlib.sdk.NIMClient;
@@ -47,6 +49,7 @@ public class MyApplication extends Application {
     private LoginInfo getLoginInfo() {
         String account = Preferences.getUserAccount();
         String token = Preferences.getUserToken();
+        Log.i("MyApplication", "getLoginInfo: "+token+"  "+account);
 
         if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(token)) {
             NimCache.setAccount(account.toLowerCase());
@@ -63,7 +66,7 @@ public class MyApplication extends Application {
         NimUIKit.setLocationProvider(new NimDemoLocationProvider());
 
         // IM 会话窗口的定制初始化。
-     //   SessionHelper.init();
+        SessionHelper.init();
 
     }
 

@@ -80,6 +80,8 @@ public class NoticeListActivity extends BaseActivity {
                 Intent intent = new Intent(NoticeListActivity.this,NoticeDetailActivity.class);
                 intent.putExtra("id",mData.get(position).getId());
                 startActivity(intent);
+                mData.get(position).setStatus(1);
+                mNoticeAdapter.notifyItemChanged(position);
             }
         });
         showProgress();

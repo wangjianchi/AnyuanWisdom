@@ -1,5 +1,6 @@
 package com.ayfp.anyuanwisdom.view.contacts.view;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import com.ayfp.anyuanwisdom.view.contacts.iview.IContactsView;
 import com.ayfp.anyuanwisdom.view.contacts.presenter.ContactsPresenter;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by 建池 on 2017/12/3.
@@ -46,5 +48,10 @@ public class ContactsFragment extends BaseFragment<ContactsPresenter> implements
     @Override
     public void getContacts() {
         mContactsAdapter.notifyDataSetChanged();
+    }
+
+    @OnClick(R.id.layout_search) void search(){
+        Intent intent = new Intent(getActivity(), SearchContactsActivity.class);
+        startActivity(intent);
     }
 }

@@ -3,11 +3,15 @@ package com.ayfp.anyuanwisdom.view.contacts.view;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,6 +27,10 @@ public class ContactsActivity extends BaseActivity {
     TextView textRecentContacts;
     @BindView(R.id.tv_contacts)
     TextView textContacts;
+    @BindView(R.id.layout_contact_btn)
+    View mViewBtn;
+    @BindView(R.id.iv_unread)
+    ImageView mImageUnread;
     private ContactsFragment contactsFragment;
     private RecentContactsFragment mRecentContactsFragment;
     private FragmentTransaction transaction;
@@ -48,6 +56,7 @@ public class ContactsActivity extends BaseActivity {
     }
 
     @OnClick(R.id.tv_recent_contacts) void recentContacts(){
+        clickContacts(false);
         FragmentManager manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         if (contactsFragment != null){
@@ -62,6 +71,7 @@ public class ContactsActivity extends BaseActivity {
         transaction.commit();
     }
     @OnClick(R.id.tv_contacts) void contacts(){
+        clickContacts(true);
         FragmentManager manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         if (mRecentContactsFragment != null){
@@ -76,8 +86,30 @@ public class ContactsActivity extends BaseActivity {
         transaction.commit();
     }
 
+    private void clickContacts(boolean contacts){
+        if (contacts){
+            mViewBtn.setBackgroundResource(R.mipmap.bg_contact_btn);
+            textRecentContacts.setTextColor(getResources().getColor(R.color.white));
+            textContacts.setTextColor(getResources().getColor(R.color.colorPrimary));
+        }else {
+            mViewBtn.setBackgroundResource(R.mipmap.bg_contact_btn_left);
+            textRecentContacts.setTextColor(getResources().getColor(R.color.colorPrimary));
+            textContacts.setTextColor(getResources().getColor(R.color.white));
+        }
+    }
 
     @OnClick(R.id.iv_back) void back(){
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int unreadNumber = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+        if (unreadNumber > 0){
+            mImageUnread.setVisibility(View.VISIBLE);
+        }else {
+            mImageUnread.setVisibility(View.GONE);
+        }
     }
 }
