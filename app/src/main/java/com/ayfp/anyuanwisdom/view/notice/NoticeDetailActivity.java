@@ -1,7 +1,6 @@
 package com.ayfp.anyuanwisdom.view.notice;
 
-import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.webkit.WebView;
@@ -19,6 +18,7 @@ import com.ayfp.anyuanwisdom.view.notice.adapter.ReadUserAdpater;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeDetail;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,6 +47,7 @@ public class NoticeDetailActivity extends BaseActivity {
     RecyclerView mRecyclerViewUnread;
     private String id;
     private NoticeDetail mNoticeDetail;
+    private List<NoticeDetail.ReadUsersBean> mList = new ArrayList<>();
 
     @Override
     public void loadComplete() {
@@ -90,26 +91,27 @@ public class NoticeDetailActivity extends BaseActivity {
         mTextDataAuthor.setText(afficheBean.getAuthor()+" "+afficheBean.getAdd_time());
         mWebView.loadDataWithBaseURL(null,afficheBean.getHtml_content(),"text/html", "utf-8",null);
     }
-    private void initReadUser(List<NoticeDetail.ReadUsersBean> readUsersBeans, RecyclerView recyclerView, final int is_read){
+    private void initReadUser(final List<NoticeDetail.ReadUsersBean> readUsersBeans, RecyclerView recyclerView, final int is_read){
         if (readUsersBeans.size() > 10){
-            readUsersBeans = readUsersBeans.subList(0,10);
+            mList.addAll(readUsersBeans.subList(0,10));
             NoticeDetail.ReadUsersBean usersBean = new NoticeDetail.ReadUsersBean();
             usersBean.setType(1);
-            readUsersBeans.add(usersBean);
+            mList.add(usersBean);
+        }else {
+            mList.addAll(readUsersBeans);
         }
 
-        ReadUserAdpater adapter = new ReadUserAdpater(readUsersBeans);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        ReadUserAdpater adapter = new ReadUserAdpater(mList);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,6));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(NoticeDetailActivity.this,NoticeUserActivity.class);
-                intent.putExtra("id",CommonUtils.StringToInt(id));
-                intent.putExtra("is_read",is_read);
-                startActivity(intent);
+                if (mList.get(position).getType() == 1){
+                    mList.clear();
+                    mList.addAll(readUsersBeans);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
     }

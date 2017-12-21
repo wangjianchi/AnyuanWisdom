@@ -334,6 +334,18 @@ public class LiveStreamingActivity extends AppCompatActivity  implements View.On
         audioMixVolumeIntentFilter.addAction("AudioMixVolume");
         registerReceiver(audioMixVolumeMsgReceiver, audioMixVolumeIntentFilter);
 
+        dismissKeyguard();
+
+    }
+
+    // 设置窗口flag，亮屏并且解锁/覆盖在锁屏界面上
+    private void dismissKeyguard() {
+        getWindow().addFlags(
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+        );
     }
 
     //开始直播

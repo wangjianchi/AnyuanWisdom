@@ -68,7 +68,7 @@ public class UserDetailActivity extends BaseActivity {
         finish();
     }
     @OnClick(R.id.iv_commit) void commit(){
-        ChatActivity.start(this,mPerson.getAccount(),mPerson.getReal_name());
+        ChatActivity.start(this,mPerson.getAccount());
     }
     @OnClick(R.id.iv_tel) void  openTel(){
         try {

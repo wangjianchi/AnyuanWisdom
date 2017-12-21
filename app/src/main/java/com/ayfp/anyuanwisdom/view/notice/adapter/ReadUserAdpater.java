@@ -26,7 +26,12 @@ public class ReadUserAdpater extends BaseQuickAdapter<NoticeDetail.ReadUsersBean
     protected void convert(BaseViewHolder helper, NoticeDetail.ReadUsersBean item) {
         if (item.getType() != 1){
             helper.setText(R.id.tv_name,item.getReal_name());
+            helper.setVisible(R.id.iv_head,true)
+                    .setVisible(R.id.iv_more,false);
             GlideUtils.loadImageViewErr(item.getPortrait(),(ImageView)helper.getView(R.id.iv_head),R.mipmap.image_head);
+        }else {
+            helper.setVisible(R.id.iv_head,false)
+                    .setVisible(R.id.iv_more,true);
         }
     }
 }

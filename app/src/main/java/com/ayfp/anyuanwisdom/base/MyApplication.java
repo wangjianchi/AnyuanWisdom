@@ -68,7 +68,10 @@ public class MyApplication extends Application {
         // IM 会话窗口的定制初始化。
         SessionHelper.init();
 
+
     }
+
+
 
 
 

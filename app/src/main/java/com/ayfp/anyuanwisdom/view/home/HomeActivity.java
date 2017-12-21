@@ -7,6 +7,7 @@ import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -14,6 +15,9 @@ import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.config.AppConfig;
 import com.ayfp.anyuanwisdom.config.preferences.Preferences;
+import com.ayfp.anyuanwisdom.nim.avchat.AVChatProfile;
+import com.ayfp.anyuanwisdom.nim.avchat.activity.AVChatActivity;
+import com.ayfp.anyuanwisdom.nim.avchat.receiver.PhoneCallStateObserver;
 import com.ayfp.anyuanwisdom.utils.ToastUtils;
 import com.ayfp.anyuanwisdom.utils.UIUtils;
 import com.ayfp.anyuanwisdom.view.contacts.view.ContactsActivity;
@@ -28,6 +32,7 @@ import com.ayfp.anyuanwisdom.view.notice.NoticeListActivity;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
 import com.ayfp.anyuanwisdom.view.personal.MineActivity;
 import com.ayfp.anyuanwisdom.view.report.ReportActivity;
+import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.support.permission.MPermission;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionDenied;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionGranted;
@@ -39,7 +44,12 @@ import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.avchat.AVChatManager;
+import com.netease.nimlib.sdk.avchat.constant.AVChatControlCommand;
+import com.netease.nimlib.sdk.avchat.model.AVChatData;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 
 import java.util.List;
@@ -58,6 +68,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
     InfiniteViewPager mViewPager;
     @BindView(R.id.layout_container)
     View mContainer;
+    @BindView(R.id.iv_unread)
+    ImageView mImageUnread;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     @Override
     public void loadComplete() {
@@ -76,6 +88,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
         mPresenter.getData();
         observeOnlineStatus(true);
         observeCustomNotification(true);
+        observerUnreadCount(true);
+        registerAVChatIncomingCallObserver(true);
+        AppConfig.initNotificationConfig(true);
     }
     /**
      * 监听在线状态
@@ -102,7 +117,58 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
             }
         }
     };
+    private void observerUnreadCount(boolean register){
+        NIMClient.getService(SystemMessageObserver.class).observeUnreadCountChange(sysMsgUnreadCountChangedObserver,register);
+    }
 
+    private Observer<Integer> sysMsgUnreadCountChangedObserver = new Observer<Integer>() {
+        @Override
+        public void onEvent(Integer unreadCount) {
+            // 更新未读数变化
+            int totalImUnread = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+            updateUnread(totalImUnread);
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int totalImUnread = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+        updateUnread(totalImUnread);
+    }
+
+    private void updateUnread(int totalImUnread){
+        if (totalImUnread > 0){
+            mImageUnread.setVisibility(View.VISIBLE);
+        }else {
+            mImageUnread.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 注册音视频来电观察者
+     *
+     * @param register
+     */
+    private void registerAVChatIncomingCallObserver(boolean register) {
+        AVChatManager.getInstance().observeIncomingCall(new Observer<AVChatData>() {
+            @Override
+            public void onEvent(AVChatData data) {
+                String extra = data.getExtra();
+                Log.e("Extra", "Extra Message->" + extra);
+                if (PhoneCallStateObserver.getInstance().getPhoneCallState() != PhoneCallStateObserver.PhoneCallStateEnum.IDLE
+                        || AVChatProfile.getInstance().isAVChatting()
+                        || AVChatManager.getInstance().getCurrentChatId() != 0) {
+                    LogUtil.i(TAG, "reject incoming call data =" + data.toString() + " as local phone is not idle");
+                    AVChatManager.getInstance().sendControlCommand(data.getChatId(), AVChatControlCommand.BUSY, null);
+                    return;
+                }
+                // 有网络来电打开AVChatActivity
+                AVChatProfile.getInstance().setAVChatting(true);
+                AVChatProfile.getInstance().launchActivity(data, AVChatActivity.FROM_BROADCASTRECEIVER);
+            }
+        }, register);
+    }
 
     /**
      * 推送

@@ -41,14 +41,18 @@ public class ChatActivity extends BaseMessageActivity {
     TextView mTextTitle;
     private UserInfoObserver uinfoObserver;
     private boolean isResume = false;
-    public static void start(Context context, String cId,String username) {
+    public static void start(Context context, String cId) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, cId);
         intent.putExtra(Extras.EXTRA_CUSTOMIZATION, SessionHelper.getP2pCustomization());
         intent.setClass(context, ChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("username",username);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

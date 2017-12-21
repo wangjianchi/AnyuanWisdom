@@ -4,13 +4,23 @@
     android:layout_width="53dp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <com.netease.nim.uikit.common.ui.imageview.CircleImageView
-        android:id="@+id/iv_head"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:src="@mipmap/head_right_defaut_more"/>
+        android:layout_marginTop="5dp">
+        <com.netease.nim.uikit.common.ui.imageview.CircleImageView
+            android:id="@+id/iv_head"
+            android:layout_width="43dp"
+            android:layout_height="43dp"/>
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/head_right_defaut_more"/>
+    </FrameLayout>
+
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"

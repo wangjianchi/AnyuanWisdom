@@ -13,8 +13,10 @@ import com.ayfp.anyuanwisdom.view.contacts.adapter.RecentContactsAdapter;
 import com.ayfp.anyuanwisdom.weidgts.SpringView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 
 import java.util.ArrayList;
@@ -45,7 +47,6 @@ public class RecentContactsFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        getRecentContacts();
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
@@ -58,13 +59,22 @@ public class RecentContactsFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ChatActivity.start(getActivity(),mData.get(position).getContactId(),mData.get(position).getFromNick());
+                ChatActivity.start(getActivity(),mData.get(position).getContactId());
             }
         });
+        NIMClient.getService(MsgServiceObserve.class).observeRecentContact(messageObserver, true);
     }
+    //  创建观察者对象
+    Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
+        @Override
+        public void onEvent(List<RecentContact> recentContacts) {
+            if (recentContacts != null && recentContacts.size() > 0){
+                getRecentContacts();
+            }
+        }
+    };
 
     private void getRecentContacts(){
-        showProgress();
         NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
             @Override
             public void onResult(int i, List<RecentContact> recentContacts, Throwable throwable) {
@@ -83,11 +93,17 @@ public class RecentContactsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        showProgress();
         getRecentContacts();
     }
 
     @Override
     protected IBasePresenter createPresenter() {
         return null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

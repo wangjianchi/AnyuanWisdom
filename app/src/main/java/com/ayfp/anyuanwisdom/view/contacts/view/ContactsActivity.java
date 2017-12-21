@@ -12,6 +12,7 @@ import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -107,9 +108,16 @@ public class ContactsActivity extends BaseActivity {
         super.onResume();
         int unreadNumber = NIMClient.getService(MsgService.class).getTotalUnreadCount();
         if (unreadNumber > 0){
-            mImageUnread.setVisibility(View.VISIBLE);
+            mImageUnread.setVisibility(View.GONE);
         }else {
             mImageUnread.setVisibility(View.GONE);
         }
+        NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 退出聊天界面或离开最近联系人列表界面，建议放在onPause中
+        NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
     }
 }
