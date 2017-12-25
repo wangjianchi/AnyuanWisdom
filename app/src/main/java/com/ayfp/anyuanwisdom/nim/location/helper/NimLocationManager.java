@@ -86,7 +86,7 @@ public class NimLocationManager implements AMapLocationListener {
     public void request() {
         if (client == null) {
             AMapLocationClientOption option = new AMapLocationClientOption();
-            option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
+            option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             option.setInterval(30 * 1000);
             option.setHttpTimeOut(10 * 1000);
             client = new AMapLocationClient(mContext);

@@ -2,6 +2,7 @@ package com.ayfp.anyuanwisdom.view.home;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.ayfp.anyuanwisdom.config.preferences.Preferences;
 import com.ayfp.anyuanwisdom.nim.avchat.AVChatProfile;
 import com.ayfp.anyuanwisdom.nim.avchat.activity.AVChatActivity;
 import com.ayfp.anyuanwisdom.nim.avchat.receiver.PhoneCallStateObserver;
+import com.ayfp.anyuanwisdom.utils.PermissionCheckUtils;
 import com.ayfp.anyuanwisdom.utils.ToastUtils;
 import com.ayfp.anyuanwisdom.utils.UIUtils;
 import com.ayfp.anyuanwisdom.view.contacts.view.ContactsActivity;
@@ -32,6 +34,7 @@ import com.ayfp.anyuanwisdom.view.notice.NoticeListActivity;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
 import com.ayfp.anyuanwisdom.view.personal.MineActivity;
 import com.ayfp.anyuanwisdom.view.report.ReportActivity;
+import com.ayfp.anyuanwisdom.view.sign.SignActivity;
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.support.permission.MPermission;
 import com.netease.nim.uikit.support.permission.annotation.OnMPermissionDenied;
@@ -71,6 +74,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
     @BindView(R.id.iv_unread)
     ImageView mImageUnread;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
+    private final int LOCATION_PERMISSION_REQUEST_CODE = 101;
     @Override
     public void loadComplete() {
 
@@ -217,7 +221,17 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        if (requestCode == BASIC_PERMISSION_REQUEST_CODE){
+            MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        }else if (requestCode == LOCATION_PERMISSION_REQUEST_CODE){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //permission granted
+                sign();
+            } else {
+                //permission denied
+                ToastUtils.showToast("请打开权限,否则无法使用签到！");
+            }
+        }
     }
     @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
     public void onBasicPermissionSuccess() {
@@ -258,6 +272,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
     @OnClick(R.id.iv_report) void report(){
         Intent intent = new Intent(this, ReportActivity.class);
         startActivity(intent);
+    }
+    @OnClick(R.id.iv_sign) void sign(){
+        if (PermissionCheckUtils.checkLocationPermissions(this,LOCATION_PERMISSION_REQUEST_CODE)){
+            Intent intent = new Intent(this, SignActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

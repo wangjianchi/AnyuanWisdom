@@ -17,14 +17,26 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="35dp"
-                android:text="@string/string_main_title"
-                android:textColor="@color/white"
-                android:textSize="21sp"/>
+                android:layout_marginTop="35dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/string_main_title"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+                <ImageView
+                    android:id="@+id/iv_sign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_sign"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="10dp"/>
+            </FrameLayout>
+
 
             <FrameLayout
                 android:layout_width="match_parent"

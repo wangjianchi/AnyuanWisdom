@@ -9,6 +9,7 @@ import com.ayfp.anyuanwisdom.view.contacts.bean.Person;
 import com.ayfp.anyuanwisdom.view.live.bean.LivePushUrlBean;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeDetail;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
+import com.ayfp.anyuanwisdom.view.sign.bean.SignStatusBean;
 
 import java.util.List;
 
@@ -126,4 +127,14 @@ public interface ApiStores {
     Observable<AppResultData<Object>> editUserTel(@Field("token") String token,
                                                          @Field("user_name") String user_name,
                                                          @Field("tel") String tel);
+
+    @FormUrlEncoded
+    @POST("api.php?app=signInterface&act=getSignStatus")
+    Observable<AppResultData<SignStatusBean>> getSignStatus(@Field("token") String token,
+                                                            @Field("user_name") String user_name);
+
+    @FormUrlEncoded
+    @POST("api.php?app=signInterface&act=getAddressByLocation")
+    Observable<AppResultData<Object>> getAddressByLocation(@Field("token") String token,
+                                                  @Field("location") String location);
 }
