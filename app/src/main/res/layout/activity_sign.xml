@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/layout_root">
 
     <include layout="@layout/view_title"/>
 
@@ -123,9 +124,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
-                    android:drawableLeft="@mipmap/icon_sign_in"
+                    android:drawableLeft="@mipmap/icon_sign_out"
                     android:drawablePadding="5dp"
-                    android:text="签到时间："
+                    android:text="退签时间："
                     android:textColor="@color/text_color_222222"
                     android:textSize="12sp"/>
 
@@ -141,7 +142,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="28dp"
                         android:drawablePadding="5dp"
-                        android:text="签到位置："
+                        android:text="退签位置："
                         android:textColor="@color/text_color_222222"
                         android:textSize="12sp"/>
 
@@ -172,12 +173,44 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"/>
+                    android:layout_marginTop="7dp"
+                    android:text="工作任务（点击编辑）:"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_color_222222"/>
+                <EditText
+                    android:id="@+id/et_sign_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_marginTop="7dp"
+                    android:minHeight="100dp"
+                    android:textSize="13sp"
+                    android:gravity="top"
+                    android:textColor="@color/text_color_666666"/>
+                <TextView
+                    android:id="@+id/tv_sign_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:text="签到后系统会自动记录您当天的行程"/>
+                <ImageView
+                    android:id="@+id/iv_commit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/bg_sign_in"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

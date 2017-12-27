@@ -8,5 +8,6 @@
         android:layout_width="77dp"
         android:layout_height="77dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"/>
+        android:layout_marginRight="2dp"
+        android:scaleType="fitXY"/>
 </FrameLayout>

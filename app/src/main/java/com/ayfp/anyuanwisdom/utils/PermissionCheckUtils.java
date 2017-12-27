@@ -93,7 +93,8 @@ public class PermissionCheckUtils {
     public static boolean checkRecordAudioPermissions(Activity activity, int requestCode){
         String[] permissions = new String[]{
                 Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
         return checkPermissions(activity,permissions,requestCode);
     }

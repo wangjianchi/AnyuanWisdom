@@ -89,6 +89,8 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="a72fd5dcc2c19b9bbcf4e9dca3e26f9b"/>
+        <!--单独的定位service。-->
+        <service android:name="com.amap.api.location.APSService"></service>
         <!-- 云信后台服务，请使用独立进程。 -->
         <service
             android:name="com.netease.nimlib.service.NimService"
@@ -150,7 +152,8 @@
         <activity
             android:name=".view.contacts.view.ContactsActivity"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".view.contacts.view.SearchContactsActivity"
+        <activity
+            android:name=".view.contacts.view.SearchContactsActivity"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".view.live.LiveActivity"
@@ -158,7 +161,8 @@
         <activity
             android:name=".view.notice.NoticeListActivity"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".view.notice.NoticeUserActivity"
+        <activity
+            android:name=".view.notice.NoticeUserActivity"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".view.notice.NoticeDetailActivity"
@@ -166,7 +170,7 @@
         <activity
             android:name=".view.report.ReportActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".view.personal.EditPersonalActivity"
             android:theme="@style/AppTheme"/>
@@ -174,7 +178,8 @@
             android:name=".view.login.LoginActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateVisible"/>
-        <activity android:name=".view.contacts.view.UserDetailActivity"
+        <activity
+            android:name=".view.contacts.view.UserDetailActivity"
             android:theme="@style/AppTheme"/>
 
         <activity
@@ -248,9 +253,14 @@
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@android:style/Theme.Translucent"/>
-        <activity android:name=".view.contacts.view.NotificationAcitvity"
+        <activity
+            android:name=".view.contacts.view.NotificationAcitvity"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".view.sign.SignActivity"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".view.sign.SignActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <service android:name=".service.LocationService"/>
     </application>
 </manifest>

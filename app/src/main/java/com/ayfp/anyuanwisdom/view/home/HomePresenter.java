@@ -10,6 +10,8 @@ import com.ayfp.anyuanwisdom.retrofit.AppResultData;
 import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
 import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
+import com.ayfp.anyuanwisdom.view.sign.bean.SignStatusBean;
+import com.ayfp.anyuanwisdom.view.sign.presenter.SignPresenter;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class HomePresenter implements IBasePresenter {
         getEventCategory();
         getEventDegree();
         getTown();
+        getSignStatus();
     }
 
     private void getIndexNotice(){
@@ -98,6 +101,23 @@ public class HomePresenter implements IBasePresenter {
                     }
                 });
     }
+    public void getSignStatus(){
+        RetrofitService.getApi().getSignStatus(RetrofitService.TOKEN, Preferences.getUserName())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(mView.<AppResultData<SignStatusBean>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<SignStatusBean>>() {
+                    @Override
+                    public void loadSuccess(AppResultData<SignStatusBean> data) {
+                        if (data.getStatus() == RetrofitService.SUCCESS){
+                            if (data.getResult().getSign_status() == SignPresenter.SIGN_STATUS_IN){
+                                mView.startLocation();
+                            }
+                        }
+                    }
+                });
+    }
+
     @Override
     public void networkConnected() {
 

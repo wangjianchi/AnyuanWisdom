@@ -18,6 +18,11 @@ public class GlideUtils {
                 .load(url)
                 .into(imageView);
     }
+    public static void loadImageViewRes(int res, ImageView imageView){
+        Glide.with(MyApplication.getContext())
+                .load(res)
+                .into(imageView);
+    }
     public static void loadImageViewErr(String url, ImageView imageView,int errorRes){
         RequestOptions requestOptions  = new RequestOptions()
                 .centerCrop()

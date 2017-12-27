@@ -1,5 +1,8 @@
 package com.ayfp.anyuanwisdom.view.sign.presenter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -11,8 +14,14 @@ import com.ayfp.anyuanwisdom.retrofit.AppResultData;
 import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
 import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.ayfp.anyuanwisdom.utils.CommonUtils;
+import com.ayfp.anyuanwisdom.utils.FileUtils;
+import com.ayfp.anyuanwisdom.view.sign.adapter.SignImageAdapter;
+import com.ayfp.anyuanwisdom.view.sign.bean.SignAddress;
 import com.ayfp.anyuanwisdom.view.sign.bean.SignStatusBean;
 import com.ayfp.anyuanwisdom.view.sign.iview.ISignView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -33,19 +42,59 @@ public class SignPresenter implements IBasePresenter {
     private AMapLocationClient mLocationClient = new AMapLocationClient(MyApplication.getContext());
     private AMapLocationClientOption mLocationClientOption = new AMapLocationClientOption();
     private SignStatusBean mSignStatusBean;
+    private List<String> mImageSignIn = new ArrayList<>();
+    private List<String> mImageSignOut = new ArrayList<>();
+    private List<String> mSignAddress = new ArrayList<>();
+    private String mSignInAddress,mSignOutAddress;
     public SignPresenter(ISignView view){
         this.mView = view;
     }
     @Override
     public void getData() {
-
+        mImageSignIn.add(SignImageAdapter.TAKEPHOTO);
+        mImageSignOut.add(SignImageAdapter.TAKEPHOTO);
     }
 
     @Override
     public void networkConnected() {
 
     }
+    public void getSignStatus(){
+        RetrofitService.getApi().getSignStatus(RetrofitService.TOKEN, Preferences.getUserName())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(mView.<AppResultData<SignStatusBean>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<SignStatusBean>>() {
+                    @Override
+                    public void loadSuccess(AppResultData<SignStatusBean> data) {
+                        if (data.getStatus() == RetrofitService.SUCCESS){
+                            mSignStatusBean = data.getResult();
+                            if (mSignStatusBean.getSign_status() == SIGN_STATUS_NONE){
+                                getLocation(true);
+                                mView.showNotSignView();
+                            }else if (mSignStatusBean.getSign_status() == SIGN_STATUS_IN){
+                                getLocation(false);
+                                mView.showSignInView();
+                                mView.showNotSignOutView();
+                            }else {
+                                mView.loadComplete();
+                                mView.showSignInView();
+                                mView.showSignOutView();
+                                try {
+                                    String[] signInLocation = mSignStatusBean.getSign_in_locate().split(",");
+                                    mView.loadLocation(true, CommonUtils.StringToDouble(signInLocation[1]),CommonUtils.StringToDouble(signInLocation[0]));
+                                    String[] signOutLocation = mSignStatusBean.getSign_out_locate().split(",");
+                                    mView.loadLocation(false, CommonUtils.StringToDouble(signOutLocation[1]),CommonUtils.StringToDouble(signOutLocation[0]));
+                                }catch (Exception e){
 
+                                }
+                            }
+                        }else {
+                            mView.loadComplete();
+                        }
+                    }
+                });
+    }
     public void getLocation(final boolean signIn){
         mLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         mLocationClientOption.setOnceLocation(true);
@@ -71,52 +120,97 @@ public class SignPresenter implements IBasePresenter {
         RetrofitService.getApi().getAddressByLocation(RetrofitService.TOKEN,location)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(mView.<AppResultData<Object>>bindToLife())
-                .subscribe(new BaseObserver<AppResultData<Object>>() {
+                .compose(mView.<AppResultData<SignAddress>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<SignAddress>>() {
                     @Override
-                    public void loadSuccess(AppResultData<Object> data) {
+                    public void loadSuccess(AppResultData<SignAddress> data) {
                             mView.loadComplete();
+                            if (data.getStatus() == RetrofitService.SUCCESS){
+                                mSignAddress = data.getResult().getAddress();
+                            }
                     }
                 });
     }
 
-    public void getSignStatus(){
-        RetrofitService.getApi().getSignStatus(RetrofitService.TOKEN, Preferences.getUserName())
+
+    public void signIn(String content){
+        StringBuffer SignInImages = new StringBuffer();
+        for (int i = 0 ; i < mImageSignIn.size(); i++){
+            if (mImageSignIn.get(i)!= SignImageAdapter.TAKEPHOTO){
+                Bitmap bitmap = BitmapFactory.decodeFile(mImageSignIn.get(i));
+                String image = FileUtils.Bitmap2StrByBase64(bitmap);
+                if (SignInImages.length() > 0){
+                    SignInImages.append(";"+image);
+                }else {
+                    SignInImages.append(image);
+                }
+            }
+        }
+        RetrofitService.getApi().signIn(RetrofitService.TOKEN,mSignStatusBean.getSign_id(),
+                content,mSignInAddress,mSignLongitude+","+mSignLatitude,SignInImages.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(mView.<AppResultData<SignStatusBean>>bindToLife())
-                .subscribe(new BaseObserver<AppResultData<SignStatusBean>>() {
+                .compose(mView.<AppResultData<Object>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<Object>>() {
                     @Override
-                    public void loadSuccess(AppResultData<SignStatusBean> data) {
+                    public void loadSuccess(AppResultData<Object> data) {
+                        mView.loadComplete();
                         if (data.getStatus() == RetrofitService.SUCCESS){
-                            mSignStatusBean = data.getResult();
-                            if (mSignStatusBean.getSign_status() == SIGN_STATUS_NONE){
-                                getLocation(true);
-                                mView.showNotSignView();
-                            }else if (mSignStatusBean.getSign_status() == SIGN_STATUS_IN){
-                                getLocation(false);
-                                mView.showSignInView();
-                            }else {
-                                mView.loadComplete();
-                                mView.showSignInView();
-                                mView.showSignOutView();
-                                try {
-                                    String[] signInLocation = mSignStatusBean.getSign_in_locate().split(",");
-                                    mView.loadLocation(true, CommonUtils.StringToDouble(signInLocation[1]),CommonUtils.StringToDouble(signInLocation[0]));
-                                    String[] signOutLocation = mSignStatusBean.getSign_out_locate().split(",");
-                                    mView.loadLocation(false, CommonUtils.StringToDouble(signOutLocation[1]),CommonUtils.StringToDouble(signOutLocation[0]));
-                                }catch (Exception e){
-
-                                }
-                            }
-                        }else {
-                            mView.loadComplete();
+                            mView.signInSuccess();
                         }
                     }
                 });
     }
 
+    public void signOut(String content){
+        StringBuffer SignInImages = new StringBuffer();
+        for (int i = 0 ; i < mImageSignOut.size(); i++){
+            if (mImageSignOut.get(i)!= SignImageAdapter.TAKEPHOTO){
+                Bitmap bitmap = BitmapFactory.decodeFile(mImageSignOut.get(i));
+                String image = FileUtils.Bitmap2StrByBase64(bitmap);
+                if (SignInImages.length() > 0){
+                    SignInImages.append(";"+image);
+                }else {
+                    SignInImages.append(image);
+                }
+            }
+        }
+        RetrofitService.getApi().signOut(RetrofitService.TOKEN,mSignStatusBean.getSign_id(),
+                content,mSignOutAddress,mSignOutLongitude+","+mSignOutLatitude,SignInImages.toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(mView.<AppResultData<Object>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<Object>>() {
+                    @Override
+                    public void loadSuccess(AppResultData<Object> data) {
+                        mView.loadComplete();
+                        if (data.getStatus() == RetrofitService.SUCCESS){
+                            mView.signOutSuccess();
+                        }
+                    }
+                });
+    }
     public SignStatusBean getSignStatusBean() {
         return mSignStatusBean;
+    }
+
+    public List<String> getImageSignIn() {
+        return mImageSignIn;
+    }
+
+    public List<String> getImageSignOut() {
+        return mImageSignOut;
+    }
+
+    public List<String> getSignAddress() {
+        return mSignAddress;
+    }
+
+    public void setSignInAddress(String signInAddress) {
+        mSignInAddress = signInAddress;
+    }
+
+    public void setSignOutAddress(String signOutAddress) {
+        mSignOutAddress = signOutAddress;
     }
 }

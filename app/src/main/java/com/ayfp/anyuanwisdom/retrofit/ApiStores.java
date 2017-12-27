@@ -9,6 +9,7 @@ import com.ayfp.anyuanwisdom.view.contacts.bean.Person;
 import com.ayfp.anyuanwisdom.view.live.bean.LivePushUrlBean;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeDetail;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
+import com.ayfp.anyuanwisdom.view.sign.bean.SignAddress;
 import com.ayfp.anyuanwisdom.view.sign.bean.SignStatusBean;
 
 import java.util.List;
@@ -34,9 +35,9 @@ public interface ApiStores {
     @FormUrlEncoded
     @POST("api.php?app=userInterface&act=editPassword")
     Observable<AppResultData<Object>> editPassword(@Field("token") String token,
-                                              @Field("user_name") String user_name,
-                                              @Field("old_password") String old_password,
-                                              @Field("new_password") String new_password);
+                                                   @Field("user_name") String user_name,
+                                                   @Field("old_password") String old_password,
+                                                   @Field("new_password") String new_password);
 
 
     @FormUrlEncoded
@@ -60,8 +61,8 @@ public interface ApiStores {
     @FormUrlEncoded
     @POST("api.php?app=afficheInterface&act=getAfficheUsers")
     Observable<AppResultData<List<NoticeDetail.ReadUsersBean>>> getAfficheUsers(@Field("token") String token,
-                                                      @Field("is_read") int is_read,
-                                                      @Field("affiche_id") int id);
+                                                                                @Field("is_read") int is_read,
+                                                                                @Field("affiche_id") int id);
 
     @FormUrlEncoded
     @POST("api.php?app=eventReportInterface&act=getEventCategory")
@@ -114,19 +115,19 @@ public interface ApiStores {
     @FormUrlEncoded
     @POST("api.php?app=userInterface&act=getUserMsg")
     Observable<AppResultData<UserBean>> getUserMsg(@Field("token") String token,
-                                                              @Field("user_name") String user_name);
+                                                   @Field("user_name") String user_name);
 
     @FormUrlEncoded
     @POST("api.php?app=userInterface&act=editUserPortrait")
     Observable<AppResultData<UserBean>> editUserPortrait(@Field("token") String token,
-                                                   @Field("user_name") String user_name,
-                                                   @Field("portrait") String portrait);
+                                                         @Field("user_name") String user_name,
+                                                         @Field("portrait") String portrait);
 
     @FormUrlEncoded
     @POST("api.php?app=userInterface&act=editUserTel")
     Observable<AppResultData<Object>> editUserTel(@Field("token") String token,
-                                                         @Field("user_name") String user_name,
-                                                         @Field("tel") String tel);
+                                                  @Field("user_name") String user_name,
+                                                  @Field("tel") String tel);
 
     @FormUrlEncoded
     @POST("api.php?app=signInterface&act=getSignStatus")
@@ -135,6 +136,24 @@ public interface ApiStores {
 
     @FormUrlEncoded
     @POST("api.php?app=signInterface&act=getAddressByLocation")
-    Observable<AppResultData<Object>> getAddressByLocation(@Field("token") String token,
-                                                  @Field("location") String location);
+    Observable<AppResultData<SignAddress>> getAddressByLocation(@Field("token") String token,
+                                                                @Field("location") String location);
+
+    @FormUrlEncoded
+    @POST("api.php?app=signInterface&act=signIn")
+    Observable<AppResultData<Object>> signIn(@Field("token") String token,
+                                             @Field("sign_id") int sign_id,
+                                             @Field("content") String content,
+                                             @Field("sign_in_address") String sign_in_address,
+                                             @Field("sign_locate") String sign_locate,
+                                             @Field("sign_in_imgs") String sign_in_imgs);
+
+    @FormUrlEncoded
+    @POST("api.php?app=signInterface&act=signOut")
+    Observable<AppResultData<Object>> signOut(@Field("token") String token,
+                                             @Field("sign_id") int sign_id,
+                                             @Field("content") String content,
+                                             @Field("sign_out_address") String sign_out_address,
+                                             @Field("sign_locate") String sign_locate,
+                                             @Field("sign_out_imgs") String sign_out_imgs);
 }

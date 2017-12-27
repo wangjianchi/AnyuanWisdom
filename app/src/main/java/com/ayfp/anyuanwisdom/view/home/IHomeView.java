@@ -11,4 +11,5 @@ import java.util.List;
 
 public interface IHomeView extends IBaseView {
     void getNoticeList(List<NoticeListBean> listBean);
+    void startLocation();
 }

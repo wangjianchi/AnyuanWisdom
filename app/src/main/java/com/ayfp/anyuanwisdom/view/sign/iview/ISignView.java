@@ -13,4 +13,9 @@ public interface ISignView extends IBaseView {
     void showSignInView();
     void showSignOutView();
     void showNotSignView();
+    void showNotSignOutView();
+    void startLocation();
+    void stopLocation();
+    void signInSuccess();
+    void signOutSuccess();
 }

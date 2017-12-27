@@ -19,6 +19,7 @@ import com.ayfp.anyuanwisdom.config.preferences.Preferences;
 import com.ayfp.anyuanwisdom.nim.avchat.AVChatProfile;
 import com.ayfp.anyuanwisdom.nim.avchat.activity.AVChatActivity;
 import com.ayfp.anyuanwisdom.nim.avchat.receiver.PhoneCallStateObserver;
+import com.ayfp.anyuanwisdom.service.LocationService;
 import com.ayfp.anyuanwisdom.utils.PermissionCheckUtils;
 import com.ayfp.anyuanwisdom.utils.ToastUtils;
 import com.ayfp.anyuanwisdom.utils.UIUtils;
@@ -75,6 +76,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
     ImageView mImageUnread;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     private final int LOCATION_PERMISSION_REQUEST_CODE = 101;
+    private final int LOCATION_PERMISSION_SERVICE_REQUEST_CODE = 101;
     @Override
     public void loadComplete() {
 
@@ -95,6 +97,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
         observerUnreadCount(true);
         registerAVChatIncomingCallObserver(true);
         AppConfig.initNotificationConfig(true);
+
     }
     /**
      * 监听在线状态
@@ -224,12 +227,20 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
         if (requestCode == BASIC_PERMISSION_REQUEST_CODE){
             MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         }else if (requestCode == LOCATION_PERMISSION_REQUEST_CODE){
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //permission granted
                 sign();
             } else {
                 //permission denied
                 ToastUtils.showToast("请打开权限,否则无法使用签到！");
+            }
+        }else if (requestCode == LOCATION_PERMISSION_SERVICE_REQUEST_CODE){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //permission granted
+                startLocation();
+            } else {
+                //permission denied
+                ToastUtils.showToast("请打开权限,否则无法正常完成签到！");
             }
         }
     }
@@ -302,5 +313,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
         mViewPager.setPageMargin(UIUtils.dip2px(-15));
         mViewPager.setPageTransformer(true,new ScalePageTransformer());
         mViewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void startLocation() {
+        if (PermissionCheckUtils.checkLocationPermissions(this,LOCATION_PERMISSION_SERVICE_REQUEST_CODE)){
+            ToastUtils.showToast("今天还有签到未完成，请完成后到签到页面退签");
+            Intent intent = new Intent(this, LocationService.class);
+            startService(intent);
+        }
     }
 }
