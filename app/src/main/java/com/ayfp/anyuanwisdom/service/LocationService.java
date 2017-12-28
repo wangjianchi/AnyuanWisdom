@@ -12,6 +12,13 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.ayfp.anyuanwisdom.base.MyApplication;
+import com.ayfp.anyuanwisdom.config.preferences.Preferences;
+import com.ayfp.anyuanwisdom.retrofit.AppResultData;
+import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
+import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author:: wangjianchi
@@ -46,12 +53,26 @@ public class LocationService extends Service {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
                 Log.i("LocationService", "onLocationChanged: "+ JSON.toJSONString(aMapLocation));
+                if (aMapLocation != null){
+                    updateLocation(aMapLocation.getLongitude()+","+aMapLocation.getLatitude());
+                }
             }
         });
         mLocationClient.startLocation();
         return super.onStartCommand(intent, flags, startId);
     }
 
+    private void updateLocation(String location){
+        RetrofitService.getApi().uploadLocation(RetrofitService.TOKEN, Preferences.getUserName(),location)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<AppResultData<Object>>() {
+                    @Override
+                    public void loadSuccess(AppResultData<Object> data) {
+
+                    }
+                });
+    }
     @Override
     public void onDestroy() {
         mLocationClient.stopLocation();

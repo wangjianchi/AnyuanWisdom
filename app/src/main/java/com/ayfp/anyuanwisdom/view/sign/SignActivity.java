@@ -32,8 +32,10 @@ import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.MyApplication;
 import com.ayfp.anyuanwisdom.service.LocationService;
 import com.ayfp.anyuanwisdom.utils.CommonUtils;
+import com.ayfp.anyuanwisdom.utils.GlideUtils;
 import com.ayfp.anyuanwisdom.utils.PermissionCheckUtils;
 import com.ayfp.anyuanwisdom.utils.ToastUtils;
+import com.ayfp.anyuanwisdom.view.ImageBrowserActivity;
 import com.ayfp.anyuanwisdom.view.sign.adapter.SignImageAdapter;
 import com.ayfp.anyuanwisdom.view.sign.iview.ISignView;
 import com.ayfp.anyuanwisdom.view.sign.presenter.SignPresenter;
@@ -89,11 +91,13 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
     @BindView(R.id.et_sign_content)
     EditText mEditContent;
     @BindView(R.id.tv_sign_description)
-    TextView mTextSignContent;
+    TextView mTextSignDes;
     @BindView(R.id.iv_commit)
     ImageView mImagmeCommit;
     @BindView(R.id.layout_root)
     View mRootView;
+    @BindView(R.id.iv_map_image)
+    ImageView mImageMap;
     private AMap mAMap;
     private SignImageAdapter mSignInAdpater;
     private SignImageAdapter mSignOutAdpater;
@@ -112,15 +116,7 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
     @Override
     protected void initViews() {
         mPresenter.getData();
-        if (!CommonUtils.isOPen(this)) {
-            if (CommonUtils.canToggleGPS(this)) {
-                CommonUtils.openGPS(this);
-            } else {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(intent, GPS_REQUEST_CODE);
-                ToastUtils.showToast("打开GPS可以获取到精确定位");
-            }
-        }
+
         mTextTitle.setText("签到");
         showProgress();
         mPresenter.getSignStatus();
@@ -203,6 +199,12 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
         mSignRecyclerView.setLayoutManager(new GridLayoutManager(this, PIG_NUMBER));
         mSignRecyclerView.setAdapter(mSignInAdpater);
         mEditContent.setText(mPresenter.getSignStatusBean().getContent());
+        mSignInAdpater.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ImageBrowserActivity.start(SignActivity.this,mPresenter.getSignStatusBean().getSign_in_imgs().get(position));
+            }
+        });
     }
 
     @Override
@@ -213,6 +215,16 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
         mSignOutAdpater = new SignImageAdapter(mPresenter.getSignStatusBean().getSign_in_imgs());
         mSignOutRecyclerView.setLayoutManager(new GridLayoutManager(this, PIG_NUMBER));
         mSignOutRecyclerView.setAdapter(mSignOutAdpater);
+        GlideUtils.loadImageView(mPresenter.getSignStatusBean().getLocate_path_url(),mImageMap);
+        mMapView.setVisibility(View.GONE);
+        mImagmeCommit.setVisibility(View.GONE);
+        mTextSignDes.setText("您今天已经完成签到");
+        mSignOutAdpater.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ImageBrowserActivity.start(SignActivity.this,mPresenter.getSignStatusBean().getSign_out_imgs().get(position));
+            }
+        });
     }
 
     @Override
@@ -226,6 +238,8 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mPresenter.getImageSignIn().get(position).equals(SignImageAdapter.TAKEPHOTO)) {
                     checkCameraPermission(REQUEST_CAMERA_SIGN_IN);
+                }else {
+                    ImageBrowserActivity.start(SignActivity.this,mPresenter.getImageSignIn().get(position));
                 }
             }
         });
@@ -242,9 +256,15 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mPresenter.getImageSignOut().get(position).equals(SignImageAdapter.TAKEPHOTO)) {
                     checkCameraPermission(REQUEST_CAMERA_SIGN_OUT);
+                }else {
+                    ImageBrowserActivity.start(SignActivity.this,mPresenter.getImageSignOut().get(position));
                 }
             }
         });
+        if (mPresenter.getSignStatusBean().getSign_status() == SignPresenter.SIGN_STATUS_IN){
+            mImagmeCommit.setImageResource(R.mipmap.bg_sign_out);
+            mTextSignDes.setText("退签后系统会自动结束行程");
+        }
     }
 
     @Override
@@ -269,6 +289,19 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
     public void signOutSuccess() {
         showProgress();
         mPresenter.getSignStatus();
+    }
+
+    @Override
+    public void openGps() {
+        if (!CommonUtils.isOPen(this)) {
+            if (CommonUtils.canToggleGPS(this)) {
+                CommonUtils.openGPS(this);
+            } else {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivityForResult(intent, GPS_REQUEST_CODE);
+                ToastUtils.showToast("打开GPS可以获取到精确定位");
+            }
+        }
     }
 
     private void checkCameraPermission(int requestCode) {

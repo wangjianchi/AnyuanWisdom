@@ -17,6 +17,7 @@ import com.ayfp.anyuanwisdom.retrofit.AppResultData;
 import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
 import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.ayfp.anyuanwisdom.utils.GlideUtils;
+import com.ayfp.anyuanwisdom.view.ImageBrowserActivity;
 import com.ayfp.anyuanwisdom.view.personal.adapter.PersonSettingAdapter;
 import com.ayfp.anyuanwisdom.view.personal.bean.PersonSettingBean;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -157,7 +158,6 @@ public class MineActivity extends BaseActivity {
 
     @OnClick(R.id.layout_head)
     void personal() {
-        Intent intent = new Intent(this, EditPersonalActivity.class);
-        startActivity(intent);
+        ImageBrowserActivity.start(MineActivity.this,AppCache.getInstance().getUserBean().getPortrait());
     }
 }

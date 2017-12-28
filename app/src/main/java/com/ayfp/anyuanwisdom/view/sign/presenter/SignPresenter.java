@@ -15,6 +15,7 @@ import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
 import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
 import com.ayfp.anyuanwisdom.utils.CommonUtils;
 import com.ayfp.anyuanwisdom.utils.FileUtils;
+import com.ayfp.anyuanwisdom.utils.ToastUtils;
 import com.ayfp.anyuanwisdom.view.sign.adapter.SignImageAdapter;
 import com.ayfp.anyuanwisdom.view.sign.bean.SignAddress;
 import com.ayfp.anyuanwisdom.view.sign.bean.SignStatusBean;
@@ -96,6 +97,7 @@ public class SignPresenter implements IBasePresenter {
                 });
     }
     public void getLocation(final boolean signIn){
+        mView.openGps();
         mLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         mLocationClientOption.setOnceLocation(true);
         mLocationClientOption.setOnceLocationLatest(true);
@@ -157,6 +159,10 @@ public class SignPresenter implements IBasePresenter {
                         mView.loadComplete();
                         if (data.getStatus() == RetrofitService.SUCCESS){
                             mView.signInSuccess();
+                            if (data.getStatus() == RetrofitService.SUCCESS){
+                                mView.startLocation();
+                                ToastUtils.showToast("签到成功");
+                            }
                         }
                     }
                 });
@@ -186,6 +192,10 @@ public class SignPresenter implements IBasePresenter {
                         mView.loadComplete();
                         if (data.getStatus() == RetrofitService.SUCCESS){
                             mView.signOutSuccess();
+                            if (data.getStatus() == RetrofitService.SUCCESS){
+                                mView.stopLocation();
+                                ToastUtils.showToast("退签成功");
+                            }
                         }
                     }
                 });

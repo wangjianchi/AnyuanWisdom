@@ -18,4 +18,5 @@ public interface ISignView extends IBaseView {
     void stopLocation();
     void signInSuccess();
     void signOutSuccess();
+    void openGps();
 }

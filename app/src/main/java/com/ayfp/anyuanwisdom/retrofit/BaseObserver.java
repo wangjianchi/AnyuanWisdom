@@ -3,6 +3,7 @@ package com.ayfp.anyuanwisdom.retrofit;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.ayfp.anyuanwisdom.utils.ToastUtils;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -23,6 +24,14 @@ public abstract class BaseObserver<E> implements Observer<E> {
     public void onNext(E e) {
         Log.i("BaseObserver", "onNext: "+ JSON.toJSONString(e));
         loadSuccess(e);
+        if (e instanceof AppResultData){
+            AppResultData data = (AppResultData) e;
+            if (data.getStatus() != RetrofitService.SUCCESS){
+                if (RetrofitService.mErrorCode.containsKey(data.getStatus())){
+                    ToastUtils.showToast(RetrofitService.mErrorCode.get(data.getStatus()));
+                }
+            }
+        }
     }
 
     @Override
@@ -35,4 +44,5 @@ public abstract class BaseObserver<E> implements Observer<E> {
 
     }
     public abstract void loadSuccess(E e);
+
 }

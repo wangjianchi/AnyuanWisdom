@@ -32,6 +32,7 @@ import com.ayfp.anyuanwisdom.utils.KeyboardUtils;
 import com.ayfp.anyuanwisdom.utils.PermissionCheckUtils;
 import com.ayfp.anyuanwisdom.utils.ToastUtils;
 import com.ayfp.anyuanwisdom.utils.UIUtils;
+import com.ayfp.anyuanwisdom.view.ImageBrowserActivity;
 import com.ayfp.anyuanwisdom.view.report.adapter.ReportImageAdapter;
 import com.ayfp.anyuanwisdom.view.report.bean.ReportImageBean;
 import com.ayfp.anyuanwisdom.view.report.iview.IReportView;
@@ -110,6 +111,8 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mData.get(position).getType() == 1) {
                     checkPermission();
+                }else {
+                    ImageBrowserActivity.start(ReportActivity.this,mData.get(position).getImageFile());
                 }
             }
         });

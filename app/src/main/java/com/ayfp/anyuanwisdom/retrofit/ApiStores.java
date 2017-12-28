@@ -156,4 +156,10 @@ public interface ApiStores {
                                              @Field("sign_out_address") String sign_out_address,
                                              @Field("sign_locate") String sign_locate,
                                              @Field("sign_out_imgs") String sign_out_imgs);
+
+    @FormUrlEncoded
+    @POST("api.php?app=signInterface&act=uploadLocation")
+    Observable<AppResultData<Object>> uploadLocation(@Field("token") String token,
+                                                     @Field("user_name") String user_name,
+                                                     @Field("sign_locate") String sign_locate);
 }

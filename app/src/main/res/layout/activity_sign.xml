@@ -42,14 +42,23 @@
                     android:textColor="@color/text_color_222222"
                     android:textSize="12sp"/>
             </FrameLayout>
-
-            <com.amap.api.maps2d.MapView
-                android:id="@+id/map_view"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="185dp"
                 android:background="@color/white"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"/>
+                android:paddingRight="10dp">
+                <com.amap.api.maps2d.MapView
+                    android:id="@+id/map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/iv_map_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"/>
+            </FrameLayout>
+
 
             <LinearLayout
                 android:id="@+id/layout_sign_in"
@@ -203,6 +212,7 @@
                     android:textColor="@color/colorPrimary"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
                     android:text="签到后系统会自动记录您当天的行程"/>
                 <ImageView
                     android:id="@+id/iv_commit"
