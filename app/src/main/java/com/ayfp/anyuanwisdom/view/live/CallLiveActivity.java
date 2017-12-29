@@ -54,6 +54,12 @@ public class CallLiveActivity extends BaseActivity {
                 });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AVChatSoundPlayer.instance().stop();
+    }
+
     // 设置窗口flag，亮屏并且解锁/覆盖在锁屏界面上
     private void dismissKeyguard() {
         getWindow().addFlags(

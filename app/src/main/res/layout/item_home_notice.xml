@@ -10,19 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp">
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textSize="13sp"
-            android:textColor="@color/text_color_222222"
-            android:layout_marginLeft="19dp"
-            android:text=""
-            android:layout_marginRight="10dp"
-            android:ellipsize="end"
-            android:drawableLeft="@drawable/icon_dot_red"
-            android:drawablePadding="6dp"/>
         <com.ayfp.anyuanwisdom.weidgts.CustomTextView
             android:id="@+id/tv_unread"
             android:layout_width="33dp"
@@ -36,6 +23,22 @@
             app:textRadius="45dp"
             app:textStrokeColor="@color/text_color_fa2334"
             app:textStrokeWidth="0.5dp"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="13sp"
+            android:textColor="@color/text_color_222222"
+            android:layout_marginLeft="19dp"
+            android:text=""
+            android:layout_marginRight="5dp"
+            android:ellipsize="end"
+            android:drawableLeft="@drawable/icon_dot_red"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/tv_unread"
+            android:drawablePadding="6dp"/>
+
     </RelativeLayout>
     <TextView
         android:id="@+id/tv_content"

@@ -162,4 +162,10 @@ public interface ApiStores {
     Observable<AppResultData<Object>> uploadLocation(@Field("token") String token,
                                                      @Field("user_name") String user_name,
                                                      @Field("sign_locate") String sign_locate);
+
+    @FormUrlEncoded
+    @POST("api.php?app=signInterface&act=getSignHistory")
+    Observable<AppResultData<SignStatusBean>> getSignHistory(@Field("token") String token,
+                                                     @Field("user_name") String user_name,
+                                                     @Field("limit_time")String limit_time);
 }

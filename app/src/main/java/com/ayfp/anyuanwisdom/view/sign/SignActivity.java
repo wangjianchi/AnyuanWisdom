@@ -98,6 +98,8 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
     View mRootView;
     @BindView(R.id.iv_map_image)
     ImageView mImageMap;
+    @BindView(R.id.tv_right)
+    TextView mTextRight;
     private AMap mAMap;
     private SignImageAdapter mSignInAdpater;
     private SignImageAdapter mSignOutAdpater;
@@ -118,6 +120,7 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
         mPresenter.getData();
 
         mTextTitle.setText("签到");
+        mTextRight.setText("历史轨迹");
         showProgress();
         mPresenter.getSignStatus();
         getCurrentTime();
@@ -209,10 +212,10 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
 
     @Override
     public void showSignOutView() {
-        mTextSignOutTime.setText("退签时间：" + mPresenter.getSignStatusBean().getSign_in_time());
-        mTextSignOutAddress.setText("退签位置：" + mPresenter.getSignStatusBean().getSign_in_address());
+        mTextSignOutTime.setText("退签时间：" + mPresenter.getSignStatusBean().getSign_out_time());
+        mTextSignOutAddress.setText("退签位置：" + mPresenter.getSignStatusBean().getSign_out_address());
         mTextSignOutSelect.setVisibility(View.GONE);
-        mSignOutAdpater = new SignImageAdapter(mPresenter.getSignStatusBean().getSign_in_imgs());
+        mSignOutAdpater = new SignImageAdapter(mPresenter.getSignStatusBean().getSign_out_imgs());
         mSignOutRecyclerView.setLayoutManager(new GridLayoutManager(this, PIG_NUMBER));
         mSignOutRecyclerView.setAdapter(mSignOutAdpater);
         GlideUtils.loadImageView(mPresenter.getSignStatusBean().getLocate_path_url(),mImageMap);
@@ -402,5 +405,9 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
         }else if (mPresenter.getSignStatusBean().getSign_status() == SignPresenter.SIGN_STATUS_IN){
             mPresenter.signOut(content);
         }
+    }
+    @OnClick(R.id.tv_right) void history(){
+        Intent intent = new Intent(this,SignHistoryActivity.class);
+        startActivity(intent);
     }
 }
