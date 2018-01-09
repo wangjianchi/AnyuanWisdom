@@ -1,7 +1,5 @@
 package com.netease.nim.uikit.api;
 
-import android.os.Environment;
-
 import com.netease.nim.uikit.R;
 import com.netease.nimlib.sdk.media.record.RecordType;
 
@@ -57,12 +55,12 @@ public class UIKitOptions {
     /**
      * 构建群好友关系缓存
      */
-    public boolean buildFriendCache = true;
+    public boolean buildFriendCache = false;
 
     /**
      * 构建智能机器人缓存
      */
-    public boolean buildRobotInfoCache = true;
+    public boolean buildRobotInfoCache = false;
 
     /**
      * 构建聊天室成员缓存

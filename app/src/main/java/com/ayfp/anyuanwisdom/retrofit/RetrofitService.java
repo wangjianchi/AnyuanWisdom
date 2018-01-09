@@ -103,6 +103,6 @@ public class RetrofitService {
         mErrorCode.put(74003,"签到地址不能为空");
         mErrorCode.put(74004,"签到定位不能为空");
         mErrorCode.put(74005,"签到图片不能为空");
-        mErrorCode.put(75001,"签到历史为空");
+//        mErrorCode.put(75001,"签到历史为空");
     }
 }

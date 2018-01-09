@@ -19,6 +19,7 @@ import com.ayfp.anyuanwisdom.utils.GlideUtils;
 import com.ayfp.anyuanwisdom.view.ImageBrowserActivity;
 import com.ayfp.anyuanwisdom.view.sign.adapter.SignImageAdapter;
 import com.ayfp.anyuanwisdom.view.sign.bean.SignStatusBean;
+import com.ayfp.anyuanwisdom.view.sign.presenter.SignPresenter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -57,6 +58,8 @@ public class SignHistoryActivity extends BaseActivity{
     ImageView mImageMap;
     @BindView(R.id.layout_empty)
     View mLayoutEmpty;
+    @BindView(R.id.tv_sign_out_des)
+    TextView mTextSignOutDes;
     private SignImageAdapter mAdpater;
     private int year;
     private int month;
@@ -132,13 +135,19 @@ public class SignHistoryActivity extends BaseActivity{
         mTextSignOutTime.setText(bean.getSign_out_time()+"退签");
         mTextSignOutAddress.setText("退签地点："+bean.getSign_out_address());
         mTextContent.setText(bean.getContent());
-        GlideUtils.loadImageView(bean.getLocate_path_url(),mImageMap);
-        mImageMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImageBrowserActivity.start(SignHistoryActivity.this,bean.getLocate_path_url());
-            }
-        });
+        if (bean.getSign_status() == SignPresenter.SIGN_STATUS_IN){
+            mTextSignOutDes.setVisibility(View.VISIBLE);
+        }else {
+            mTextSignOutDes.setVisibility(View.GONE);
+            GlideUtils.loadImageView(bean.getLocate_path_url(),mImageMap);
+            mImageMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ImageBrowserActivity.start(SignHistoryActivity.this,bean.getLocate_path_url());
+                }
+            });
+        }
+
         final List<String> imageStr = new ArrayList<>();
         imageStr.addAll(bean.getSign_in_imgs());
         imageStr.addAll(bean.getSign_out_imgs());

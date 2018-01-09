@@ -15,28 +15,30 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="20dp"
-        android:visibility="gone">
+        >
 
         <ImageView
             android:id="@+id/live_net_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:src="@drawable/info"
-            android:layout_alignParentLeft="true"/>
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/live_flash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/flashstart"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:src="@drawable/flashstart"/>
 
         <ImageView
             android:id="@+id/live_speed_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:src="@drawable/speed"
-            android:layout_alignParentRight="true"/>
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
@@ -96,7 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="50dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

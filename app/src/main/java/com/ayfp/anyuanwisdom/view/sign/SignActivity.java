@@ -1,5 +1,8 @@
 package com.ayfp.anyuanwisdom.view.sign;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -61,7 +64,7 @@ import top.zibin.luban.OnCompressListener;
 
 public class SignActivity extends BaseActivity<SignPresenter> implements ISignView {
     private static final int GPS_REQUEST_CODE = 102;
-    private static int PIG_NUMBER = 5;
+    private static int PIG_NUMBER = 4;
     private static int REQUEST_CAMERA_SIGN_IN = 103;
     private static int REQUEST_CAMERA_SIGN_OUT = 104;
     @BindView(R.id.map_view)
@@ -337,7 +340,9 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAMERA_SIGN_IN || requestCode == REQUEST_CAMERA_SIGN_OUT) {
-            compreeImage(picPath, requestCode);
+            if (resultCode == Activity.RESULT_OK){
+                compreeImage(picPath, requestCode);
+            }
         }
     }
 
@@ -394,7 +399,7 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
     }
 
     @OnClick(R.id.iv_commit) void commit(){
-        String content = mEditContent.getText().toString();
+        final String content = mEditContent.getText().toString();
         if (TextUtils.isEmpty(content)){
             ToastUtils.showToast("请输入签到内容");
             return;
@@ -403,7 +408,21 @@ public class SignActivity extends BaseActivity<SignPresenter> implements ISignVi
         if (mPresenter.getSignStatusBean().getSign_status() == SignPresenter.SIGN_STATUS_NONE){
             mPresenter.signIn(content);
         }else if (mPresenter.getSignStatusBean().getSign_status() == SignPresenter.SIGN_STATUS_IN){
-            mPresenter.signOut(content);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle("确认退签？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mPresenter.signOut(content);
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+            builder.show();
         }
     }
     @OnClick(R.id.tv_right) void history(){

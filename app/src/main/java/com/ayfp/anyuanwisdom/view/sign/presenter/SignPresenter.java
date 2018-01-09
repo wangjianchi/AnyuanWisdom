@@ -77,6 +77,12 @@ public class SignPresenter implements IBasePresenter {
                                 getLocation(false);
                                 mView.showSignInView();
                                 mView.showNotSignOutView();
+                                try {
+                                    String[] signInLocation = mSignStatusBean.getSign_in_locate().split(",");
+                                    mView.loadLocation(true, CommonUtils.StringToDouble(signInLocation[1]),CommonUtils.StringToDouble(signInLocation[0]));
+                                }catch (Exception e){
+
+                                }
                             }else {
                                 mView.loadComplete();
                                 mView.showSignInView();

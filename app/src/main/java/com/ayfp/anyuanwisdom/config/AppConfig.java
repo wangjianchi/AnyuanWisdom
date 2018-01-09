@@ -3,6 +3,7 @@ package com.ayfp.anyuanwisdom.config;
 import android.content.Context;
 import android.content.Intent;
 
+import com.ayfp.anyuanwisdom.config.cache.AppCache;
 import com.ayfp.anyuanwisdom.config.preferences.Preferences;
 import com.ayfp.anyuanwisdom.view.contacts.view.NotificationAcitvity;
 import com.ayfp.anyuanwisdom.view.home.HomeActivity;
@@ -23,6 +24,7 @@ public class AppConfig {
         Preferences.saveUserAccount(null);
         Preferences.saveUserName(null);
         Preferences.saveUserId(null);
+        AppCache.getInstance().setUserBean(null);
         mHomeActivity.observeOnlineStatus(false);
         mHomeActivity.observeCustomNotification(false);
         Intent intent = new Intent(context,LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

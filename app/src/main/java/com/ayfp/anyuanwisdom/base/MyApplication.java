@@ -2,6 +2,7 @@ package com.ayfp.anyuanwisdom.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -44,6 +45,12 @@ public class MyApplication extends Application {
         if (NIMUtil.isMainProcess(this)) {
             initUIKit();
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
     }
 
     private LoginInfo getLoginInfo() {

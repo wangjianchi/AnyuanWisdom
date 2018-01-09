@@ -96,14 +96,27 @@
                         android:textColor="@color/text_color_222222"
                         android:textSize="12sp"/>
                 </LinearLayout>
-                <ImageView
-                    android:id="@+id/iv_map_image"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="185dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:scaleType="fitXY"/>
+                    android:layout_height="185dp">
+                    <ImageView
+                        android:id="@+id/iv_map_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="185dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:scaleType="fitXY"/>
+                    <TextView
+                        android:id="@+id/tv_sign_out_des"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="需退签后，方可查看当日历史轨迹"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_color_222222"
+                        android:layout_gravity="center"
+                        android:visibility="gone"/>
+                </FrameLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

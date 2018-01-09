@@ -48,8 +48,10 @@ public class MineActivity extends BaseActivity {
     TextView mTextName;
     @BindView(R.id.tv_organization)
     TextView mTextOrganization;
-    private String mSettingNames[] = {"个人资料", "单位信息", "修改密码", "意见反馈", "帮助", "安全退出"};
-    private int mResourceId[] = {R.mipmap.icon_person_data, R.mipmap.icon_person_company, R.mipmap.icon_person_password, R.mipmap.icon_person_feedback, R.mipmap.icon_person_help, R.mipmap.icon_exit};
+   // private String mSettingNames[] = {"个人资料", "单位信息", "修改密码", "意见反馈", "帮助", "安全退出"};
+    private String mSettingNames[] = {"个人资料", "修改密码", "安全退出"};
+//    private int mResourceId[] = {R.mipmap.icon_person_data, R.mipmap.icon_person_company, R.mipmap.icon_person_password, R.mipmap.icon_person_feedback, R.mipmap.icon_person_help, R.mipmap.icon_exit};
+    private int mResourceId[] = {R.mipmap.icon_person_data,  R.mipmap.icon_person_password,  R.mipmap.icon_exit};
     private PersonSettingAdapter mAdapter;
 
     @Override
@@ -81,7 +83,7 @@ public class MineActivity extends BaseActivity {
             PersonSettingBean personSettingBean = new PersonSettingBean();
             personSettingBean.setName(mSettingNames[i]);
             personSettingBean.setDrawable(getResources().getDrawable(mResourceId[i]));
-            if (i == 2 || i == 4) {
+            if (i == 0 || i == 1) {
                 personSettingBean.setDiliver(true);
             }
             list.add(personSettingBean);
@@ -97,10 +99,13 @@ public class MineActivity extends BaseActivity {
                         startActivity(intent);
                         break;
                     case 1:
-                        break;
-                    case 2:
                         Intent intent2 = new Intent(MineActivity.this, EditPasswordActivity.class);
                         startActivity(intent2);
+                        break;
+                    case 2:
+                        AppConfig.logOut(MineActivity.this);
+//                        Intent intent2 = new Intent(MineActivity.this, EditPasswordActivity.class);
+//                        startActivity(intent2);
                         break;
                     case 3:
                         break;

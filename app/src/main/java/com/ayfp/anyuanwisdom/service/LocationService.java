@@ -69,7 +69,9 @@ public class LocationService extends Service {
                 .subscribe(new BaseObserver<AppResultData<Object>>() {
                     @Override
                     public void loadSuccess(AppResultData<Object> data) {
-
+                        if (data.getStatus() == 76001){
+                            mLocationClient.stopLocation();
+                        }
                     }
                 });
     }
