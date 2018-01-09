@@ -227,9 +227,9 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
                        imageBean.setType(2);
                        imageBean.setImageFile(file.getAbsolutePath());
                        mData.add(0,imageBean);
-                       if (mData.size() > 5){
-                           mData.remove(5);
-                       }
+//                       if (mData.size() > 5){
+//                           mData.remove(5);
+//                       }
                        mReportImageAdapter.notifyDataSetChanged();
                    }
 

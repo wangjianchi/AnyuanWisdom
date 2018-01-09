@@ -3,6 +3,7 @@ package com.ayfp.anyuanwisdom.view.report.adapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.ayfp.anyuanwisdom.R;
@@ -21,15 +22,28 @@ import java.util.List;
 public class ReportImageAdapter extends BaseQuickAdapter<ReportImageBean,BaseViewHolder> {
     public ReportImageAdapter(@Nullable List<ReportImageBean> data) {
         super(R.layout.item_report_image, data);
+        onClick();
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ReportImageBean item) {
+    protected void convert(BaseViewHolder helper, final ReportImageBean item) {
+        ImageView imageView = helper.getView(R.id.iv_report_image);
         if (item.getType() != 1){
-            ImageView imageView = helper.getView(R.id.iv_report_image);
             Bitmap bm = BitmapFactory.decodeFile(item.getImageFile());
             imageView.setImageBitmap(bm);
-
+        }else {
+            imageView.setImageResource(R.mipmap.icon_upload_pic);
         }
+        helper.setVisible(R.id.iv_delete,item.getType()!=1);
+        helper.addOnClickListener(R.id.iv_delete);
+    }
+    private void onClick(){
+        setOnItemChildClickListener(new OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                mData.remove(position);
+                notifyItemRemoved(position);
+            }
+        });
     }
 }
