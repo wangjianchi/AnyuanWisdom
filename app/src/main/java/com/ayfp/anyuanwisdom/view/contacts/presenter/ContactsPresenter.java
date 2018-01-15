@@ -52,7 +52,7 @@ public class ContactsPresenter implements IBasePresenter {
                             for (ContactsList contactsList: listAppResultData.getResult()){
                                 Level0Item lv0 = new Level0Item(contactsList.getName(), contactsList.getLine_count());
                                 for (ContactsList.ListBeanX listBeanX : contactsList.getList()){
-                                    Level1Item lv1 = new Level1Item(listBeanX.getName(),contactsList.getLine_count());
+                                    Level1Item lv1 = new Level1Item(listBeanX.getName(),listBeanX.getLine_count());
                                     for (Person person : listBeanX.getList()){
                                         lv1.addSubItem(person);
                                     }

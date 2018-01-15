@@ -21,8 +21,8 @@
             android:layout_marginLeft="15dp"/>
         <EditText
             android:id="@+id/et_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
             android:hint="搜一搜"
             android:textSize="13sp"
             android:textColorHint="@color/text_color_666666"

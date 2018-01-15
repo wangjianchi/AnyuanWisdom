@@ -122,6 +122,7 @@ public class SearchContactsActivity extends BaseActivity {
                     public void loadSuccess(AppResultData<List<Person>> data) {
                         dismissProgress();
                         if (data.getStatus() == RetrofitService.SUCCESS){
+                            mList.clear();
                             if (data.getResult().size() > 0){
                                 mList.addAll(data.getResult());
                                 mAdpater.notifyDataSetChanged();

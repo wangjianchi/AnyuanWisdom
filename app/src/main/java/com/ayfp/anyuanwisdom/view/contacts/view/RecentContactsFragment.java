@@ -56,6 +56,8 @@ public class RecentContactsFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new RecentContactsAdapter(mData);
         mRecyclerView.setAdapter(mAdapter);
+        showProgress();
+        getRecentContacts();
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -81,8 +83,14 @@ public class RecentContactsFragment extends BaseFragment {
                 if (recentContacts != null){
                     Log.i("RecentContactsFragment", "onResult: "+ JSON.toJSONString(recentContacts));
                     mData.clear();
-                    mData.addAll(recentContacts);
-                    mAdapter.notifyDataSetChanged();
+                    if (recentContacts.size() > 0){
+                        mData.addAll(recentContacts);
+                        mAdapter.notifyDataSetChanged();
+                    }else {
+                        View view = View.inflate(getActivity(),R.layout.empty_view,null);
+                        mAdapter.setEmptyView(view);
+                    }
+
                 }
                 dismissProgress();
                 mSpringView.onFinishFreshAndLoad();
@@ -93,8 +101,7 @@ public class RecentContactsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        showProgress();
-        getRecentContacts();
+
     }
 
     @Override
