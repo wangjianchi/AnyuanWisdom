@@ -4,11 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -22,15 +21,9 @@ import com.ayfp.anyuanwisdom.nim.avchat.receiver.PhoneCallStateObserver;
 import com.ayfp.anyuanwisdom.service.LocationService;
 import com.ayfp.anyuanwisdom.utils.PermissionCheckUtils;
 import com.ayfp.anyuanwisdom.utils.ToastUtils;
-import com.ayfp.anyuanwisdom.utils.UIUtils;
 import com.ayfp.anyuanwisdom.view.contacts.view.ContactsActivity;
-import com.ayfp.anyuanwisdom.view.home.adapter.GalleryAdapter;
-import com.ayfp.anyuanwisdom.view.home.adapter.InfinitePagerAdapter;
-import com.ayfp.anyuanwisdom.view.home.adapter.InfiniteViewPager;
-import com.ayfp.anyuanwisdom.view.home.adapter.ScalePageTransformer;
 import com.ayfp.anyuanwisdom.view.live.CallLiveActivity;
 import com.ayfp.anyuanwisdom.view.live.LiveActivity;
-import com.ayfp.anyuanwisdom.view.notice.NoticeDetailActivity;
 import com.ayfp.anyuanwisdom.view.notice.NoticeListActivity;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
 import com.ayfp.anyuanwisdom.view.personal.MineActivity;
@@ -68,10 +61,16 @@ import butterknife.OnClick;
  */
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeView {
-    @BindView(R.id.vp_notice)
-    InfiniteViewPager mViewPager;
-    @BindView(R.id.layout_container)
-    View mContainer;
+    @BindView(R.id.iv_back)
+    ImageView mImageLeft;
+    @BindView(R.id.tv_title)
+    TextView mTextTitle;
+    @BindView(R.id.iv_right)
+    ImageView mImageRight;
+//    @BindView(R.id.vp_notice)
+//    InfiniteViewPager mViewPager;
+//    @BindView(R.id.layout_container)
+//    View mContainer;
     @BindView(R.id.iv_unread)
     ImageView mImageUnread;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
@@ -89,6 +88,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
 
     @Override
     protected void initViews() {
+        mImageLeft.setVisibility(View.GONE);
+        mTextTitle.setText("安远精准扶贫信息管理系统");
+        mImageRight.setVisibility(View.VISIBLE);
+        mImageRight.setImageResource(R.mipmap.icon_mine);
         AppConfig.mHomeActivity = this;
         requestBasicPermission();
         mPresenter.getData();
@@ -262,7 +265,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
         return new HomePresenter(this);
     }
 
-    @OnClick(R.id.iv_personal) void mine(){
+    @OnClick(R.id.iv_right) void mine(){
         Intent intent = new Intent(this, MineActivity.class);
         startActivity(intent);
     }
@@ -293,26 +296,26 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
 
     @Override
     public void getNoticeList(final List<NoticeListBean> listBean) {
-        mContainer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return mViewPager.dispatchTouchEvent(motionEvent);
-            }
-        });
-        GalleryAdapter galleryAdapter = new GalleryAdapter(listBean,this);
-        galleryAdapter.setListener(new GalleryAdapter.OnClickListener() {
-            @Override
-            public void onClick(int position) {
-                Intent intent = new Intent(HomeActivity.this,NoticeDetailActivity.class);
-                intent.putExtra("id",listBean.get(position).getId());
-                startActivity(intent);
-            }
-        });
-        PagerAdapter adapter = new InfinitePagerAdapter(galleryAdapter);
-        mViewPager.setOffscreenPageLimit(3);
-        mViewPager.setPageMargin(UIUtils.dip2px(-15));
-        mViewPager.setPageTransformer(true,new ScalePageTransformer());
-        mViewPager.setAdapter(adapter);
+//        mContainer.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                return mViewPager.dispatchTouchEvent(motionEvent);
+//            }
+//        });
+//        GalleryAdapter galleryAdapter = new GalleryAdapter(listBean,this);
+//        galleryAdapter.setListener(new GalleryAdapter.OnClickListener() {
+//            @Override
+//            public void onClick(int position) {
+//                Intent intent = new Intent(HomeActivity.this,NoticeDetailActivity.class);
+//                intent.putExtra("id",listBean.get(position).getId());
+//                startActivity(intent);
+//            }
+//        });
+//        PagerAdapter adapter = new InfinitePagerAdapter(galleryAdapter);
+//        mViewPager.setOffscreenPageLimit(3);
+//        mViewPager.setPageMargin(UIUtils.dip2px(-15));
+//        mViewPager.setPageTransformer(true,new ScalePageTransformer());
+//        mViewPager.setAdapter(adapter);
     }
 
     @Override
