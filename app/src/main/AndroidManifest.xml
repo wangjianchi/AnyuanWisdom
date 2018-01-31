@@ -266,6 +266,12 @@
         <activity
             android:name=".view.sign.SignHistoryActivity"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".view.report.ReportListActivity"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".view.report.ReportDetailActivity"
+            android:theme="@style/AppTheme"/>
 
         <service android:name=".service.LocationService"/>
     </application>

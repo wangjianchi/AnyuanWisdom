@@ -2,6 +2,7 @@ package com.ayfp.anyuanwisdom.view.report.presenter;
 
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
 import com.ayfp.anyuanwisdom.bean.EventCategory;
+import com.ayfp.anyuanwisdom.bean.EventConfig;
 import com.ayfp.anyuanwisdom.bean.EventDegree;
 import com.ayfp.anyuanwisdom.config.cache.AppCache;
 import com.ayfp.anyuanwisdom.config.preferences.Preferences;
@@ -28,8 +29,10 @@ public class ReportPresenter implements IBasePresenter {
     private IReportView mView;
     private List<EventCategory> categoryList = new ArrayList<>();
     private List<EventDegree> degreeList = new ArrayList<>();
+    private List<EventConfig.EventStatusBean> statusList = new ArrayList<>();
     private EventCategory mEventCategory;
     private EventDegree mEventDegree;
+    private EventConfig.EventStatusBean mStatusBean;
     private int townId, villageId;
     public ReportPresenter(IReportView view){
         this.mView = view;
@@ -40,6 +43,7 @@ public class ReportPresenter implements IBasePresenter {
         try {
             categoryList = AppCache.getInstance().getCategoryList();
             degreeList = AppCache.getInstance().getDegreeList();
+            statusList = AppCache.getInstance().getStatusList();
             mEventCategory = categoryList.get(0);
         }catch (Exception e){
 
@@ -47,8 +51,18 @@ public class ReportPresenter implements IBasePresenter {
     }
 
     public void commitEventReport(String title,String content,String images,String houseNubmer){
+        if (mEventDegree == null){
+            ToastUtils.showToast("请选择事件程度");
+            mView.loadComplete();
+            return;
+        }
+        if (mStatusBean == null){
+            ToastUtils.showToast("请选择事件状态");
+            mView.loadComplete();
+            return;
+        }
         RetrofitService.getApi().eventReport(RetrofitService.TOKEN, Preferences.getUserName(), title, CommonUtils.StringToInt(mEventCategory.getId())
-                ,CommonUtils.StringToInt(mEventDegree.getId()),content,images,townId,villageId,houseNubmer)
+                ,CommonUtils.StringToInt(mEventDegree.getId()),content,images,townId,villageId,houseNubmer,CommonUtils.StringToInt(mStatusBean.getId()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(mView.<AppResultData<Object>>bindToLife())
@@ -75,6 +89,10 @@ public class ReportPresenter implements IBasePresenter {
         return degreeList;
     }
 
+    public List<EventConfig.EventStatusBean> getStatusList() {
+        return statusList;
+    }
+
     public EventCategory getEventCategory() {
         return mEventCategory;
     }
@@ -89,6 +107,10 @@ public class ReportPresenter implements IBasePresenter {
 
     public void setEventDegree(EventDegree eventDegree) {
         mEventDegree = eventDegree;
+    }
+
+    public void setStatusBean(EventConfig.EventStatusBean statusBean) {
+        mStatusBean = statusBean;
     }
 
     public int getTownId() {

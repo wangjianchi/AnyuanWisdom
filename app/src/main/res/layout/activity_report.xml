@@ -113,6 +113,33 @@
                 android:layout_height="10dp"
                 android:background="@color/color_fbfbfb"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:text="事件状态："
+                    android:textColor="@color/text_color_222222"
+                    android:textSize="13sp"/>
+
+                <RadioGroup
+                    android:id="@+id/rg_event_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+                </RadioGroup>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/color_fbfbfb"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -215,6 +242,28 @@
                     android:overScrollMode="never"
                     android:scrollbars="none"/>
             </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:text="提交后系统会自动保存在历史列表"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginTop="30dp"/>
+                <ImageView
+                    android:id="@+id/iv_commit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/bg_commit"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

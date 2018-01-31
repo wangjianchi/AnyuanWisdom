@@ -2,6 +2,7 @@ package com.ayfp.anyuanwisdom.view.home;
 
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
 import com.ayfp.anyuanwisdom.bean.EventCategory;
+import com.ayfp.anyuanwisdom.bean.EventConfig;
 import com.ayfp.anyuanwisdom.bean.EventDegree;
 import com.ayfp.anyuanwisdom.bean.Town;
 import com.ayfp.anyuanwisdom.config.cache.AppCache;
@@ -34,6 +35,7 @@ public class HomePresenter implements IBasePresenter {
         getEventDegree();
         getTown();
         getSignStatus();
+        getConfig();
     }
 
     private void getIndexNotice(){
@@ -112,6 +114,23 @@ public class HomePresenter implements IBasePresenter {
                         if (data.getStatus() == RetrofitService.SUCCESS){
                             if (data.getResult().getSign_status() == SignPresenter.SIGN_STATUS_IN){
                                 mView.startLocation();
+                            }
+                        }
+                    }
+                });
+    }
+
+    public void getConfig(){
+        RetrofitService.getApi().getConfig(RetrofitService.TOKEN)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(mView.<AppResultData<EventConfig>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<EventConfig>>() {
+                    @Override
+                    public void loadSuccess(AppResultData<EventConfig> data) {
+                        if (data.getStatus() == RetrofitService.SUCCESS){
+                            if (data.getResult() != null && data.getResult().getEvent_status().size() > 0){
+                                AppCache.getInstance().setStatusList(data.getResult().getEvent_status());
                             }
                         }
                     }

@@ -72,6 +72,12 @@ public class MessageFragment extends TFragment implements ModuleProxy {
 
     protected AitManager aitManager;
 
+    private OnChatClick mOnChatClick;
+
+    public void setOnChatClick(OnChatClick onChatClick) {
+        mOnChatClick = onChatClick;
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -81,7 +87,23 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.nim_message_fragment, container, false);
+        rootView.findViewById(R.id.iv_chat_audio).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              mOnChatClick.onAudioClick();
+            }
+        });
+        rootView.findViewById(R.id.iv_chat_video).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnChatClick.onVideoClick();
+            }
+        });
         return rootView;
+    }
+    public interface OnChatClick{
+        void onAudioClick();
+        void onVideoClick();
     }
 
     /**

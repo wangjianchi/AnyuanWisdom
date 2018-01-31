@@ -1,6 +1,7 @@
 package com.ayfp.anyuanwisdom.retrofit;
 
 import com.ayfp.anyuanwisdom.bean.EventCategory;
+import com.ayfp.anyuanwisdom.bean.EventConfig;
 import com.ayfp.anyuanwisdom.bean.EventDegree;
 import com.ayfp.anyuanwisdom.bean.Town;
 import com.ayfp.anyuanwisdom.bean.UserBean;
@@ -9,6 +10,8 @@ import com.ayfp.anyuanwisdom.view.contacts.bean.Person;
 import com.ayfp.anyuanwisdom.view.live.bean.LivePushUrlBean;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeDetail;
 import com.ayfp.anyuanwisdom.view.notice.bean.NoticeListBean;
+import com.ayfp.anyuanwisdom.view.report.bean.EventBean;
+import com.ayfp.anyuanwisdom.view.report.bean.EventListBean;
 import com.ayfp.anyuanwisdom.view.sign.bean.SignAddress;
 import com.ayfp.anyuanwisdom.view.sign.bean.SignStatusBean;
 
@@ -77,6 +80,10 @@ public interface ApiStores {
     Observable<AppResultData<List<Town>>> getTownOptions(@Field("token") String token);
 
     @FormUrlEncoded
+    @POST("api.php?app=userInterface&act=getConfig")
+    Observable<AppResultData<EventConfig>> getConfig(@Field("token") String token);
+
+    @FormUrlEncoded
     @POST("api.php?app=townVillageInterface&act=getVillageOptions")
     Observable<AppResultData<List<Town>>> getVillageOptions(@Field("token") String token,
                                                             @Field("town_id") int id);
@@ -93,7 +100,27 @@ public interface ApiStores {
                                                   @Field("event_images") String event_images,
                                                   @Field("town_id") int town_id,
                                                   @Field("village_id") int village_id,
-                                                  @Field("house_number") String house_number);
+                                                  @Field("house_number") String house_number,
+                                                  @Field("status_id") int status_id);
+
+    @FormUrlEncoded
+    @POST("api.php?app=eventReportInterface&act=getEventReportByLimit")
+    Observable<AppResultData<List<EventListBean>>> getEventReportByLimit(@Field("token") String token,
+                                                                         @Field("user_name") String user_name,
+                                                                         @Field("start") int start,
+                                                                         @Field("length") int length);
+
+    @FormUrlEncoded
+    @POST("api.php?app=eventReportInterface&act=deleteEventReport")
+    Observable<AppResultData<Object>> deleteEventReport(@Field("token") String token,
+                                                                 @Field("user_name") String user_name,
+                                                        @Field("event_id") int event_id);
+
+    @FormUrlEncoded
+    @POST("api.php?app=eventReportInterface&act=getEventReportById")
+    Observable<AppResultData<EventBean>> getEventReportById(@Field("token") String token,
+                                                            @Field("user_name") String user_name,
+                                                            @Field("event_id") int event_id);
 
     @FormUrlEncoded
     @POST("api.php?app=addressBookInterface&act=getAddressBook")

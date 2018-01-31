@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.ayfp.anyuanwisdom.R;
 import com.ayfp.anyuanwisdom.base.BaseActivity;
 import com.ayfp.anyuanwisdom.base.MyApplication;
 import com.ayfp.anyuanwisdom.bean.EventCategory;
+import com.ayfp.anyuanwisdom.bean.EventConfig;
 import com.ayfp.anyuanwisdom.bean.EventDegree;
 import com.ayfp.anyuanwisdom.utils.CommonUtils;
 import com.ayfp.anyuanwisdom.utils.FileUtils;
@@ -63,8 +65,8 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
     private static int REQUEST_IMAGES= 3;
     @BindView(R.id.tv_title)
     TextView mTextTitle;
-    @BindView(R.id.tv_right)
-    TextView mTextRight;
+    @BindView(R.id.iv_right)
+    ImageView mImageRight;
     @BindView(R.id.rv_report_pic)
     RecyclerView mRecyclerView;
     @BindView(R.id.layout_root)
@@ -75,6 +77,8 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
     TextView mTextCategoryName;
     @BindView(R.id.rg_event_degree)
     RadioGroup mRadioGroup;
+    @BindView(R.id.rg_event_status)
+    RadioGroup mRadioGroupStatus;
     @BindView(R.id.et_event_content)
     EditText mEditContent;
     @BindView(R.id.tv_address)
@@ -98,8 +102,8 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
     @Override
     protected void initViews() {
         mTextTitle.setText("事件上报");
-        mTextRight.setText("提交");
-        mTextRight.setVisibility(View.VISIBLE);
+        mImageRight.setImageResource(R.mipmap.icon_report_list);
+        mImageRight.setVisibility(View.VISIBLE);
         mPresenter.getData();
         mTextCategoryName.setText("事件分类："+mPresenter.getEventCategory().getCate_name());
         mData.add(new ReportImageBean());
@@ -117,6 +121,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             }
         });
         setRadioButton();
+        setStatusRadioButton();
     }
 
     private void setRadioButton() {
@@ -145,6 +150,28 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
                 }
             });
             mRadioGroup.addView(radioButton);
+        }
+    }
+    private void setStatusRadioButton() {
+        for (int i = 0; i < mPresenter.getStatusList().size(); i++) {
+            final EventConfig.EventStatusBean eventStatusBean = mPresenter.getStatusList().get(i);
+            RadioButton radioButton = new RadioButton(this);
+            RadioGroup.LayoutParams lp = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(UIUtils.dip2px(20), 0, 0, 0);
+            radioButton.setLayoutParams(lp);
+            radioButton.setButtonDrawable(getResources().getDrawable(R.drawable.select_radio_event));
+            String text = eventStatusBean.getStatus();
+            radioButton.setText(text);
+            radioButton.setTextSize(13);
+            radioButton.setPadding(UIUtils.dip2px(7),0,0,0);
+            radioButton.setTextColor(getResources().getColor(R.color.text_color_222222));
+            radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mPresenter.setStatusBean(eventStatusBean);
+                }
+            });
+            mRadioGroupStatus.addView(radioButton);
         }
     }
 
@@ -276,7 +303,11 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
         finish();
     }
 
-    @OnClick(R.id.tv_right) void commit(){
+    @OnClick(R.id.iv_right) void right(){
+        Intent intent = new Intent(this,ReportListActivity.class);
+        startActivityForResult(intent,100);
+    }
+    @OnClick(R.id.iv_commit) void commit(){
         String title = mEditTitle.getText().toString();
         if (TextUtils.isEmpty(title)){
             ToastUtils.showToast("请输入标题");

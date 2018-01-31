@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ayfp.anyuanwisdom.R;
+import com.ayfp.anyuanwisdom.nim.avchat.activity.AVChatActivity;
 import com.ayfp.anyuanwisdom.nim.session.SessionHelper;
 import com.ayfp.anyuanwisdom.utils.ToastUtils;
 import com.netease.nim.uikit.api.NimUIKit;
@@ -20,6 +21,7 @@ import com.netease.nim.uikit.business.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.impl.NimUIKitImpl;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.avchat.constant.AVChatType;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
@@ -164,6 +166,17 @@ public class ChatActivity extends BaseMessageActivity {
         MessageFragment fragment = new MessageFragment();
         fragment.setArguments(arguments);
         fragment.setContainerId(R.id.message_fragment_container);
+        fragment.setOnChatClick(new MessageFragment.OnChatClick() {
+            @Override
+            public void onAudioClick() {
+                AVChatActivity.launch(ChatActivity.this, sessionId, AVChatType.AUDIO.getValue(), AVChatActivity.FROM_INTERNAL);
+            }
+
+            @Override
+            public void onVideoClick() {
+                AVChatActivity.launch(ChatActivity.this, sessionId, AVChatType.VIDEO.getValue(), AVChatActivity.FROM_INTERNAL);
+            }
+        });
         return fragment;
     }
 
