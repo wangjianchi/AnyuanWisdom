@@ -104,6 +104,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
                     android:text=""
+                    android:drawablePadding="3dp"
                     android:textColor="@color/text_color_fa2334"
                     android:textSize="13sp"/>
             </LinearLayout>
@@ -123,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="20dp"
                     android:background="@null"
                     android:hint=""
                     android:textColor="@color/text_color_999999"
@@ -141,6 +142,7 @@
                     android:scrollbars="none"/>
 
                 <ImageView
+                    android:id="@+id/iv_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/bg_edit"

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.ayfp.anyuanwisdom.R;
+import com.ayfp.anyuanwisdom.utils.GlideUtils;
 import com.ayfp.anyuanwisdom.view.report.bean.ReportImageBean;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -28,13 +29,15 @@ public class ReportImageAdapter extends BaseQuickAdapter<ReportImageBean,BaseVie
     @Override
     protected void convert(BaseViewHolder helper, final ReportImageBean item) {
         ImageView imageView = helper.getView(R.id.iv_report_image);
-        if (item.getType() != 1){
+        if (item.getType() == 2){
             Bitmap bm = BitmapFactory.decodeFile(item.getImageFile());
             imageView.setImageBitmap(bm);
-        }else {
+        }else if (item.getType() == 1){
             imageView.setImageResource(R.mipmap.icon_upload_pic);
+        }else if (item.getType() == 3){
+            GlideUtils.loadImageView(item.getImageFile(),imageView);
         }
-        helper.setVisible(R.id.iv_delete,item.getType()!=1);
+        helper.setVisible(R.id.iv_delete,item.isDelete());
         helper.addOnClickListener(R.id.iv_delete);
     }
     private void onClick(){

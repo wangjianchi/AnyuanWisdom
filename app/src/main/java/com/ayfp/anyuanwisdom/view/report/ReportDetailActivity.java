@@ -1,7 +1,10 @@
 package com.ayfp.anyuanwisdom.view.report;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,6 +15,7 @@ import com.ayfp.anyuanwisdom.config.preferences.Preferences;
 import com.ayfp.anyuanwisdom.retrofit.AppResultData;
 import com.ayfp.anyuanwisdom.retrofit.BaseObserver;
 import com.ayfp.anyuanwisdom.retrofit.RetrofitService;
+import com.ayfp.anyuanwisdom.utils.UIUtils;
 import com.ayfp.anyuanwisdom.view.ImageBrowserActivity;
 import com.ayfp.anyuanwisdom.view.report.adapter.ReportImageAdapter;
 import com.ayfp.anyuanwisdom.view.report.bean.EventBean;
@@ -50,6 +54,7 @@ public class ReportDetailActivity extends BaseActivity {
     private int eventId;
     private List<ReportImageBean> mData = new ArrayList<>();
     private ReportImageAdapter mReportImageAdapter;
+    private EventBean eventBean;
     @Override
     public void loadComplete() {
 
@@ -88,12 +93,41 @@ public class ReportDetailActivity extends BaseActivity {
                     public void loadSuccess(AppResultData<EventBean> data) {
                         dismissProgress();
                         if (data.getStatus() == RetrofitService.SUCCESS){
-                            EventBean eventBean = data.getResult();
+                            eventBean = data.getResult();
                             tv_event_title.setText("主题："+eventBean.getTitle());
                             tv_category.setText("事件分类："+eventBean.getEvent_category());
                             tv_degree.setText(eventBean.getEvent_degree());
                             tv_status.setText(eventBean.getEvent_status());
                             tv_event_content.setText(eventBean.getContent());
+                            if (eventBean.getEvent_status_id().equals("1")){
+                                tv_status.setCompoundDrawablesWithIntrinsicBounds(UIUtils.getDrawable(R.mipmap.icon_status_up),null,null,null);
+                                tv_status.setTextColor(UIUtils.getColor(R.color.color_f93b3b));
+                            }else if (eventBean.getEvent_status_id().equals("2")){
+                                tv_status.setCompoundDrawablesWithIntrinsicBounds(UIUtils.getDrawable(R.mipmap.icon_status_two),null,null,null);
+                                tv_status.setTextColor(UIUtils.getColor(R.color.color_fc9604));
+                            }else {
+                                tv_status.setCompoundDrawablesWithIntrinsicBounds(UIUtils.getDrawable(R.mipmap.icon_status_three),null,null,null);
+                                tv_status.setTextColor(UIUtils.getColor(R.color.color_22ac38));
+                            }
+
+                            if (eventBean.getEvent_degree().equals("严重")) {
+                                tv_degree.setTextColor(getResources().getColor(R.color.color_red));
+                            } else if (eventBean.getEvent_degree().equals("较重")) {
+                                tv_degree.setTextColor(getResources().getColor(R.color.color_orange));
+                            } else {
+                                tv_degree.setTextColor(getResources().getColor(R.color.color_green));
+                            }
+                            if (!TextUtils.isEmpty(eventBean.getImgs())){
+                                String images[] = eventBean.getImgs().split(";");
+                                for (String url:images){
+                                     ReportImageBean reportImageBean = new ReportImageBean();
+                                     reportImageBean.setType(3);
+                                     reportImageBean.setImageFile(url);
+                                     mData.add(reportImageBean);
+                                }
+                                mReportImageAdapter.notifyDataSetChanged();
+                                eventBean.setImageList(mData);
+                            }
                         }
                     }
                 });
@@ -105,6 +139,16 @@ public class ReportDetailActivity extends BaseActivity {
     }
     @OnClick(R.id.iv_back)
     void back() {
+        finish();
+    }
+
+    @OnClick(R.id.iv_edit)
+    void edit(){
+        Intent intent = new Intent(this,ReportActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ReportActivity.EDIT_REPORT_DATA,eventBean);
+        intent.putExtras(bundle);
+        startActivity(intent);
         finish();
     }
 }

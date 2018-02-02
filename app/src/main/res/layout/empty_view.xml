@@ -5,7 +5,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="没有最近联系人"
+        android:text="没有数据"
         android:textSize="16sp"
+        android:layout_marginTop="50dp"
         android:layout_gravity="center"/>
 </FrameLayout>

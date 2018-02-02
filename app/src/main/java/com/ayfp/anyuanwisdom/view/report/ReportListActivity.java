@@ -61,6 +61,7 @@ public class ReportListActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        mTextTitle.setText("事件列表");
         mAdapter = new EventListAdapter(mData);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
@@ -134,6 +135,10 @@ public class ReportListActivity extends BaseActivity {
                                 mAdapter.notifyDataSetChanged();
                             } else {
                                 mAdapter.loadMoreEnd();
+                                if (start == 0){
+                                    View view = View.inflate(ReportListActivity.this,R.layout.empty_view,null);
+                                    mAdapter.setEmptyView(view);
+                                }
                             }
                         }
                     }
@@ -143,8 +148,8 @@ public class ReportListActivity extends BaseActivity {
     private void deleteItem(String reportId){
         showProgress();
         RetrofitService.getApi().deleteEventReport(RetrofitService.TOKEN, Preferences.getUserName(), CommonUtils.StringToInt(reportId))
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .compose(this.<AppResultData<Object>>bindToLife())
                 .subscribe(new BaseObserver<AppResultData<Object>>() {
 
@@ -153,6 +158,8 @@ public class ReportListActivity extends BaseActivity {
                         dismissProgress();
                         if (data.getStatus() == RetrofitService.SUCCESS){
                             ToastUtils.showToast("删除成功");
+                            start = 0;
+                            getEventList();
                         }
                     }
                 });

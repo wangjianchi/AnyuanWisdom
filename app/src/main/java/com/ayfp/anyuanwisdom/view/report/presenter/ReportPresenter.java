@@ -1,5 +1,7 @@
 package com.ayfp.anyuanwisdom.view.report.presenter;
 
+import android.text.TextUtils;
+
 import com.ayfp.anyuanwisdom.base.IBasePresenter;
 import com.ayfp.anyuanwisdom.bean.EventCategory;
 import com.ayfp.anyuanwisdom.bean.EventConfig;
@@ -31,8 +33,9 @@ public class ReportPresenter implements IBasePresenter {
     private List<EventDegree> degreeList = new ArrayList<>();
     private List<EventConfig.EventStatusBean> statusList = new ArrayList<>();
     private EventCategory mEventCategory;
-    private EventDegree mEventDegree;
-    private EventConfig.EventStatusBean mStatusBean;
+    private String mCategoryId;
+    private String mDegreeId;
+    private String mStatusId;
     private int townId, villageId;
     public ReportPresenter(IReportView view){
         this.mView = view;
@@ -45,24 +48,55 @@ public class ReportPresenter implements IBasePresenter {
             degreeList = AppCache.getInstance().getDegreeList();
             statusList = AppCache.getInstance().getStatusList();
             mEventCategory = categoryList.get(0);
+            mCategoryId = mEventCategory.getId();
         }catch (Exception e){
 
         }
     }
 
     public void commitEventReport(String title,String content,String images,String houseNubmer){
-        if (mEventDegree == null){
+        if (TextUtils.isEmpty(mDegreeId)){
             ToastUtils.showToast("请选择事件程度");
             mView.loadComplete();
             return;
         }
-        if (mStatusBean == null){
+        if (TextUtils.isEmpty(mStatusId)){
             ToastUtils.showToast("请选择事件状态");
             mView.loadComplete();
             return;
         }
-        RetrofitService.getApi().eventReport(RetrofitService.TOKEN, Preferences.getUserName(), title, CommonUtils.StringToInt(mEventCategory.getId())
-                ,CommonUtils.StringToInt(mEventDegree.getId()),content,images,townId,villageId,houseNubmer,CommonUtils.StringToInt(mStatusBean.getId()))
+        RetrofitService.getApi().eventReport(RetrofitService.TOKEN, Preferences.getUserName(), title, CommonUtils.StringToInt(mCategoryId)
+                ,CommonUtils.StringToInt(mDegreeId),content,images,townId,villageId,houseNubmer,CommonUtils.StringToInt(mStatusId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(mView.<AppResultData<Object>>bindToLife())
+                .subscribe(new BaseObserver<AppResultData<Object>>() {
+                    @Override
+                    public void loadSuccess(AppResultData<Object> objectAppResultData) {
+                        mView.loadComplete();
+                        if (objectAppResultData.getStatus() == RetrofitService.SUCCESS){
+                            mView.reportSuccess();
+                        }else {
+                            ToastUtils.showToast(objectAppResultData.getStatusMsg());
+                        }
+                    }
+                });
+
+    }
+
+    public void commitEventEdit(int eventId,String title,String content,String images,String houseNubmer){
+        if (TextUtils.isEmpty(mDegreeId)){
+            ToastUtils.showToast("请选择事件程度");
+            mView.loadComplete();
+            return;
+        }
+        if (TextUtils.isEmpty(mStatusId)){
+            ToastUtils.showToast("请选择事件状态");
+            mView.loadComplete();
+            return;
+        }
+        RetrofitService.getApi().updateEventReport(RetrofitService.TOKEN,eventId, Preferences.getUserName(), title, CommonUtils.StringToInt(mCategoryId),
+                CommonUtils.StringToInt(mDegreeId),content,images,townId,villageId,houseNubmer,CommonUtils.StringToInt(mStatusId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(mView.<AppResultData<Object>>bindToLife())
@@ -97,21 +131,6 @@ public class ReportPresenter implements IBasePresenter {
         return mEventCategory;
     }
 
-    public EventDegree getEventDegree() {
-        return mEventDegree;
-    }
-
-    public void setEventCategory(EventCategory eventCategory) {
-        mEventCategory = eventCategory;
-    }
-
-    public void setEventDegree(EventDegree eventDegree) {
-        mEventDegree = eventDegree;
-    }
-
-    public void setStatusBean(EventConfig.EventStatusBean statusBean) {
-        mStatusBean = statusBean;
-    }
 
     public int getTownId() {
         return townId;
@@ -132,5 +151,17 @@ public class ReportPresenter implements IBasePresenter {
     @Override
     public void networkConnected() {
 
+    }
+
+    public void setCategoryId(String categoryId) {
+        mCategoryId = categoryId;
+    }
+
+    public void setDegreeId(String degreeId) {
+        mDegreeId = degreeId;
+    }
+
+    public void setStatusId(String statusId) {
+        mStatusId = statusId;
     }
 }

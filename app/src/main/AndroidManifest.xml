@@ -170,6 +170,7 @@
         <activity
             android:name=".view.report.ReportActivity"
             android:theme="@style/AppTheme"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".view.personal.EditPersonalActivity"

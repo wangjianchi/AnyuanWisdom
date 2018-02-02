@@ -36,6 +36,7 @@ import com.ayfp.anyuanwisdom.utils.ToastUtils;
 import com.ayfp.anyuanwisdom.utils.UIUtils;
 import com.ayfp.anyuanwisdom.view.ImageBrowserActivity;
 import com.ayfp.anyuanwisdom.view.report.adapter.ReportImageAdapter;
+import com.ayfp.anyuanwisdom.view.report.bean.EventBean;
 import com.ayfp.anyuanwisdom.view.report.bean.ReportImageBean;
 import com.ayfp.anyuanwisdom.view.report.iview.IReportView;
 import com.ayfp.anyuanwisdom.view.report.presenter.ReportPresenter;
@@ -61,6 +62,7 @@ import top.zibin.luban.OnCompressListener;
  */
 
 public class ReportActivity extends BaseActivity<ReportPresenter> implements IReportView {
+    public static final String EDIT_REPORT_DATA = "edit_report_bean";
     private static int REQUEST_CAMERA = 2;
     private static int REQUEST_IMAGES= 3;
     @BindView(R.id.tv_title)
@@ -88,6 +90,8 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
     private ReportImageAdapter mReportImageAdapter;
     private List<ReportImageBean> mData = new ArrayList<>();
     private String picPath = "";
+    private boolean mEdit = false;
+    private EventBean mEventBean;
 
     @Override
     public void loadComplete() {
@@ -123,6 +127,52 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
         setRadioButton();
         setStatusRadioButton();
     }
+    private void parseIntent(Intent intent){
+        if (intent.hasExtra(EDIT_REPORT_DATA)){
+            mEventBean = intent.getParcelableExtra(EDIT_REPORT_DATA);
+            if (mEventBean != null){
+                mEdit = true;
+            }
+        }
+    }
+
+    private void showEditData(){
+        mEditTitle.setText(mEventBean.getTitle());
+        mEditNumber.setText(mEventBean.getHouse_number());
+        mEditContent.setText(mEventBean.getContent());
+        mData.clear();
+        for (ReportImageBean imageBean : mEventBean.getImageList()){
+            imageBean.setDelete(true);
+            mData.add(imageBean);
+        }
+        mData.add(new ReportImageBean());
+        mReportImageAdapter.notifyDataSetChanged();
+        mTextCategoryName.setText("事件分类："+mEventBean.getEvent_category());
+        mTextAddress.setText("上报地点："+mEventBean.getVillage_name());
+        for (int i = 0;i < mRadioGroup.getChildCount();i++){
+            RadioButton rb = (RadioButton) mRadioGroup.getChildAt(i);
+            if (mEdit && rb.getText().equals(mEventBean.getEvent_degree())){
+                rb.setChecked(true);
+            }
+        }
+        for (int i = 0;i < mRadioGroupStatus.getChildCount();i++){
+            RadioButton rb = (RadioButton) mRadioGroupStatus.getChildAt(i);
+            if (mEdit && rb.getText().equals(mEventBean.getEvent_status())){
+                rb.setChecked(true);
+            }
+        }
+        mPresenter.setVillageId(CommonUtils.StringToInt(mEventBean.getVillage_id()));
+        mPresenter.setTownId(CommonUtils.StringToInt(mEventBean.getTown_id()));
+        mPresenter.setCategoryId(mEventBean.getEvent_category_id());
+        mPresenter.setDegreeId(mEventBean.getEvent_degree_id());
+        mPresenter.setStatusId(mEventBean.getEvent_status_id());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        parseIntent(intent);
+        showEditData();
+    }
 
     private void setRadioButton() {
         for (int i = 0; i < mPresenter.getDegreeList().size(); i++) {
@@ -146,10 +196,11 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mPresenter.setEventDegree(eventDegree);
+                    mPresenter.setDegreeId(eventDegree.getId());
                 }
             });
             mRadioGroup.addView(radioButton);
+
         }
     }
     private void setStatusRadioButton() {
@@ -168,7 +219,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mPresenter.setStatusBean(eventStatusBean);
+                    mPresenter.setStatusId(eventStatusBean.getId());
                 }
             });
             mRadioGroupStatus.addView(radioButton);
@@ -253,6 +304,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
                        ReportImageBean imageBean = new ReportImageBean();
                        imageBean.setType(2);
                        imageBean.setImageFile(file.getAbsolutePath());
+                       imageBean.setDelete(true);
                        mData.add(0,imageBean);
 //                       if (mData.size() > 5){
 //                           mData.remove(5);
@@ -274,7 +326,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             @Override
             public void categorySelect(EventCategory eventCategory) {
                 mTextCategoryName.setText("事件分类："+eventCategory.getCate_name());
-                mPresenter.setEventCategory(eventCategory);
+                mPresenter.setCategoryId(eventCategory.getId());
             }
         });
         popupWindow.showAtLocation(mRootView, Gravity.NO_GRAVITY, 0, 0);
@@ -305,7 +357,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
 
     @OnClick(R.id.iv_right) void right(){
         Intent intent = new Intent(this,ReportListActivity.class);
-        startActivityForResult(intent,100);
+        startActivity(intent);
     }
     @OnClick(R.id.iv_commit) void commit(){
         String title = mEditTitle.getText().toString();
@@ -314,10 +366,6 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             return;
         }
         String content = mEditContent.getText().toString();
-        if (mPresenter.getEventDegree() == null){
-            ToastUtils.showToast("请选择事件程度");
-            return;
-        }
         if (mPresenter.getTownId() == 0 || mPresenter.getVillageId() == 0){
             ToastUtils.showToast("请选择上报地点");
             return;
@@ -330,7 +378,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
         showProgress();
         StringBuffer eventImages = new StringBuffer();
         for (int i = 0 ; i < mData.size(); i++){
-            if (mData.get(i).getType() != 1){
+            if (mData.get(i).getType() == 2){
                 Bitmap bitmap = BitmapFactory.decodeFile(mData.get(i).getImageFile());
                 String image = FileUtils.Bitmap2StrByBase64(bitmap);
                 if (eventImages.length() > 0){
@@ -340,12 +388,16 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
                 }
             }
         }
-        mPresenter.commitEventReport(title,content,eventImages.toString(),houseNumber);
+        if (mEdit){
+            mPresenter.commitEventEdit(CommonUtils.StringToInt(mEventBean.getId()),title,content,eventImages.toString(),houseNumber);
+        }else {
+            mPresenter.commitEventReport(title,content,eventImages.toString(),houseNumber);
+        }
     }
 
     @Override
     public void reportSuccess() {
         ToastUtils.showToast("事件上报成功");
-        finish();
+        right();
     }
 }

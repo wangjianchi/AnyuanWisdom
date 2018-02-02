@@ -104,6 +104,21 @@ public interface ApiStores {
                                                   @Field("status_id") int status_id);
 
     @FormUrlEncoded
+    @POST("api.php?app=eventReportInterface&act=updateEventReport")
+    Observable<AppResultData<Object>> updateEventReport(@Field("token") String token,
+                                                  @Field("event_id") int event_id,
+                                                  @Field("user_name") String user_name,
+                                                  @Field("report_title") String report_title,
+                                                  @Field("cate_id") int cate_id,
+                                                  @Field("degree_id") int degred_id,
+                                                  @Field("event_content") String event_content,
+                                                  @Field("event_images") String event_images,
+                                                  @Field("town_id") int town_id,
+                                                  @Field("village_id") int village_id,
+                                                  @Field("house_number") String house_number,
+                                                  @Field("status_id") int status_id);
+
+    @FormUrlEncoded
     @POST("api.php?app=eventReportInterface&act=getEventReportByLimit")
     Observable<AppResultData<List<EventListBean>>> getEventReportByLimit(@Field("token") String token,
                                                                          @Field("user_name") String user_name,

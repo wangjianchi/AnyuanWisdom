@@ -1,5 +1,9 @@
 package com.ayfp.anyuanwisdom.view.report.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +12,7 @@ import java.util.List;
  * @description:
  */
 
-public class EventBean {
+public class EventBean implements Parcelable {
 
     /**
      * id : 26
@@ -42,7 +46,24 @@ public class EventBean {
     private String event_category;
     private String event_degree;
     private String event_status;
-    private List<?> imgs;
+    /**
+     * town_name : 车头镇
+     * village_name : 龙头村委会
+     * imgs :
+     */
+
+    private String town_name;
+    private String village_name;
+    private String imgs;
+    private List<ReportImageBean> imageList;
+
+    public List<ReportImageBean> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<ReportImageBean> imageList) {
+        this.imageList = imageList;
+    }
 
     public String getId() {
         return id;
@@ -156,11 +177,92 @@ public class EventBean {
         this.event_status = event_status;
     }
 
-    public List<?> getImgs() {
+
+    public String getTown_name() {
+        return town_name;
+    }
+
+    public void setTown_name(String town_name) {
+        this.town_name = town_name;
+    }
+
+    public String getVillage_name() {
+        return village_name;
+    }
+
+    public void setVillage_name(String village_name) {
+        this.village_name = village_name;
+    }
+
+    public String getImgs() {
         return imgs;
     }
 
-    public void setImgs(List<?> imgs) {
+    public void setImgs(String imgs) {
         this.imgs = imgs;
     }
+
+    public EventBean() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.user_name);
+        dest.writeString(this.title);
+        dest.writeString(this.event_category_id);
+        dest.writeString(this.event_degree_id);
+        dest.writeString(this.content);
+        dest.writeString(this.report_time);
+        dest.writeString(this.town_id);
+        dest.writeString(this.village_id);
+        dest.writeString(this.house_number);
+        dest.writeString(this.event_status_id);
+        dest.writeString(this.event_category);
+        dest.writeString(this.event_degree);
+        dest.writeString(this.event_status);
+        dest.writeString(this.town_name);
+        dest.writeString(this.village_name);
+        dest.writeString(this.imgs);
+        dest.writeList(this.imageList);
+    }
+
+    protected EventBean(Parcel in) {
+        this.id = in.readString();
+        this.user_name = in.readString();
+        this.title = in.readString();
+        this.event_category_id = in.readString();
+        this.event_degree_id = in.readString();
+        this.content = in.readString();
+        this.report_time = in.readString();
+        this.town_id = in.readString();
+        this.village_id = in.readString();
+        this.house_number = in.readString();
+        this.event_status_id = in.readString();
+        this.event_category = in.readString();
+        this.event_degree = in.readString();
+        this.event_status = in.readString();
+        this.town_name = in.readString();
+        this.village_name = in.readString();
+        this.imgs = in.readString();
+        this.imageList = new ArrayList<ReportImageBean>();
+        in.readList(this.imageList, ReportImageBean.class.getClassLoader());
+    }
+
+    public static final Creator<EventBean> CREATOR = new Creator<EventBean>() {
+        @Override
+        public EventBean createFromParcel(Parcel source) {
+            return new EventBean(source);
+        }
+
+        @Override
+        public EventBean[] newArray(int size) {
+            return new EventBean[size];
+        }
+    };
 }
