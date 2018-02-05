@@ -25,8 +25,10 @@ public class AppConfig {
         Preferences.saveUserName(null);
         Preferences.saveUserId(null);
         AppCache.getInstance().setUserBean(null);
-        mHomeActivity.observeOnlineStatus(false);
-        mHomeActivity.observeCustomNotification(false);
+        if (mHomeActivity != null){
+            mHomeActivity.observeOnlineStatus(false);
+            mHomeActivity.observeCustomNotification(false);
+        }
         Intent intent = new Intent(context,LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
         initNotificationConfig(false);

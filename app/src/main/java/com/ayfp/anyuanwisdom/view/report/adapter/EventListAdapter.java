@@ -30,11 +30,11 @@ public class EventListAdapter extends BaseQuickAdapter<EventListBean,BaseViewHol
         .addOnClickListener(R.id.iv_delete)
         .addOnClickListener(R.id.layout_item);
         TextView textStatus = helper.getView(R.id.tv_status);
-        if (item.getEvent_status().equals("1")){
+        if (item.getEvent_status_id().equals("1")){
             textStatus.setText("上报中");
             textStatus.setCompoundDrawablesWithIntrinsicBounds(UIUtils.getDrawable(R.mipmap.icon_status_up),null,null,null);
             textStatus.setTextColor(UIUtils.getColor(R.color.color_f93b3b));
-        }else if (item.getEvent_status().equals("2")){
+        }else if (item.getEvent_status_id().equals("2")){
             textStatus.setText("处理中");
             textStatus.setCompoundDrawablesWithIntrinsicBounds(UIUtils.getDrawable(R.mipmap.icon_status_two),null,null,null);
             textStatus.setTextColor(UIUtils.getColor(R.color.color_fc9604));

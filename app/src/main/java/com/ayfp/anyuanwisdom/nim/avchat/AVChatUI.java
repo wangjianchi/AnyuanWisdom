@@ -368,7 +368,9 @@ public class AVChatUI implements AVChatUIListener {
      */
     public void onCallStateChange(CallStateEnum stateEnum) {
         callingState = stateEnum;
-        avChatSurface.onCallStateChange(stateEnum);
+        if (avChatSurface != null){
+            avChatSurface.onCallStateChange(stateEnum);
+        }
         avChatAudio.onCallStateChange(stateEnum);
         avChatVideo.onCallStateChange(stateEnum);
     }
