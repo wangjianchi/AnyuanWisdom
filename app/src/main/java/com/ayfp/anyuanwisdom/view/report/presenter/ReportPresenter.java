@@ -84,7 +84,7 @@ public class ReportPresenter implements IBasePresenter {
 
     }
 
-    public void commitEventEdit(int eventId,String title,String content,String images,String houseNubmer){
+    public void commitEventEdit(int eventId,String title,String content,String images,String houseNubmer,String imageUrls){
         if (TextUtils.isEmpty(mDegreeId)){
             ToastUtils.showToast("请选择事件程度");
             mView.loadComplete();
@@ -96,7 +96,7 @@ public class ReportPresenter implements IBasePresenter {
             return;
         }
         RetrofitService.getApi().updateEventReport(RetrofitService.TOKEN,eventId, Preferences.getUserName(), title, CommonUtils.StringToInt(mCategoryId),
-                CommonUtils.StringToInt(mDegreeId),content,images,townId,villageId,houseNubmer,CommonUtils.StringToInt(mStatusId))
+                CommonUtils.StringToInt(mDegreeId),content,images,imageUrls,townId,villageId,houseNubmer,CommonUtils.StringToInt(mStatusId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(mView.<AppResultData<Object>>bindToLife())

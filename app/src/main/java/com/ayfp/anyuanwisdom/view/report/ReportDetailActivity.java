@@ -76,7 +76,7 @@ public class ReportDetailActivity extends BaseActivity {
         mReportImageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ImageBrowserActivity.start(ReportDetailActivity.this,mData.get(position).getImageFile());
+                ImageBrowserActivity.start(ReportDetailActivity.this,mData.get(position).getImageUrl());
             }
         });
     }
@@ -122,7 +122,7 @@ public class ReportDetailActivity extends BaseActivity {
                                 for (String url:images){
                                      ReportImageBean reportImageBean = new ReportImageBean();
                                      reportImageBean.setType(3);
-                                     reportImageBean.setImageFile(url);
+                                     reportImageBean.setImageUrl(url);
                                      mData.add(reportImageBean);
                                 }
                                 mReportImageAdapter.notifyDataSetChanged();

@@ -35,7 +35,7 @@ public class ReportImageAdapter extends BaseQuickAdapter<ReportImageBean,BaseVie
         }else if (item.getType() == 1){
             imageView.setImageResource(R.mipmap.icon_upload_pic);
         }else if (item.getType() == 3){
-            GlideUtils.loadImageView(item.getImageFile(),imageView);
+            GlideUtils.loadImageView(item.getImageUrl(),imageView);
         }
         helper.setVisible(R.id.iv_delete,item.isDelete());
         helper.addOnClickListener(R.id.iv_delete);

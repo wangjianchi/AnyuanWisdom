@@ -3,7 +3,6 @@ package com.ayfp.anyuanwisdom.view.report;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import com.ayfp.anyuanwisdom.view.report.adapter.EventListAdapter;
 import com.ayfp.anyuanwisdom.view.report.bean.EventListBean;
 import com.ayfp.anyuanwisdom.weidgts.CustomLoadMoreView;
 import com.ayfp.anyuanwisdom.weidgts.SpringView;
+import com.ayfp.anyuanwisdom.weidgts.WrapContentLinearLayoutManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -60,10 +60,15 @@ public class ReportListActivity extends BaseActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
+    @Override
     protected void initViews() {
         mTextTitle.setText("事件列表");
         mAdapter = new EventListAdapter(mData);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
@@ -127,17 +132,18 @@ public class ReportListActivity extends BaseActivity {
                         dismissProgress();
                         mSpringView.onFinishFreshAndLoad();
                         if (listAppResultData.getStatus() == RetrofitService.SUCCESS) {
+                            if (start == 0) {
+                                mData.clear();
+                            }
                             if (listAppResultData.getResult() != null && listAppResultData.getResult().size() > 0) {
-                                if (start == 0) {
-                                    mData.clear();
-                                }
                                 mData.addAll(listAppResultData.getResult());
                                 mAdapter.notifyDataSetChanged();
                             } else {
-                                mAdapter.loadMoreEnd();
                                 if (start == 0){
                                     View view = View.inflate(ReportListActivity.this,R.layout.empty_view,null);
                                     mAdapter.setEmptyView(view);
+                                }else {
+                                    mAdapter.loadMoreEnd();
                                 }
                             }
                         }

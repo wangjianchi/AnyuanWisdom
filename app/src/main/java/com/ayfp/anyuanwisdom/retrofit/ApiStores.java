@@ -106,17 +106,18 @@ public interface ApiStores {
     @FormUrlEncoded
     @POST("api.php?app=eventReportInterface&act=updateEventReport")
     Observable<AppResultData<Object>> updateEventReport(@Field("token") String token,
-                                                  @Field("event_id") int event_id,
-                                                  @Field("user_name") String user_name,
-                                                  @Field("report_title") String report_title,
-                                                  @Field("cate_id") int cate_id,
-                                                  @Field("degree_id") int degred_id,
-                                                  @Field("event_content") String event_content,
-                                                  @Field("event_images") String event_images,
-                                                  @Field("town_id") int town_id,
-                                                  @Field("village_id") int village_id,
-                                                  @Field("house_number") String house_number,
-                                                  @Field("status_id") int status_id);
+                                                        @Field("event_id") int event_id,
+                                                        @Field("user_name") String user_name,
+                                                        @Field("report_title") String report_title,
+                                                        @Field("cate_id") int cate_id,
+                                                        @Field("degree_id") int degred_id,
+                                                        @Field("event_content") String event_content,
+                                                        @Field("event_images") String event_images,
+                                                        @Field("image_urls") String image_urls,
+                                                        @Field("town_id") int town_id,
+                                                        @Field("village_id") int village_id,
+                                                        @Field("house_number") String house_number,
+                                                        @Field("status_id") int status_id);
 
     @FormUrlEncoded
     @POST("api.php?app=eventReportInterface&act=getEventReportByLimit")
@@ -128,7 +129,7 @@ public interface ApiStores {
     @FormUrlEncoded
     @POST("api.php?app=eventReportInterface&act=deleteEventReport")
     Observable<AppResultData<Object>> deleteEventReport(@Field("token") String token,
-                                                                 @Field("user_name") String user_name,
+                                                        @Field("user_name") String user_name,
                                                         @Field("event_id") int event_id);
 
     @FormUrlEncoded
@@ -193,11 +194,11 @@ public interface ApiStores {
     @FormUrlEncoded
     @POST("api.php?app=signInterface&act=signOut")
     Observable<AppResultData<Object>> signOut(@Field("token") String token,
-                                             @Field("sign_id") int sign_id,
-                                             @Field("content") String content,
-                                             @Field("sign_out_address") String sign_out_address,
-                                             @Field("sign_locate") String sign_locate,
-                                             @Field("sign_out_imgs") String sign_out_imgs);
+                                              @Field("sign_id") int sign_id,
+                                              @Field("content") String content,
+                                              @Field("sign_out_address") String sign_out_address,
+                                              @Field("sign_locate") String sign_locate,
+                                              @Field("sign_out_imgs") String sign_out_imgs);
 
     @FormUrlEncoded
     @POST("api.php?app=signInterface&act=uploadLocation")
@@ -208,6 +209,6 @@ public interface ApiStores {
     @FormUrlEncoded
     @POST("api.php?app=signInterface&act=getSignHistory")
     Observable<AppResultData<SignStatusBean>> getSignHistory(@Field("token") String token,
-                                                     @Field("user_name") String user_name,
-                                                     @Field("limit_time")String limit_time);
+                                                             @Field("user_name") String user_name,
+                                                             @Field("limit_time") String limit_time);
 }

@@ -119,13 +119,16 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mData.get(position).getType() == 1) {
                     checkPermission();
-                }else {
+                }else if (mData.get(position).getType() == 2){
                     ImageBrowserActivity.start(ReportActivity.this,mData.get(position).getImageFile());
+                }else if (mData.get(position).getType() == 3){
+                    ImageBrowserActivity.start(ReportActivity.this,mData.get(position).getImageUrl());
                 }
             }
         });
         setRadioButton();
         setStatusRadioButton();
+        onNewIntent(getIntent());
     }
     private void parseIntent(Intent intent){
         if (intent.hasExtra(EDIT_REPORT_DATA)){
@@ -141,9 +144,9 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
         mEditNumber.setText(mEventBean.getHouse_number());
         mEditContent.setText(mEventBean.getContent());
         mData.clear();
-        for (ReportImageBean imageBean : mEventBean.getImageList()){
+        mData.addAll(mEventBean.getImageList());
+        for (ReportImageBean imageBean : mData){
             imageBean.setDelete(true);
-            mData.add(imageBean);
         }
         mData.add(new ReportImageBean());
         mReportImageAdapter.notifyDataSetChanged();
@@ -171,7 +174,9 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
     @Override
     protected void onNewIntent(Intent intent) {
         parseIntent(intent);
-        showEditData();
+        if (mEdit){
+            showEditData();
+        }
     }
 
     private void setRadioButton() {
@@ -274,14 +279,16 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CAMERA){
-            compreeImage(picPath);
-        }else if (requestCode == REQUEST_IMAGES){
-            if (data != null){
-                Uri uri = data.getData();
-                if (uri != null){
-                    String path = FileUtils.convertUri(this,uri);
-                    compreeImage(path);
+        if (resultCode == RESULT_OK){
+            if (requestCode == REQUEST_CAMERA){
+                compreeImage(picPath);
+            }else if (requestCode == REQUEST_IMAGES){
+                if (data != null){
+                    Uri uri = data.getData();
+                    if (uri != null){
+                        String path = FileUtils.convertUri(this,uri);
+                        compreeImage(path);
+                    }
                 }
             }
         }
@@ -377,6 +384,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
         String houseNumber = mEditNumber.getText().toString();
         showProgress();
         StringBuffer eventImages = new StringBuffer();
+        StringBuffer imageUrls = new StringBuffer();
         for (int i = 0 ; i < mData.size(); i++){
             if (mData.get(i).getType() == 2){
                 Bitmap bitmap = BitmapFactory.decodeFile(mData.get(i).getImageFile());
@@ -386,10 +394,16 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
                 }else {
                     eventImages.append(image);
                 }
+            }else if (mData.get(i).getType() == 3){
+                if (imageUrls.length() > 0){
+                    imageUrls.append(";"+mData.get(i).getImageUrl());
+                }else {
+                    imageUrls.append(mData.get(i).getImageUrl());
+                }
             }
         }
         if (mEdit){
-            mPresenter.commitEventEdit(CommonUtils.StringToInt(mEventBean.getId()),title,content,eventImages.toString(),houseNumber);
+            mPresenter.commitEventEdit(CommonUtils.StringToInt(mEventBean.getId()),title,content,eventImages.toString(),houseNumber,imageUrls.toString());
         }else {
             mPresenter.commitEventReport(title,content,eventImages.toString(),houseNumber);
         }
@@ -399,5 +413,6 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
     public void reportSuccess() {
         ToastUtils.showToast("事件上报成功");
         right();
+        finish();
     }
 }

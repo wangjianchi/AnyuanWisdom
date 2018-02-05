@@ -269,7 +269,8 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".view.report.ReportListActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".view.report.ReportDetailActivity"
             android:theme="@style/AppTheme"/>

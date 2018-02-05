@@ -24,7 +24,15 @@ public class ReportImageBean implements Parcelable {
 
     private String imageFile;
 
+    private String imageUrl;
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public int getType() {
         return type;
@@ -56,12 +64,14 @@ public class ReportImageBean implements Parcelable {
         dest.writeInt(this.type);
         dest.writeByte(this.delete ? (byte) 1 : (byte) 0);
         dest.writeString(this.imageFile);
+        dest.writeString(this.imageUrl);
     }
 
     protected ReportImageBean(Parcel in) {
         this.type = in.readInt();
         this.delete = in.readByte() != 0;
         this.imageFile = in.readString();
+        this.imageUrl = in.readString();
     }
 
     public static final Creator<ReportImageBean> CREATOR = new Creator<ReportImageBean>() {

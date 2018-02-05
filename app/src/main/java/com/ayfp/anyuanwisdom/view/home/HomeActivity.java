@@ -89,7 +89,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements IHomeVi
     @Override
     protected void initViews() {
         mImageLeft.setVisibility(View.GONE);
-        mTextTitle.setText("安远精准扶贫信息管理系统");
+        mTextTitle.setText("安远精准扶贫信息监管系统");
         mImageRight.setVisibility(View.VISIBLE);
         mImageRight.setImageResource(R.mipmap.icon_mine);
         AppConfig.mHomeActivity = this;
