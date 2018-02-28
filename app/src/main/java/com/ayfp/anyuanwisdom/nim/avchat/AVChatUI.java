@@ -298,6 +298,8 @@ public class AVChatUI implements AVChatUIListener {
         }
 
         AVChatManager.getInstance().setParameter(AVChatParameters.KEY_VIDEO_FRAME_FILTER, true);
+        AVChatManager.getInstance().setParameter(AVChatParameters.KEY_SERVER_AUDIO_RECORD,true);
+        AVChatManager.getInstance().setParameter(AVChatParameters.KEY_SERVER_VIDEO_RECORD,true);
         AVChatManager.getInstance().call2(account, callTypeEnum, notifyOption, new AVChatCallback<AVChatData>() {
             @Override
             public void onSuccess(AVChatData data) {
